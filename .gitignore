@@ -1,0 +1,12 @@
+# PYTHON
+*.pyc
+.pyc
+/entorno/
+/nosubir/
+/env/
+# VISUAL STUDIO cODE
+.vscode
+# PYCHARM
+.idea/
+#OTROS
+database.ini
