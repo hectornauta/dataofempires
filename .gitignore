@@ -1,6 +1,7 @@
 # PYTHON
 *.pyc
 .pyc
+/pycache
 /entorno/
 /nosubir/
 /env/
@@ -9,5 +10,10 @@
 # PYCHARM
 .idea/
 #OTROS
+.env
 database.ini
 /csv/
+/assets
+/paginas
+*.log
+*.csv
