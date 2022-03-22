@@ -1,7 +1,7 @@
 # PYTHON
 *.pyc
 .pyc
-/pycache
+/__pycache__
 /entorno/
 /nosubir/
 /env/
