@@ -27,11 +27,43 @@ CIVS.set_index('id', inplace=True)
 
 list_units = []
 
-def create_dataunit(winner_civ, defeated_civ, winner_elo, defeated_elo, map_type):
+def create_solo_dataunit(winner_civ, defeated_civ, winner_elo, defeated_elo, map_type):
     list_units.append([winner_civ, defeated_civ, winner_elo, defeated_elo, map_type])
 
+def create_tg_dataunit(json_match):
+    list_match = []
+    partida = json_match
+    match_id = int(partida['match_id'])
+    num_players = int(partida['num_players'])
+    map_type = int(partida['map_type'])
+    started = int(partida['started'])
+    finished = int(partida['finished'])
+
+    list_match.append(match_id)
+    list_match.append(num_players)
+    duration = finished - started
+    list_match.append(started)
+    list_match.append(duration)
+
+    temp_list_players = []
+    jugadores = partida['players']
+    for jugador in jugadores:
+        rating = int(jugador['rating'])
+        civ = int(jugador['civ'])
+        won = bool(jugador['won'])
+        temp_list_players.append(rating)
+        temp_list_players.append(civ)
+        temp_list_players.append(won)
+    for i in range(8 - num_players):
+        temp_list_players.append(None)
+        temp_list_players.append(None)
+        temp_list_players.append(None)
+    list_match.append(temp_list_players)  # TODO: convertir a tupla
+    logger.info(list_match)
+
+
 def extract_player_matches(player_id):
-    query = get_player_matches(player_id, 1000)
+    query = get_player_matches(player_id, 100)
     logger.info(query)
 
     partidas = requests.get(query)
@@ -70,6 +102,8 @@ def extract_player_matches(player_id):
                 valid_match = False
         if leaderboard_id != active_leaderboard:
             valid_match = False
+        if leaderboard_id == 4:
+            create_tg_dataunit(partida)
         if valid_match:
             # obtener su id
             match_identificador = int(partida['match_id'])
@@ -125,7 +159,7 @@ def extract_player_matches(player_id):
                         param_defeated_civ = civ
                         param_defeated_elo = rating
                         dataframe_performance.at[int(civ), 'rival_defeats'] = dataframe_performance.at[int(civ), 'rival_defeats'] + 1
-            create_dataunit(param_winner_civ, param_defeated_civ, param_winner_elo, param_defeated_elo, param_map_type)
+            create_solo_dataunit(param_winner_civ, param_defeated_civ, param_winner_elo, param_defeated_elo, param_map_type)
 
         else:
             invalid_matches = invalid_matches + 1
