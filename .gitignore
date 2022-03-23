@@ -12,8 +12,9 @@
 #OTROS
 .env
 database.ini
-/csv/
 /assets
+/json
 /paginas
 *.log
 *.csv
+OLD -*
