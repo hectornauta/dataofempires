@@ -56,16 +56,22 @@ def get_last_match():
 
 def extract_matches(param_timestamp):
     logger.info('Realizando request')
-    number_of_matches = 1000
+    number_of_matches = 10
     timestamp = param_timestamp
     query = query_functions.get_matches(number_of_matches, timestamp)
     logger.info(f'Query creada: {query}')
     json_matches = requests.get(query)
-    logger.info('Datos descargados')
-    now = datetime.now().strftime('%Y%m%d%H%M%S')
-    with open(f'json/{now}.json', 'w', encoding='utf-8') as f:
-        json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
-    json_matches = json_matches.json()
+    if json_matches.status_code == 200:
+        logger.info('Datos descargados')
+        now = datetime.now().strftime('%Y%m%d%H%M%S')
+        with open(f'json/{now}.json', 'w', encoding='utf-8') as f:
+            try:
+                json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
+            except json.decoder.JSONDecodeError as error:
+                logger.error('Error de json')
+        json_matches = json_matches.json()
+    else:
+        json_matches = None
     return json_matches
 def transform_matches(json_matches, last_match):
     logger.info('Transformando datos')
@@ -133,10 +139,12 @@ def transform_matches(json_matches, last_match):
     logger.info('Partidas inválidas: ' + str(invalid_matches))
     logger.info('Partidas existentes: ' + str(old_matches))
     logger.info('Partidas válidas: ' + str(valid_matches))
-
-    dataframe_matches = pd.DataFrame(list_matches, columns=['match_id', 'num_players', 'game_type', 'map_size', 'map_type', 'leaderboard_id', 'rating_type', 'started', 'finished', 'version'])
-    dataframe_matches_players = pd.DataFrame(list_matches_players, columns=['match_id', 'slot', 'profile_id', 'steam_id', 'country', 'slot_type', 'rating', 'rating_change', 'color', 'team', 'civ', 'won'])
-    return [dataframe_matches, dataframe_matches_players]
+    if valid_matches > 0:
+        dataframe_matches = pd.DataFrame(list_matches, columns=['match_id', 'num_players', 'game_type', 'map_size', 'map_type', 'leaderboard_id', 'rating_type', 'started', 'finished', 'version'])
+        dataframe_matches_players = pd.DataFrame(list_matches_players, columns=['match_id', 'slot', 'profile_id', 'steam_id', 'country', 'slot_type', 'rating', 'rating_change', 'color', 'team', 'civ', 'won'])
+        return [dataframe_matches, dataframe_matches_players]
+    else:
+        return None
 def load_matches(dataframes, last_match):
     logger.info('Cargando a la BD')
     dataframe_matches = dataframes[0]
@@ -207,5 +215,12 @@ def load_matches(dataframes, last_match):
 def etl_matches(param_timestamp):
     last_match = get_last_match()
     json_matches = extract_matches(param_timestamp)
-    dataframes = transform_matches(json_matches, last_match)
-    load_matches(dataframes, last_match)
+    if json_matches is None:
+        logger.info('No se pudieron cargar partidas de la web')
+    else:
+        dataframes = transform_matches(json_matches, last_match)
+    logger.info(dataframes)
+    if dataframes is None:
+        load_matches(dataframes, last_match)
+    else:
+        logger.info('No hay partidas nuevas por cargar')
