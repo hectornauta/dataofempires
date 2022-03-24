@@ -9,7 +9,7 @@ from sqlalchemy import exc
 import numpy as np
 import random
 
-from bokeh.plotting import figure, output_file, show, ColumnDataSource
+from bokeh.plotting import figure, output_file, show  # ColumnDataSource
 from bokeh.models import ColumnDataSource, Range1d, LabelSet, Label
 from bokeh.models.formatters import NumeralTickFormatter
 from bokeh.transform import linear_cmap
