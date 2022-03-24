@@ -1,6 +1,8 @@
 import json
 import logging
 import requests
+import time
+
 
 import psycopg2
 from decouple import config
@@ -8,6 +10,7 @@ from decouple import config
 import pandas as pd
 import sqlalchemy as db
 from datetime import datetime
+from math import trunc
 
 from sqlalchemy import exc
 from sqlalchemy.types import Integer
@@ -54,24 +57,32 @@ def get_last_match():
     # last_match = 140063221
     return last_match
 
-def extract_matches(param_timestamp):
+def extract_matches(param_timestamp, session):
     logger.info('Realizando request')
-    number_of_matches = 10
+    number_of_matches = 1000
     timestamp = param_timestamp
     query = query_functions.get_matches(number_of_matches, timestamp)
     logger.info(f'Query creada: {query}')
-    json_matches = requests.get(query)
-    if json_matches.status_code == 200:
-        logger.info('Datos descargados')
-        now = datetime.now().strftime('%Y%m%d%H%M%S')
-        with open(f'json/{now}.json', 'w', encoding='utf-8') as f:
-            try:
-                json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
-            except json.decoder.JSONDecodeError as error:
-                logger.error('Error de json')
-        json_matches = json_matches.json()
-    else:
+    try:
+        json_matches = session.get(query)
+    except requests.exceptions.ConnectionError:
+        logging.error('Error con la conexión a internet')
         json_matches = None
+    except requests.exceptions.Timeout:
+        logging.error('Error al intentar acceder a las páginas')
+        json_matches = None
+    else:
+        if json_matches.status_code == 200:
+            logger.info('Datos descargados')
+            now = datetime.now().strftime('%Y%m%d%H%M%S')
+            with open(f'json/{now}.json', 'w', encoding='utf-8') as f:
+                try:
+                    json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
+                except json.decoder.JSONDecodeError as error:
+                    logger.error('Error de json')
+            json_matches = json_matches.json()
+        else:
+            json_matches = None
     return json_matches
 def transform_matches(json_matches, last_match):
     logger.info('Transformando datos')
@@ -100,7 +111,9 @@ def transform_matches(json_matches, last_match):
         for jugador in jugadores:
             civ = jugador['civ']
             won = jugador['won']
-            if civ is None or int(civ) == 0 or won is None:  # check civ and victory
+            team = jugador['team']
+            slot = jugador['slot']
+            if slot is None or civ is None or int(civ) == 0 or won is None or team is None:  # check civ and victory
                 valid_match = False
         if valid_match:
             # Obtenemos los datos relevantes
@@ -125,7 +138,7 @@ def transform_matches(json_matches, last_match):
                 slot_type = int(player['slot_type'])
                 rating = None if player['rating'] is None else int(player['rating'])
                 rating_change = None if player['rating_change'] is None else int(player['rating_change'])
-                color = int(player['color'])
+                color = None if player['color'] is None else int(player['color'])
                 team = int(player['team'])
                 civ = int(player['civ'])
                 won = int(player['won'])
@@ -174,7 +187,7 @@ def load_matches(dataframes, last_match):
     except exc.SQLAlchemyError:
         logging.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
-    finally:
+    else:
         logger.info('Cargados los matches')
     # TODO: find a better way
     with engine.connect() as con:
@@ -204,23 +217,30 @@ def load_matches(dataframes, last_match):
     except exc.SQLAlchemyError:
         logging.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
-    finally:
+    else:
         logger.info('Cargados los matches_players')
     # TODO: find a better way
     with engine.connect() as con:
         if last_match == 0:
             con.execute('ALTER TABLE matches_players ADD PRIMARY KEY (match_id, slot);')
 
+def update_db():
+    for i in range(13, 23):
+        specific_timestamp = datetime(2022, 3, 1, i, 0)  # Year, month, day, hour, minutes
+        # now_less_1_hour = now - timedelta(weeks=0, days=0, hours=12, minutes=0)
+        timestamp = trunc(time.mktime(specific_timestamp.timetuple()))
+        etl_matches(timestamp)
 
 def etl_matches(param_timestamp):
     last_match = get_last_match()
-    json_matches = extract_matches(param_timestamp)
+    session = requests.Session()
+    json_matches = extract_matches(param_timestamp, session)
     if json_matches is None:
         logger.info('No se pudieron cargar partidas de la web')
     else:
         dataframes = transform_matches(json_matches, last_match)
     logger.info(dataframes)
-    if dataframes is None:
+    if dataframes is not None:
         load_matches(dataframes, last_match)
     else:
         logger.info('No hay partidas nuevas por cargar')

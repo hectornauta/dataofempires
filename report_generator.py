@@ -61,6 +61,7 @@ def best_civs_duo():
 
 
 def civ_winrate():
+    # Obtiene los rates del RM 1vs1
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     FILE = f'{DIR}/sql/get_all_normal_matches.sql'
     try:

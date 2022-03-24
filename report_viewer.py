@@ -9,13 +9,10 @@ from sqlalchemy import exc
 import numpy as np
 import random
 
-from bokeh.plotting import figure, output_file, show  # ColumnDataSource
-from bokeh.models import ColumnDataSource, Range1d, LabelSet, Label
-from bokeh.models.formatters import NumeralTickFormatter
-from bokeh.transform import linear_cmap
-from bokeh.palettes import Spectral6
-from bokeh.layouts import column
-from bokeh.transform import transform
+import plotly.express as px
+
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
 
 REPORTS = []
 DIR = os.path.dirname(__file__)
@@ -50,50 +47,52 @@ def civ_rates():
     # engine = db.create_engine(sql_connection)
     dataframe_civ_rates = pd.read_sql_query(sql_query, sql_connection)
     dataframe_civ_rates.set_index('id', inplace=True)
+    dataframe_civ_rates['rate'] = (dataframe_civ_rates['winrate'] / 7.5) * dataframe_civ_rates['pickrate']
+    dataframe_civ_rates.sort_values(by='winrate', ascending=False, inplace=True)
+    dataframe_civ_rates.sort_values(by='pickrate', ascending=False, inplace=True)
 
-    source = pd.DataFrame(
-        dict(
-            x=dataframe_civ_rates['pickrate'],
-            y=dataframe_civ_rates['winrate'],
-            names=dataframe_civ_rates['nombre']
-        )
+    figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
+    figure_civ_rates.update_traces(textposition='top center')
+    figure_civ_rates.update_layout(
+        height=900,
+        width=1280,
+        title_text='Pick rate and Win rate de Civilizaciones',
+        showlegend=False
     )
-    mapper_rate = linear_cmap(field_name='y', palette=Spectral6, low=0, high=0.5)
-    mapper_win_rate = linear_cmap(field_name='y', palette=Spectral6, low=min(dataframe_civ_rates['winrate']), high=max(dataframe_civ_rates['winrate']))
-    mapper_pickrate = linear_cmap(field_name='y', palette=Spectral6, low=min(dataframe_civ_rates['pickrate']), high=max(dataframe_civ_rates['pickrate']))
-
-    fig = figure(title='Civilization rates')
-    fig.circle('x', 'y', line_color=mapper_rate, color=mapper_rate, fill_alpha=1, size=12, source=source)
-    fig.xaxis.axis_label = 'Pick rate'
-    fig.yaxis.axis_label = 'Win rate'
-    fig.xaxis.formatter = NumeralTickFormatter(format='0 %')
-    fig.yaxis.formatter = NumeralTickFormatter(format='0 %')
-    labels = LabelSet(x='x', y='y', text='names', text_font_size='9pt', x_offset=5, y_offset=5, source=ColumnDataSource(source), render_mode='canvas')
-    fig.add_layout(labels)
-    fig.x_range = Range1d(0, 0.1)
-    fig.y_range = Range1d(0, 1)
-
-    x = dataframe_civ_rates['nombre']
-    y = dataframe_civ_rates['winrate']
-    y2 = dataframe_civ_rates['pickrate']
-
-    fig2 = figure(x_range=x, title="Win rates", toolbar_location=None, width=1280)
-    fig2.vbar(x=x, top=y, width=0.9, color='red', fill_alpha=0.75)
-    fig2.yaxis.formatter = NumeralTickFormatter(format='0 %')
-    fig2.xaxis.major_label_text_font_size = '16pt'
-    fig2.xgrid.grid_line_color = None
-    fig2.xaxis.major_label_orientation = "vertical"
-    fig2.y_range.start = 0
+    figure_civ_rates.update_coloraxes(showscale=False)
+    figure_civ_rates.update_traces(showlegend=False)
+    figure_civ_rates.update_layout(yaxis_tickformat='.0%')
+    figure_civ_rates.update_layout(xaxis_tickformat='.0%')
     
-    fig3 = figure(x_range=x, title="Pick rates", toolbar_location=None, width=1280)
-    fig3.vbar(x=x, top=y2, width=0.9, color='blue', fill_alpha=0.75)
-    fig3.yaxis.formatter = NumeralTickFormatter(format='0 %')
-    fig3.xaxis.major_label_text_font_size = '16pt'
-    fig3.xgrid.grid_line_color = None
-    fig3.xaxis.major_label_orientation = "vertical"
-    fig3.y_range.start = 0
+    figure_win_rates = px.bar(
+        dataframe_civ_rates.sort_values(by='winrate', ascending=False),
+        x='nombre',
+        y='winrate',
+        hover_data={'nombre': True, 'winrate': ':.2%'}, color='winrate',
+        labels={'nombre': 'Civilización', 'winrate': 'Porcentaje de victorias'}, height=400
+    )
+    figure_win_rates.update_coloraxes(showscale=False)
+    figure_win_rates.update_layout(
+        yaxis_tickformat='.0%',
+        title_text='Porcentaje de victorias de civilizaciones'
+    )
 
-    show(column(fig, fig2, fig3))
+    figure_pick_rates = px.bar(
+        dataframe_civ_rates.sort_values(by='pickrate', ascending=False),
+        x='nombre',
+        y='pickrate',
+        hover_data={'nombre': True, 'pickrate': ':.2%'}, color='pickrate',
+        labels={'nombre': 'Civilización', 'pickrate': 'Porcentaje de veces escogida'}, height=400
+    )
+    figure_pick_rates.update_coloraxes(showscale=False)
+    figure_pick_rates.update_layout(
+        yaxis_tickformat='.0%',
+        title_text='Porcentaje de uso de civilizaciones'
+    )
+    figure_civ_rates.show()
+    figure_win_rates.show()
+    figure_pick_rates.show()
+
 if __name__ == "__main__":
     REPORTS = []
     civ_rates()

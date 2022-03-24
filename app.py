@@ -35,6 +35,8 @@ def main():
         report_generator.civ_winrate()
     elif placeholder_option == 4:
         report_viewer.show_all_reports()
+    elif placeholder_option == 5:
+        etl.update_db()
 
 if __name__ == "__main__":
     main()
