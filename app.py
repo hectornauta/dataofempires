@@ -21,10 +21,10 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 def main():
-    placeholder_option = 4
+    placeholder_option = 5
     if placeholder_option == 1:
         now = datetime.now()
-        specific_timestamp = datetime(2022, 3, 1, 0, 0)  # Year, month, day, hour, minutes
+        specific_timestamp = datetime(2022, 3, 2, 23, 0)  # Year, month, day, hour, minutes
         # now_less_1_hour = now - timedelta(weeks=0, days=0, hours=12, minutes=0)
         timestamp = trunc(time.mktime(specific_timestamp.timetuple()))
         etl.etl_matches(timestamp)
@@ -34,7 +34,8 @@ def main():
     elif placeholder_option == 3:
         report_generator.civ_winrate()
     elif placeholder_option == 4:
-        report_viewer.show_all_reports()
+        for report in report_viewer.show_all_reports():
+            report.show()
     elif placeholder_option == 5:
         etl.update_db()
 

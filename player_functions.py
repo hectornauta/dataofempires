@@ -60,7 +60,7 @@ def create_tg_dataunit(json_match):
 
 
 def extract_player_matches(player_id):
-    query = query_functions.get_player_matches(player_id, 100)
+    query = query_functions.get_player_matches(player_id, 1000)
     logger.info(query)
 
     partidas = requests.get(query)

@@ -9,7 +9,7 @@ from decouple import config
 
 import pandas as pd
 import sqlalchemy as db
-from datetime import datetime
+from datetime import datetime, timedelta
 from math import trunc
 
 from sqlalchemy import exc
@@ -51,7 +51,7 @@ def get_last_match():
         except db.exc.ProgrammingError as error:
             last_match = 0
         else:
-            logger.info(last_match)
+            # logger.info(last_match)
             last_match = last_match.first()[0]
             logger.info(last_match)
     # last_match = 140063221
@@ -100,12 +100,13 @@ def transform_matches(json_matches, last_match):
         valid_match = True
 
         ranked = match['ranked']
+        game_type = match['game_type']
         leaderboard_id = match['leaderboard_id']
         jugadores = match['players']
         if int(match['match_id']) <= last_match:
             old_matches = old_matches + 1
             valid_match = False
-        if ranked is None or not ranked or leaderboard_id is None:
+        if game_type is None or ranked is None or not ranked or leaderboard_id is None:
             valid_match = False
 
         for jugador in jugadores:
@@ -225,10 +226,12 @@ def load_matches(dataframes, last_match):
             con.execute('ALTER TABLE matches_players ADD PRIMARY KEY (match_id, slot);')
 
 def update_db():
-    for i in range(13, 23):
-        specific_timestamp = datetime(2022, 3, 1, i, 0)  # Year, month, day, hour, minutes
-        # now_less_1_hour = now - timedelta(weeks=0, days=0, hours=12, minutes=0)
-        timestamp = trunc(time.mktime(specific_timestamp.timetuple()))
+    specific_timestamp = datetime(2022, 3, 4, 0, 0)  # Year, month, day, hour, minutes
+    one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
+    for i in range(0, 24 * 16):
+        # specific_timestamp = datetime(2022, 3, 4, i, 0)  # Year, month, day, hour, minutes
+        iterable_timestamp = specific_timestamp + one_hour * i
+        timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         etl_matches(timestamp)
 
 def etl_matches(param_timestamp):
@@ -239,7 +242,7 @@ def etl_matches(param_timestamp):
         logger.info('No se pudieron cargar partidas de la web')
     else:
         dataframes = transform_matches(json_matches, last_match)
-    logger.info(dataframes)
+    # logger.info(dataframes)
     if dataframes is not None:
         load_matches(dataframes, last_match)
     else:
