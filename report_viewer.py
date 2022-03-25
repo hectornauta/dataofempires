@@ -15,6 +15,8 @@ import plotly.express as px
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
+import sql_functions
+
 DIR = os.path.dirname(__file__)
 
 logging.basicConfig(
@@ -41,16 +43,8 @@ def show_all_reports():
     return REPORTS
 
 def elo_distribution():
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     FILE = f'{DIR}/sql/get_1vs1_players_elo.sql'
-    try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_players_elo = pd.read_sql_query(sql_query, sql_connection)
+    dataframe_players_elo = sql_functions.get_sql_results(FILE)
     # create the bins
     counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3000, 50))
     bins = 0.5 * (bins[:-1] + bins[1:])
@@ -59,16 +53,8 @@ def elo_distribution():
     return figure_elo_distribution
 
 def civ_rates():
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_civ_rates = pd.read_sql_query(sql_query, sql_connection)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
     dataframe_civ_rates.set_index('id', inplace=True)
     dataframe_civ_rates['rate'] = np.sqrt((dataframe_civ_rates['winrate']) ** 2 + (40 + dataframe_civ_rates['pickrate']) ** 2)
 
@@ -87,16 +73,8 @@ def civ_rates():
     return figure_civ_rates
 
 def civ_win_rates():
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_civ_rates = pd.read_sql_query(sql_query, sql_connection)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
     dataframe_civ_rates.set_index('id', inplace=True)
 
     figure_win_rates = px.bar(
@@ -115,16 +93,8 @@ def civ_win_rates():
     return figure_win_rates
 
 def civ_pick_rates():
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_civ_rates = pd.read_sql_query(sql_query, sql_connection)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
     dataframe_civ_rates.set_index('id', inplace=True)
 
     figure_pick_rates = px.bar(

@@ -9,7 +9,10 @@ import sqlalchemy as db
 from sqlalchemy import exc
 from sqlalchemy.types import Float
 from sqlalchemy.types import String
+from sqlalchemy.types import Integer
 from sqlalchemy.types import SmallInteger
+
+import sql_functions
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,18 +35,63 @@ CIVS.set_index('id', inplace=True)
 
 DIR = os.path.dirname(__file__)
 
-def best_civs_duo():
-    # Probar con GROUP BY match + team
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
-    FILE = f'{DIR}/sql/get_all_duo_matches.sql'
+def add_combination(dict_civs, civ_1, civ_2, won_1):
+    first_comb = (civ_1, civ_2)
+    second_comb = (civ_2, civ_1)
+    if first_comb in dict_civs:
+        dict_civs[first_comb][0] = dict_civs[first_comb][0] + int(won_1)
+        dict_civs[first_comb][1] = dict_civs[first_comb][1] + 1
+    else:
+        dict_civs[first_comb] = [int(won_1), 1, civ_1, civ_2]
+    if second_comb in dict_civs:
+        dict_civs[second_comb][0] = dict_civs[second_comb][0] + int(not won_1)
+        dict_civs[second_comb][1] = dict_civs[second_comb][1] + 1
+    else:
+        dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
+
+
+def civ_vs_civ():
+    FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
+    dataframe_matches_players = sql_functions.get_sql_results(FILE)
+    dataframe_matches_players = dataframe_matches_players.drop(['rating', 'country'], axis=1)
+    dataframe_matches_players = dataframe_matches_players.merge(dataframe_matches_players, how='inner', left_on=['match_id'], right_on=['match_id'])
+    dataframe_matches_players = dataframe_matches_players[dataframe_matches_players['civ_x'] != dataframe_matches_players['civ_y']]
+    dataframe_matches_players = dataframe_matches_players[dataframe_matches_players['slot_x'] < 2]
+    dict_civ_vs_civ = dataframe_matches_players.to_dict('records')
+    DICT_CIVS = {}
+    for match in dict_civ_vs_civ:
+        add_combination(DICT_CIVS, match['civ_x'], match['civ_y'], match['won_x'])
+    dataframe_civ_vs_civ = pd.DataFrame.from_dict(DICT_CIVS, orient='index', columns=['wins', 'matches', 'civ_1', 'civ_2'])
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.reset_index()
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['wins'] / dataframe_civ_vs_civ['matches']
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.drop(['index'], axis=1)
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(by='winrate', ascending=False)
+    logger.info(dataframe_civ_vs_civ)
+
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_matches_players = pd.read_sql_query(sql_query, sql_connection)
+        dataframe_civ_vs_civ.to_sql(
+            'civ_vs_civ',
+            con=engine.connect(),
+            if_exists='replace',
+            index=True,
+            dtype={
+                'civ_1': SmallInteger(),
+                'civ_2': SmallInteger(),
+                'wins': Integer(),
+                'matches': Integer(),
+                'winrate': Float()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Cargados los reportes de civ vs civ')
+
+def best_civs_duo():
+    FILE = f'{DIR}/sql/get_all_duo_matches.sql'
+    dataframe_matches_players = sql_functions.get_sql_results(FILE)
     number_of_matches = int(len(dataframe_matches_players) / 4)
     dataframe_matches_players = dataframe_matches_players.drop(['rating', 'map_type', 'country'], axis=1)
     dataframe_matches_players = dataframe_matches_players.merge(dataframe_matches_players, how='left', left_on=['match_id', 'team'], right_on=['match_id', 'team'])
@@ -73,16 +121,8 @@ def best_civs_duo():
 
 def civ_winrate():
     # Obtiene los rates del RM 1vs1
-    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
-    FILE = f'{DIR}/sql/get_all_normal_matches.sql'
-    try:
-        with open(FILE, 'r') as sql_file:
-            sql_query = sql_file.read()
-    except IOError as e:
-        logger.error(f'Error al leer los archivos SQL: {e}')
-        raise Exception('Ha ocurrido un error al leer los archivos SQL')
-    # engine = db.create_engine(sql_connection)
-    dataframe_matches_players = pd.read_sql_query(sql_query, sql_connection)
+    FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
+    dataframe_matches_players = sql_functions.get_sql_results(FILE)
     number_of_matches = int(len(dataframe_matches_players) / 2)
     # logger.info(dataframe_matches_players)
     dataframe_civ_rates = CIVS.copy()
@@ -99,7 +139,7 @@ def civ_winrate():
     dataframe_civ_rates = dataframe_civ_rates.drop(['number_of_picks', 'number_of_wins'], axis=1)
     # logger.info(dataframe_civ_rates)
 
-    engine = db.create_engine(sql_connection)
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         dataframe_civ_rates.to_sql(
             'civ_rates',
@@ -117,8 +157,8 @@ def civ_winrate():
     except exc.SQLAlchemyError:
         logging.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
-    finally:
-        logger.info('Cargados los reportes')
+    else:
+        logger.info('Cargados los reportes de civ rates')
 
 if __name__ == "__main__":
-    best_civs_duo()
+    civ_vs_civ()
