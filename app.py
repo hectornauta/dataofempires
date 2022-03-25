@@ -33,6 +33,7 @@ def main():
         player_functions.extract_player_matches(steam_id)
     elif placeholder_option == 3:
         report_generator.civ_winrate()
+        report_generator.civ_vs_civ()
     elif placeholder_option == 4:
         for report in report_viewer.show_all_reports():
             report.show()

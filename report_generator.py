@@ -33,6 +33,9 @@ CIVS = pd.read_csv('csv/civs.csv')
 CIVS.drop(['numero'], axis=1, inplace=True)
 CIVS.set_index('id', inplace=True)
 
+MAPS = pd.read_csv('csv/maps.csv', sep=';')
+MAPS.set_index('id', inplace=True)
+
 DIR = os.path.dirname(__file__)
 
 def add_combination(dict_civs, civ_1, civ_2, won_1):
@@ -48,6 +51,29 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
         dict_civs[second_comb][1] = dict_civs[second_comb][1] + 1
     else:
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
+
+
+def map_pick_rates():
+    FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
+    dataframe_maps_rates = sql_functions.get_sql_results(FILE)
+    dataframe_maps_rates = dataframe_maps_rates.drop(['rating', 'country', 'won', 'civ'], axis=1)
+    dataframe_maps_rates = dataframe_maps_rates[dataframe_maps_rates['slot'] == 1]
+    dataframe_maps = MAPS.copy()
+    dataframe_maps = dataframe_maps.reset_index()
+    # logger.info(dataframe_maps_rates)
+    # logger.info(dataframe_maps)
+    dataframe_maps_rates = dataframe_maps_rates.merge(dataframe_maps, left_on='map_type', right_on='id')
+    total_matches = len(dataframe_maps_rates)
+    logger.info(total_matches)
+    
+    dataframe_maps_rates = dataframe_maps_rates.groupby(['id']).agg(
+        number_of_matches=pd.NamedAgg(column="id", aggfunc="count")
+    )
+    dataframe_maps_rates['playrate'] = dataframe_maps_rates['number_of_matches'] / total_matches
+    dataframe_maps_rates = dataframe_maps_rates.sort_values(by='playrate', ascending=False)
+    dataframe_maps_rates = dataframe_maps_rates.reset_index()
+    dataframe_maps_rates = dataframe_maps_rates.merge(dataframe_maps, left_on='id', right_on='id')
+    logger.info(dataframe_maps_rates)
 
 
 def civ_vs_civ():
@@ -161,4 +187,4 @@ def civ_winrate():
         logger.info('Cargados los reportes de civ rates')
 
 if __name__ == "__main__":
-    civ_vs_civ()
+    map_pick_rates()
