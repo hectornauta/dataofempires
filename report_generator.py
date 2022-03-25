@@ -46,19 +46,29 @@ def best_civs_duo():
     dataframe_matches_players = pd.read_sql_query(sql_query, sql_connection)
     number_of_matches = int(len(dataframe_matches_players) / 4)
     dataframe_matches_players = dataframe_matches_players.drop(['rating', 'map_type', 'country'], axis=1)
-    dataframe_matches_players = dataframe_matches_players.merge(dataframe_matches_players, left_on='match_id', right_on='match_id')
+    dataframe_matches_players = dataframe_matches_players.merge(dataframe_matches_players, how='left', left_on=['match_id', 'team'], right_on=['match_id', 'team'])
     # logger.info(f'\n {dataframe_matches_players}')
     dataframe_matches_players = dataframe_matches_players[dataframe_matches_players['slot_x'] != dataframe_matches_players['slot_y']]
-    dataframe_matches_players = dataframe_matches_players[dataframe_matches_players['team_x'] == dataframe_matches_players['team_y']]
+    dataframe_matches_players = dataframe_matches_players[dataframe_matches_players['slot_x'] < 3]
+    dataframe_matches_players['lost'] = ~dataframe_matches_players['won_x']
+    c = ['civ_x', 'civ_y']
+    df1 = dataframe_matches_players.groupby(np.sort(dataframe_matches_players[c], axis=1).T.tolist())['won_x'].sum()
+    df2 = dataframe_matches_players.groupby(np.sort(dataframe_matches_players[c], axis=1).T.tolist())['lost'].sum()
+    df4 = dataframe_matches_players.groupby(np.sort(dataframe_matches_players[c], axis=1).T.tolist()).size()
+    df3 = df1 + df2
+    df3 = df3.sort_values()
     # logger.info(f'\n {dataframe_matches_players}')
-    dataframe_matches_players = dataframe_matches_players.groupby(['civ_x', 'civ_y']).agg(
-        number_of_wins=pd.NamedAgg(column="won_x", aggfunc="count")
-    )
-    dataframe_matches_players = dataframe_matches_players.reset_index()
-    dataframe_matches_players = dataframe_matches_players[~pd.DataFrame(np.sort(dataframe_matches_players.filter(like='civ_'))).duplicated()]
-    dataframe_matches_players = dataframe_matches_players.sort_values(by=['number_of_wins'])
-    # logger.info(f'\n {dataframe_matches_players}')
-    # logger.info(dataframe_matches_players.to_string())
+    # dataframe_matches_players = dataframe_matches_players.groupby(['civ_x', 'civ_y']).agg(
+    #     number_of_wins=pd.NamedAgg(column="won_x", aggfunc="count")
+    # )
+    # dataframe_matches_players = dataframe_matches_players.reset_index()
+    # dataframe_matches_players = dataframe_matches_players[~pd.DataFrame(np.sort(dataframe_matches_players.filter(like='civ_'))).duplicated()]
+    # dataframe_matches_players = dataframe_matches_players.sort_values(by=['number_of_wins'])
+    logger.info(f'\n {dataframe_matches_players}')
+    logger.info(f'\n {df1}')
+    logger.info(f'\n {df2}')
+    logger.info(f'\n {df3}')
+    logger.info(f'\n {df4}')
 
 
 def civ_winrate():
