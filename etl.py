@@ -226,9 +226,10 @@ def load_matches(dataframes, last_match):
             con.execute('ALTER TABLE matches_players ADD PRIMARY KEY (match_id, slot);')
 
 def update_db():
-    specific_timestamp = datetime(2022, 3, 4, 0, 0)  # Year, month, day, hour, minutes
+    specific_timestamp = datetime(2022, 3, 8, 0, 0)  # Year, month, day, hour, minutes
+    number_of_days = 1
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
-    for i in range(0, 24 * 16):
+    for i in range(0, 24 * number_of_days):
         # specific_timestamp = datetime(2022, 3, 4, i, 0)  # Year, month, day, hour, minutes
         iterable_timestamp = specific_timestamp + one_hour * i
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))

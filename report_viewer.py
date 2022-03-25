@@ -8,6 +8,7 @@ import sqlalchemy as db
 from sqlalchemy import exc
 import numpy as np
 import random
+from math import sqrt
 
 import plotly.express as px
 
@@ -36,7 +37,26 @@ def show_all_reports():
     REPORTS.append(civ_rates())
     REPORTS.append(civ_win_rates())
     REPORTS.append(civ_pick_rates())
+    REPORTS.append(elo_distribution())
     return REPORTS
+
+def elo_distribution():
+    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    FILE = f'{DIR}/sql/get_1vs1_players_elo.sql'
+    try:
+        with open(FILE, 'r') as sql_file:
+            sql_query = sql_file.read()
+    except IOError as e:
+        logger.error(f'Error al leer los archivos SQL: {e}')
+        raise Exception('Ha ocurrido un error al leer los archivos SQL')
+    # engine = db.create_engine(sql_connection)
+    dataframe_players_elo = pd.read_sql_query(sql_query, sql_connection)
+    # create the bins
+    counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3000, 50))
+    bins = 0.5 * (bins[:-1] + bins[1:])
+
+    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de players'})
+    return figure_elo_distribution
 
 def civ_rates():
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
@@ -50,7 +70,7 @@ def civ_rates():
     # engine = db.create_engine(sql_connection)
     dataframe_civ_rates = pd.read_sql_query(sql_query, sql_connection)
     dataframe_civ_rates.set_index('id', inplace=True)
-    dataframe_civ_rates['rate'] = (dataframe_civ_rates['winrate'] / 10) * dataframe_civ_rates['pickrate']
+    dataframe_civ_rates['rate'] = np.sqrt((dataframe_civ_rates['winrate']) ** 2 + (40 + dataframe_civ_rates['pickrate']) ** 2)
 
     figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
     figure_civ_rates.update_traces(textposition='top center')

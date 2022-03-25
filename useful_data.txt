@@ -2,3 +2,37 @@
 # 1628294400
 # 1628298000
 # 1628301600
+
+Mapas
+77 Mega Aleatorio
+29 Arena
+33 Nómada
+72 Guaridas
+141 Nómadas de Tierra
+9 Arabia
+12 Selva Negra
+170 Haboob
+157 Acclivity
+172 Land Madness
+171 Kawasan
+167 Runestones
+19 Islas
+31 Oasis
+
+Buscar
+Claro Africano
+Acrópolis
+Mongolia
+Fiebre del oro
+Atacama
+Cuatro Lagos
+Costa
+Lagos Alpinos
+Bosque costero
+Báltico
+Castros
+Lombardía
+Migración
+Yucatán
+Socotra
+Fortaleza
