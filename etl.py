@@ -20,7 +20,12 @@ from sqlalchemy.types import String
 from sqlalchemy.types import BigInteger
 from sqlalchemy.types import NCHAR
 
+from concurrent.futures import as_completed
+from requests_futures.sessions import FuturesSession
+
 import query_functions
+
+LAST_DAY = datetime(2022, 3, 8, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -226,7 +231,7 @@ def load_matches(dataframes, last_match):
             con.execute('ALTER TABLE matches_players ADD PRIMARY KEY (match_id, slot);')
 
 def update_db():
-    specific_timestamp = datetime(2022, 3, 8, 0, 0)  # Year, month, day, hour, minutes
+    specific_timestamp = LAST_DAY
     number_of_days = 1
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
     for i in range(0, 24 * number_of_days):
@@ -234,6 +239,28 @@ def update_db():
         iterable_timestamp = specific_timestamp + one_hour * i
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         etl_matches(timestamp)
+
+def batch_update(number_of_days):
+    start_timestamp = LAST_DAY
+    one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
+    queries = []
+    for i in range(0, 4 * number_of_days):
+        iterable_timestamp = start_timestamp + one_hour * i
+        timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
+        query = query_functions.get_matches(1000, timestamp)
+        queries.append(query)
+    logger.info(queries)
+
+    start_time = datetime.now()
+    responses = []
+    with FuturesSession() as session:
+        futures = [session.get(query) for query in queries]
+        for future in as_completed(futures):
+            response = future.result()
+            responses.append(response)
+    logger.info(responses)
+    end_time = datetime.now()
+    print(f'{end_time - start_time} seconds')
 
 def etl_matches(param_timestamp):
     last_match = get_last_match()

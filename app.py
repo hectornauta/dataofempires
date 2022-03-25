@@ -38,6 +38,8 @@ def main():
             report.show()
     elif placeholder_option == 5:
         etl.update_db()
+    elif placeholder_option == 6:
+        etl.batch_update(1)
 
 if __name__ == "__main__":
     main()
