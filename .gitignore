@@ -5,6 +5,7 @@
 /entorno/
 /nosubir/
 /env/
+/old
 # VISUAL STUDIO cODE
 .vscode
 # PYCHARM
@@ -17,6 +18,5 @@ database.ini
 /paginas
 *.log
 *.csv
-OLD -*
 borrador.txt
 test.py

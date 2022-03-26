@@ -21,7 +21,7 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 def main():
-    placeholder_option = 4
+    placeholder_option = 3
     if placeholder_option == 1:
         now = datetime.now()
         specific_timestamp = datetime(2022, 3, 7, 0, 0)  # Year, month, day, hour, minutes
@@ -39,8 +39,6 @@ def main():
             report.show()
     elif placeholder_option == 5:
         etl.update_db()
-    elif placeholder_option == 6:
-        etl.batch_update(1)
 
 if __name__ == "__main__":
     main()
