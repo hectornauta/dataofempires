@@ -3,7 +3,6 @@
 .pyc
 /__pycache__
 /entorno/
-/nosubir/
 /env/
 /old
 # VISUAL STUDIO cODE
@@ -15,8 +14,6 @@
 database.ini
 /assets
 /json
-/paginas
 *.log
-*.csv
 borrador.txt
-test.py
+test*
