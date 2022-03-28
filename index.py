@@ -61,27 +61,27 @@ navbar = dbc.Navbar(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src=SHEEP_LOGO, height="30px")),
-                        dbc.Col(dbc.NavbarBrand("Logo", className="ms-2")),
+                        dbc.Col(html.Img(src=SHEEP_LOGO, height='30px')),
+                        dbc.Col(dbc.NavbarBrand('Logo', className='ms-2')),
                     ],
-                    align="center",
-                    className="g-0",
+                    align='center',
+                    className='g-0',
                 ),
-                href="",
-                style={"textDecoration": "none"},
+                href='',
+                style={'textDecoration': 'none'},
             ),
-            dbc.NavbarToggler(id="navbar-toggler2", n_clicks=0),
+            dbc.NavbarToggler(id='navbar-toggler', n_clicks=0),
             dbc.Collapse(
                 nav_items,
-                id="navbar-collapse",
+                id='navbar-collapse',
                 is_open=False,
                 navbar=True,
             ),
         ],
     ),
-    color="dark",
+    color='dark',
     dark=True,
-    className="mb-5",
+    className='mb-5',
 )
 
 page_content = html.Div([
@@ -94,9 +94,9 @@ app.layout = html.Div(
 )
 
 @app.callback(
-    Output("navbar-collapse", "is_open"),
-    [Input("navbar-toggler", "n_clicks")],
-    [State("navbar-collapse", "is_open")],
+    Output('navbar-collapse', 'is_open'),
+    Input('navbar-toggler', 'n_clicks'),
+    State('navbar-collapse', 'is_open')
 )
 def toggle_navbar_collapse(n, is_open):
     if n:
@@ -105,20 +105,30 @@ def toggle_navbar_collapse(n, is_open):
 
 error_404 = dbc.Row(
     [
-        html.H1(
-            'Error 404 | ¿Una página no encontrada? ¡No, una emboscada de los sarracenos!',
-            className='text-left text-primary mb-4',
-            style={"textAlign": "left"}
+        html.H2(
+            'Error 404',
+            className='text-center text-primary mb-2',
+            style={'textAlign': 'center'}
+        ),
+        html.H3(
+            '¿Una página no encontrada?',
+            className='text-left text-primary mb-2',
+            style={'textAlign': 'left'}
+        ),
+        html.H3(
+            '¡No, una emboscada de los sarracenos!',
+            className='text-left text-primary mb-2',
+            style={'textAlign': 'left'}
         ),
         dbc.Col(html.Img(src=ERROR_404)),
     ],
-    align="center",
-    className="g-0",
+    align='center',
+    className='g-0',
 )
 
 @app.callback(
     Output('page-content', 'children'),
-    [Input('url', 'pathname')]
+    Input('url', 'pathname')
 )
 def display_page(pathname):
     if pathname == '/apps/player':
@@ -132,7 +142,6 @@ def display_page(pathname):
     if pathname == '/apps/about':
         return about.layout
     else:
-        return error_404  # "Error 404 | ¿Una página no encontrada? ¡No, una emboscada de los sarracenos!"
-
+        return error_404
 if __name__ == '__main__':
     app.run_server(debug=False)

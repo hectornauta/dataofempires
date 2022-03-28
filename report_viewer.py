@@ -49,6 +49,32 @@ def get_player_stats():
     # TODO: elo progression
     return None
 
+def countries_elo_stats():
+    # TODO: control de errores
+    COUNTRIES = pd.read_csv('csv/countries.csv')
+    COUNTRIES.set_index('alpha-2', inplace=True)
+    FILE = f'{DIR}/sql/get_countries_elo.sql'
+    dataframe_countries_elo = sql_functions.get_sql_results(FILE)
+    dataframe_countries_elo = dataframe_countries_elo.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
+    dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
+    # logger.info(dataframe_countries_elo)
+    figure_countries_elo = px.choropleth(
+        dataframe_countries_elo,
+        locations="alpha-3",
+        color="mean_elo",  # lifeExp is a column of gapminder
+        hover_name='name',  # column to add to hover information
+        color_continuous_scale=px.colors.sequential.amp
+    )
+    figure_countries_elo.update_layout(
+        title_text='elo Promedio por país',
+        geo=dict(
+            showframe=False,
+            showcoastlines=False,
+            projection_type='orthographic'
+        )
+    )
+    return figure_countries_elo
+
 def map_playrate():
     FILE = f'{DIR}/sql/get_maps_playrate.sql'
     dataframe_map_playrate = sql_functions.get_sql_results(FILE)
@@ -121,6 +147,7 @@ def civ_win_rates():
         y='winrate',
         width=1280,
         hover_data={'nombre': True, 'winrate': ':.2%'}, color='winrate',
+        color_continuous_scale=px.colors.sequential.YlOrRd,
         labels={'nombre': 'Civilización', 'winrate': 'Porcentaje de victorias'}, height=400
     )
     figure_win_rates.update_coloraxes(showscale=False)
@@ -141,6 +168,7 @@ def civ_pick_rates():
         y='pickrate',
         width=1280,
         hover_data={'nombre': True, 'pickrate': ':.2%'}, color='pickrate',
+        color_continuous_scale=px.colors.sequential.YlOrBr,
         labels={'nombre': 'Civilización', 'pickrate': 'Porcentaje de veces escogida'}, height=400
     )
     figure_pick_rates.update_coloraxes(showscale=False)
@@ -152,5 +180,5 @@ def civ_pick_rates():
 
 if __name__ == "__main__":
     REPORTS = []
-    REPORTS.append(map_playrate())
+    REPORTS.append(countries_elo_stats())
     show_all_reports()

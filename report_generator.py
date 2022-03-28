@@ -11,6 +11,7 @@ from sqlalchemy.types import Float
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer
 from sqlalchemy.types import SmallInteger
+from sqlalchemy.types import NCHAR
 
 import sql_functions
 
@@ -52,6 +53,43 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
     else:
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
 
+def country_elo():
+    # TODO: Revisar que solamente tome un elo por jugador
+    FILE = f'{DIR}/sql/get_ranked_matches_params.sql'
+    dataframe_countries = sql_functions.get_sql_results(FILE, 3, 1000, 2000)
+    dataframe_countries = dataframe_countries.reset_index()
+    dataframe_countries = dataframe_countries.drop(['match_id', 'slot', 'civ', 'won', 'map_type'], axis=1)
+    dataframe_countries = dataframe_countries.groupby(['country']).agg(
+        mean_elo=pd.NamedAgg(column="rating", aggfunc="mean"),
+        max_elo=pd.NamedAgg(column="rating", aggfunc="max"),
+        std_elo=pd.NamedAgg(column="rating", aggfunc="std"),
+        sem_elo=pd.NamedAgg(column="rating", aggfunc="sem"),
+        var_elo=pd.NamedAgg(column="rating", aggfunc="var"),
+    )
+    dataframe_countries = dataframe_countries.reset_index()
+    logger.info(dataframe_countries)
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_countries.to_sql(
+            'countries_elo',
+            con=engine.connect(),
+            if_exists='replace',
+            index=False,
+            dtype={
+                'country': NCHAR(2),
+                'mean_elo': Float(),
+                'max_elo': Float(),
+                'std_elo': Float(),
+                'sem_elo': Float(),
+                'var_elo': Float()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logger.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Cargados los reportes de países')
+    return None
 
 def map_playrate():
     FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
@@ -207,5 +245,8 @@ def civ_winrate():
         logger.info('Cargados los reportes de civ rates')
 
 if __name__ == "__main__":
-    best_civs_duo()
-    civ_vs_civ()
+    # best_civs_duo()
+    # civ_vs_civ()
+    # civ_winrate()
+    # map_playrate()
+    country_elo()

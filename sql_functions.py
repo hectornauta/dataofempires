@@ -28,7 +28,7 @@ DB_NAME = config('DB_NAME')
 
 DIR = os.path.dirname(__file__)
 
-def get_sql_results(query_file):
+def get_sql_results(query_file, ladder=-1, min_elo=-1, max_elo=-1):
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         with open(query_file, 'r') as sql_file:
@@ -37,5 +37,8 @@ def get_sql_results(query_file):
         logger.error(f'Error al leer los archivos SQL: {e}')
         raise Exception('Ha ocurrido un error al leer los archivos SQL')
     else:
-        dataframe_results = pd.read_sql_query(sql_query, sql_connection)
+        if ladder == -1 or min_elo == 1 or max_elo == -1:
+            dataframe_results = pd.read_sql_query(sql_query, sql_connection)
+        else:
+            dataframe_results = pd.read_sql_query(sql_query, sql_connection, params={'ladder': ladder, 'min_elo': min_elo, 'max_elo': max_elo})
         return dataframe_results

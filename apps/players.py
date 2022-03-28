@@ -15,5 +15,6 @@ layout = html.Div([
         style={"textAlign": "left"}
     ),
 
-    dcc.Graph(id='graph1', figure=report_viewer.elo_distribution())
+    dcc.Graph(id='graph1', style={'width': '70vh', 'height': '70vh'}, figure=report_viewer.countries_elo_stats()),
+    dcc.Graph(id='graph2', figure=report_viewer.elo_distribution())
 ])
