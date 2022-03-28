@@ -25,7 +25,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 3, 8, 0, 0)
+LAST_DAY = datetime(2022, 3, 20, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -244,7 +244,7 @@ def batch_update(number_of_days):
     start_timestamp = LAST_DAY
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
     queries = []
-    for i in range(0, 4 * number_of_days):
+    for i in range(0, 24 * number_of_days):
         iterable_timestamp = start_timestamp + one_hour * i
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         query = query_functions.get_matches(1000, timestamp)

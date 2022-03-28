@@ -4,12 +4,15 @@ from datetime import datetime, timedelta
 from math import trunc
 
 from decouple import config
+import dash
 
 import player_functions
 import query_functions
 import etl
 import report_generator
 import report_viewer
+
+import dash_bootstrap_components as dbc
 
 logging.basicConfig(
     level=logging.INFO,
@@ -20,8 +23,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 
-def main():
-    placeholder_option = 3
+def temp_main():
+    placeholder_option = 5
     if placeholder_option == 1:
         now = datetime.now()
         specific_timestamp = datetime(2022, 3, 7, 0, 0)  # Year, month, day, hour, minutes
@@ -40,5 +43,18 @@ def main():
     elif placeholder_option == 5:
         etl.update_db()
 
-if __name__ == "__main__":
-    main()
+
+# meta_tags are required for the app layout to be mobile responsive
+app = dash.Dash(
+    __name__,
+    suppress_callback_exceptions=True,
+    external_stylesheets=[dbc.themes.DARKLY],
+    meta_tags=[{
+        'name': 'viewport',
+        'content': 'width=device-width, initial-scale=1.0'
+    }]
+)
+server = app.server
+
+# if __name__ == "__main__":
+#    temp_main()

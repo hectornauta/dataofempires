@@ -53,7 +53,7 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
 
 
-def map_pick_rates():
+def map_playrate():
     FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
     dataframe_maps_rates = sql_functions.get_sql_results(FILE)
     dataframe_maps_rates = dataframe_maps_rates.drop(['rating', 'country', 'won', 'civ'], axis=1)
@@ -65,7 +65,7 @@ def map_pick_rates():
     dataframe_maps_rates = dataframe_maps_rates.merge(dataframe_maps, left_on='map_type', right_on='id')
     total_matches = len(dataframe_maps_rates)
     logger.info(total_matches)
-    
+
     dataframe_maps_rates = dataframe_maps_rates.groupby(['id']).agg(
         number_of_matches=pd.NamedAgg(column="id", aggfunc="count")
     )
@@ -73,8 +73,28 @@ def map_pick_rates():
     dataframe_maps_rates = dataframe_maps_rates.sort_values(by='playrate', ascending=False)
     dataframe_maps_rates = dataframe_maps_rates.reset_index()
     dataframe_maps_rates = dataframe_maps_rates.merge(dataframe_maps, left_on='id', right_on='id')
-    logger.info(dataframe_maps_rates)
+    # logger.info(dataframe_maps_rates)
 
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_maps_rates.to_sql(
+            'maps_playrate',
+            con=engine.connect(),
+            if_exists='replace',
+            index=False,
+            dtype={
+                'id': SmallInteger(),
+                'number_of_matches': Integer(),
+                'playrate': Float(),
+                'name': String(),
+                'nombre': String()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Cargados los reportes de mapas')
 
 def civ_vs_civ():
     FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
@@ -92,7 +112,7 @@ def civ_vs_civ():
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['wins'] / dataframe_civ_vs_civ['matches']
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.drop(['index'], axis=1)
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(by='winrate', ascending=False)
-    logger.info(dataframe_civ_vs_civ)
+    # logger.info(dataframe_civ_vs_civ)
 
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
@@ -187,4 +207,5 @@ def civ_winrate():
         logger.info('Cargados los reportes de civ rates')
 
 if __name__ == "__main__":
-    map_pick_rates()
+    best_civs_duo()
+    civ_vs_civ()

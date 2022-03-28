@@ -42,6 +42,43 @@ def show_all_reports():
     REPORTS.append(elo_distribution())
     return REPORTS
 
+def get_player_stats():
+    # TODO: ranking of civs
+    # TODO: Winrates
+    # TODO: Maps
+    # TODO: elo progression
+    return None
+
+def map_playrate():
+    FILE = f'{DIR}/sql/get_maps_playrate.sql'
+    dataframe_map_playrate = sql_functions.get_sql_results(FILE)
+    dataframe_map_playrate.drop(['id'], axis=1, inplace=True)
+    # create the bins
+    figure_map_playrate = go.Figure(
+        data=[
+            go.Table(
+                header=dict(
+                    values=list(
+                        dataframe_map_playrate.columns
+                    ),
+                    fill_color='paleturquoise',
+                    align='left'
+                ),
+                cells=dict(
+                    values=[
+                        dataframe_map_playrate.name,
+                        dataframe_map_playrate.nombre,
+                        dataframe_map_playrate.playrate,
+                        dataframe_map_playrate.number_of_matches
+                    ],
+                    fill_color='lavender',
+                    align='left'
+                )
+            )
+        ]
+    )    # figure_elo_distribution.show()
+    return figure_map_playrate
+
 def elo_distribution():
     FILE = f'{DIR}/sql/get_1vs1_players_elo.sql'
     dataframe_players_elo = sql_functions.get_sql_results(FILE)
@@ -50,6 +87,7 @@ def elo_distribution():
     bins = 0.5 * (bins[:-1] + bins[1:])
 
     figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de players'})
+    # figure_elo_distribution.show()
     return figure_elo_distribution
 
 def civ_rates():
@@ -114,5 +152,5 @@ def civ_pick_rates():
 
 if __name__ == "__main__":
     REPORTS = []
-    REPORTS.append(civ_rates())
-    show_all_reports(REPORTS)
+    REPORTS.append(map_playrate())
+    show_all_reports()
