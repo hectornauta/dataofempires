@@ -19,6 +19,7 @@ from sqlalchemy.types import SmallInteger
 from sqlalchemy.types import String
 from sqlalchemy.types import BigInteger
 from sqlalchemy.types import NCHAR
+from sqlalchemy.types import VARCHAR
 
 from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
@@ -97,6 +98,7 @@ def transform_matches(json_matches, last_match):
     old_matches = 0
     list_matches = []
     list_matches_players = []
+    list_players = []
     matches_processed = 0
     for match in json_matches:
         matches_processed = matches_processed + 1
@@ -145,10 +147,12 @@ def transform_matches(json_matches, last_match):
                 rating = None if player['rating'] is None else int(player['rating'])
                 rating_change = None if player['rating_change'] is None else int(player['rating_change'])
                 color = None if player['color'] is None else int(player['color'])
+                name = None if player['name'] is None else (str(player['name']))[:32]
                 team = int(player['team'])
                 civ = int(player['civ'])
                 won = int(player['won'])
                 list_matches_players.append([match_id, slot, profile_id, steam_id, country, slot_type, rating, rating_change, color, team, civ, won])
+                list_players.append([profile_id, steam_id, name, rating, country, finished])
         else:
             invalid_matches = invalid_matches + 1
         if matches_processed % 100 == 0:
@@ -161,13 +165,16 @@ def transform_matches(json_matches, last_match):
     if valid_matches > 0:
         dataframe_matches = pd.DataFrame(list_matches, columns=['match_id', 'num_players', 'game_type', 'map_size', 'map_type', 'leaderboard_id', 'rating_type', 'started', 'finished', 'version'])
         dataframe_matches_players = pd.DataFrame(list_matches_players, columns=['match_id', 'slot', 'profile_id', 'steam_id', 'country', 'slot_type', 'rating', 'rating_change', 'color', 'team', 'civ', 'won'])
-        return [dataframe_matches, dataframe_matches_players]
+        dataframe_players = pd.DataFrame(list_players, columns=['profile_id', 'steam_id', 'name', 'rating', 'country', 'finished'])
+        dataframe_players = dataframe_players.drop_duplicates(subset=['profile_id'], keep='last')
+        return [dataframe_matches, dataframe_matches_players, dataframe_players]
     else:
         return None
 def load_matches(dataframes, last_match):
     logger.info('Cargando a la BD')
     dataframe_matches = dataframes[0]
     dataframes_matches_players = dataframes[1]
+    dataframes_players = dataframes[2]
 
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     engine = db.create_engine(sql_connection)
@@ -225,6 +232,28 @@ def load_matches(dataframes, last_match):
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los matches_players')
+
+    try:
+        dataframes_players.to_sql(
+            'players',
+            con=engine.connect(),
+            if_exists='append',
+            index=False,
+            dtype={
+                'profile_id': Integer(),
+                'steam_id': BigInteger(),
+                'name': VARCHAR(32),
+                'rating': SmallInteger(),
+                'country': NCHAR(2),
+                'finished': Integer()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Cargados los players')
+
     # TODO: find a better way
     with engine.connect() as con:
         if last_match == 0:

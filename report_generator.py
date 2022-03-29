@@ -67,7 +67,7 @@ def country_elo():
         var_elo=pd.NamedAgg(column="rating", aggfunc="var"),
     )
     dataframe_countries = dataframe_countries.reset_index()
-    logger.info(dataframe_countries)
+    # logger.info(dataframe_countries)
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         dataframe_countries.to_sql(
@@ -158,7 +158,7 @@ def civ_vs_civ():
             'civ_vs_civ',
             con=engine.connect(),
             if_exists='replace',
-            index=True,
+            index=False,
             dtype={
                 'civ_1': SmallInteger(),
                 'civ_2': SmallInteger(),
@@ -245,8 +245,8 @@ def civ_winrate():
         logger.info('Cargados los reportes de civ rates')
 
 if __name__ == "__main__":
-    # best_civs_duo()
-    # civ_vs_civ()
-    # civ_winrate()
-    # map_playrate()
+    best_civs_duo()
+    civ_vs_civ()
+    civ_winrate()
+    map_playrate()
     country_elo()

@@ -34,6 +34,10 @@ DB_HOST = config('DB_HOST')
 DB_PORT = config('DB_PORT')
 DB_NAME = config('DB_NAME')
 
+CIVS = pd.read_csv('csv/civs.csv')
+CIVS.drop(['numero'], axis=1, inplace=True)
+CIVS.set_index('id', inplace=True)
+
 def show_all_reports():
     REPORTS = []
     REPORTS.append(civ_rates())
@@ -49,13 +53,73 @@ def get_player_stats():
     # TODO: elo progression
     return None
 
-def countries_elo_stats():
+def civ_vs_civ(chosen_civ=-1):
+    sql_results = sql_functions.get_civ_vs_civ()
+    dataframe_civ_vs_civ = pd.DataFrame.from_records(
+        sql_results,
+        columns=sql_results.keys()
+    )
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_1', right_on='id')
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_2', right_on='id')
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(['nombre_x', 'nombre_y'], ascending=[True, True])
+    dataframe_civ_vs_civ.drop(['name_y', 'name_x'], axis=1, inplace=True)
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'] * 100
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
+    # logger.info(dataframe_civ_vs_civ)
+    figure_civ_vs_civ = go.Figure(
+        data=[
+            go.Table(
+                header=dict(
+                    values=list(
+                        ['Civilización 1', 'Civilziación 2', 'Partidas ganadas', 'Partidas en total', 'Winrate']
+                    ),
+                    fill_color='paleturquoise',
+                    align='left'
+                ),
+                cells=dict(
+                    values=[
+                        dataframe_civ_vs_civ.nombre_x,
+                        dataframe_civ_vs_civ.nombre_y,
+                        dataframe_civ_vs_civ.wins,
+                        dataframe_civ_vs_civ.matches,
+                        dataframe_civ_vs_civ.winrate,
+                    ],
+                    fill_color='lavender',
+                    align='left'
+                )
+            )
+        ]
+    )
+    return figure_civ_vs_civ
+
+def elo_distribution(ladder=3):
+    FILE = f'{DIR}/sql/get_players_elo.sql'
+    dataframe_players_elo = sql_functions.get_sql_results(FILE, ladder)
+    # create the bins
+    counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3500, 50))
+    bins = 0.5 * (bins[:-1] + bins[1:])
+
+    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de players'})
+    # figure_elo_distribution.show()
+    return figure_elo_distribution
+
+def countries_elo_stats(ladder=3):
     # TODO: control de errores
     COUNTRIES = pd.read_csv('csv/countries.csv')
     COUNTRIES.set_index('alpha-2', inplace=True)
-    FILE = f'{DIR}/sql/get_countries_elo.sql'
-    dataframe_countries_elo = sql_functions.get_sql_results(FILE)
-    dataframe_countries_elo = dataframe_countries_elo.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
+    FILE = f'{DIR}/sql/get_players_elo.sql'
+    dataframe_countries = sql_functions.get_sql_results(FILE, ladder)
+    dataframe_countries = dataframe_countries.reset_index()
+    dataframe_countries = dataframe_countries.groupby(['country']).agg(
+        mean_elo=pd.NamedAgg(column="elo", aggfunc="mean"),
+        max_elo=pd.NamedAgg(column="elo", aggfunc="max"),
+        std_elo=pd.NamedAgg(column="elo", aggfunc="std"),
+        sem_elo=pd.NamedAgg(column="elo", aggfunc="sem"),
+        var_elo=pd.NamedAgg(column="elo", aggfunc="var"),
+    )
+    dataframe_countries = dataframe_countries.reset_index()
+    # logger.info(dataframe_countries)
+    dataframe_countries_elo = dataframe_countries.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
     dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
     # logger.info(dataframe_countries_elo)
     figure_countries_elo = px.choropleth(
@@ -104,17 +168,6 @@ def map_playrate():
         ]
     )    # figure_elo_distribution.show()
     return figure_map_playrate
-
-def elo_distribution():
-    FILE = f'{DIR}/sql/get_1vs1_players_elo.sql'
-    dataframe_players_elo = sql_functions.get_sql_results(FILE)
-    # create the bins
-    counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3000, 50))
-    bins = 0.5 * (bins[:-1] + bins[1:])
-
-    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de players'})
-    # figure_elo_distribution.show()
-    return figure_elo_distribution
 
 def civ_rates():
     FILE = f'{DIR}/sql/get_civ_rates.sql'
@@ -179,6 +232,7 @@ def civ_pick_rates():
     return figure_pick_rates
 
 if __name__ == "__main__":
-    REPORTS = []
-    REPORTS.append(countries_elo_stats())
-    show_all_reports()
+    # REPORTS = []
+    # REPORTS.append(countries_elo_stats())
+    # show_all_reports()
+    countries_elo_stats()
