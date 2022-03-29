@@ -59,6 +59,8 @@ def civ_vs_civ(chosen_civ=-1):
         sql_results,
         columns=sql_results.keys()
     )
+    if chosen_civ != -1:
+        dataframe_civ_vs_civ = dataframe_civ_vs_civ.loc[dataframe_civ_vs_civ['civ_1'].isin([chosen_civ])]
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_1', right_on='id')
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_2', right_on='id')
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(['nombre_x', 'nombre_y'], ascending=[True, True])
@@ -71,7 +73,7 @@ def civ_vs_civ(chosen_civ=-1):
             go.Table(
                 header=dict(
                     values=list(
-                        ['Civilización 1', 'Civilziación 2', 'Partidas ganadas', 'Partidas en total', 'Winrate']
+                        ['Civilización 1', 'Civilización 2', 'Partidas ganadas', 'Partidas en total', 'Winrate']
                     ),
                     fill_color='paleturquoise',
                     align='left'
@@ -235,4 +237,4 @@ if __name__ == "__main__":
     # REPORTS = []
     # REPORTS.append(countries_elo_stats())
     # show_all_reports()
-    countries_elo_stats()
+    civ_vs_civ()
