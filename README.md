@@ -1,21 +1,29 @@
 # Data of Empires
 ## Proyecto de Análisis de datos
 
-Data of Empires es una app que permite obtener y visualizar datos correspondientes a partidas del videojuego Age of Empires II Definitive Edition,
+Data of Empires es una app que permite obtener y visualizar datos correspondientes a partidas del videojuego Age of Empires II Definitive Edition.
+Para esto se sirve de los datos ofrecidos por https://aoe2.net/#api, con ellos así poder realizar el proceso de Extraer, Transformar y Cargar para finalmente poder realizar un análisis y visualziación de los datos. 
 
-## Funciones
+##Herramientas utilizadas
+- Pandas
+- Plotly
+- Dash
+- Librería requests
+- PostgreSQL
 
-- Análisis del historial personal de partidas de un jugador
-    - Rendimiento a través del tiempo
-    - Rendimiento discriminado por mapas y civilizaciones
-- Estadísticas de civilizaciones y mapas
-    -  Porcentaje de victorias entre civilizaciones
-    -  Porcentaje de victorias y de uso de civilizaciones
-    -  Mejor combinación de civilzaciones en juego por equipos
-    -  Porcentaje de selección de mapas
+## Funciones y estado
+- Análisis del historial personal de partidas de un jugador **WIP**
+    - Rendimiento a través del tiempo **WIP**
+    - Rendimiento discriminado por mapas y civilizaciones **WIP**
+- Estadísticas de civilizaciones y mapas **DONE**
+    -  Rendimiento entre civilizaciones **DONE**
+    -  Estadísticas de victorias y uso de civilizaciones **DONE**
+    -  Mejor combinación de civilzaciones en juego por equipos **DONE**
+    -  Porcentaje de selección de mapas **DONE**
 - Estadísticas de jugadores
-    - Distribución de elo
-    - Estadísticas por país
+    - Distribución de elo **DONE**
+    - Estadísticas por país **DONE**
+- Presentación Web **WIP**
 ## Requerimientos
 - 
 
