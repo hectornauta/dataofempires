@@ -4,7 +4,7 @@
 Data of Empires es una app que permite obtener y visualizar datos correspondientes a partidas del videojuego Age of Empires II Definitive Edition.
 Para esto se sirve de los datos ofrecidos por https://aoe2.net/#api, con ellos así poder realizar el proceso de Extraer, Transformar y Cargar para finalmente poder realizar un análisis y visualziación de los datos. 
 
-##Herramientas utilizadas
+## Herramientas utilizadas
 - Pandas
 - Plotly
 - Dash
