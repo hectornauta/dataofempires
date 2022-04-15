@@ -26,7 +26,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 3, 20, 0, 0)
+LAST_DAY = datetime(2022, 3, 29, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -73,9 +73,11 @@ def extract_matches(param_timestamp, session):
         json_matches = session.get(query)
     except requests.exceptions.ConnectionError:
         logging.error('Error con la conexión a internet')
+        raise Exception('Error con la conexión a internet')
         json_matches = None
     except requests.exceptions.Timeout:
         logging.error('Error al intentar acceder a las páginas')
+        raise Exception('Error al intentar acceder a las páginas')
         json_matches = None
     else:
         if json_matches.status_code == 200:
@@ -243,7 +245,6 @@ def load_matches(dataframes, last_match):
                 'profile_id': Integer(),
                 'steam_id': BigInteger(),
                 'name': VARCHAR(32),
-                'rating': SmallInteger(),
                 'country': NCHAR(2),
                 'finished': Integer()
             }
@@ -261,7 +262,7 @@ def load_matches(dataframes, last_match):
 
 def update_db():
     specific_timestamp = LAST_DAY
-    number_of_days = 1
+    number_of_days = 3
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
     for i in range(0, 24 * number_of_days):
         # specific_timestamp = datetime(2022, 3, 4, i, 0)  # Year, month, day, hour, minutes
@@ -269,6 +270,7 @@ def update_db():
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         etl_matches(timestamp)
 
+# Don't use
 def batch_update(number_of_days):
     start_timestamp = LAST_DAY
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)

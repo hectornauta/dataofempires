@@ -1,0 +1,6 @@
+profile_id INT
+steam_id BIGINT
+name VARCHAR(32)
+rating SMALLINT
+country NCHAR(2)
+finished INT

@@ -10,6 +10,8 @@ from sqlalchemy import exc
 from sqlalchemy.types import Float
 from sqlalchemy.types import String
 from sqlalchemy.types import Integer
+from sqlalchemy.types import BigInteger
+from sqlalchemy.types import VARCHAR
 from sqlalchemy.types import SmallInteger
 from sqlalchemy.types import NCHAR
 
@@ -54,7 +56,7 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
 
 def country_elo():
-    # TODO: Revisar que solamente tome un elo por jugador
+    # TODO: Hacer que solamente tome un elo por jugador
     FILE = f'{DIR}/sql/get_ranked_matches_params.sql'
     dataframe_countries = sql_functions.get_sql_results(FILE, 3, 1000, 2000)
     dataframe_countries = dataframe_countries.reset_index()
@@ -244,9 +246,43 @@ def civ_winrate():
     else:
         logger.info('Cargados los reportes de civ rates')
 
-if __name__ == "__main__":
+def update_players_elo():
+    FILE = f'{DIR}/sql/get_players_info.sql'
+    dataframe_players_info = sql_functions.get_sql_results(FILE)
+    dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name', 'country'], sort=False)['finished'].max()
+    dataframe_players_info = dataframe_players_info.reset_index()
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_players_info.to_sql(
+            'players',
+            con=engine.connect(),
+            if_exists='replace',
+            index=False,
+            dtype={
+                'profile_id': Integer(),
+                'steam_id': BigInteger(),
+                'name': VARCHAR(32),
+                'country': NCHAR(2),
+                'finished': Integer()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Actualizados los players')
+
+def update_all():
     best_civs_duo()
     civ_vs_civ()
     civ_winrate()
     map_playrate()
     country_elo()
+    update_players_elo()
+
+if __name__ == "__main__":
+    ALL = True
+    if ALL:
+        update_all()
+    else:
+        update_players_elo()
