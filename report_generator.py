@@ -104,7 +104,7 @@ def map_playrate():
     # logger.info(dataframe_maps)
     dataframe_maps_rates = dataframe_maps_rates.merge(dataframe_maps, left_on='map_type', right_on='id')
     total_matches = len(dataframe_maps_rates)
-    logger.info(total_matches)
+    # logger.info(total_matches)
 
     dataframe_maps_rates = dataframe_maps_rates.groupby(['id']).agg(
         number_of_matches=pd.NamedAgg(column="id", aggfunc="count")
@@ -198,53 +198,91 @@ def best_civs_duo():
     # dataframe_matches_players = dataframe_matches_players.reset_index()
     # dataframe_matches_players = dataframe_matches_players[~pd.DataFrame(np.sort(dataframe_matches_players.filter(like='civ_'))).duplicated()]
     # dataframe_matches_players = dataframe_matches_players.sort_values(by=['number_of_wins'])
-    logger.info(f'\n {dataframe_matches_players}')
-    logger.info(f'\n {df1}')
-    logger.info(f'\n {df2}')
-    logger.info(f'\n {df3}')
-    logger.info(f'\n {df4}')
+    # logger.info(f'\n {dataframe_matches_players}')
+    # logger.info(f'\n {df1}')
+    # logger.info(f'\n {df2}')
+    # logger.info(f'\n {df3}')
+    # logger.info(f'\n {df4}')
 
 
-def civ_winrate():
-    # Obtiene los rates del RM 1vs1
-    FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
-    dataframe_matches_players = sql_functions.get_sql_results(FILE)
-    number_of_matches = int(len(dataframe_matches_players) / 2)
-    # logger.info(dataframe_matches_players)
-    dataframe_civ_rates = CIVS.copy()
-    dataframe_civ_rates = dataframe_civ_rates.reset_index()
-    dataframe_civ_rates['number_of_wins'] = 0
-    # logger.info(dataframe_civ_rates)
-    dataframe_civ_rates = dataframe_civ_rates.merge(dataframe_matches_players, left_on='id', right_on='civ')
-    # logger.info(dataframe_civ_rates)
-    dataframe_civ_rates = dataframe_civ_rates.groupby(['id', 'name', 'nombre']).agg(
-        number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
-        number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
-    dataframe_civ_rates['winrate'] = (dataframe_civ_rates['number_of_wins'] / dataframe_civ_rates['number_of_picks'])
-    dataframe_civ_rates['pickrate'] = (dataframe_civ_rates['number_of_picks'] / number_of_matches)
-    dataframe_civ_rates = dataframe_civ_rates.drop(['number_of_picks', 'number_of_wins'], axis=1)
-    # logger.info(dataframe_civ_rates)
-
+def civ_rates():
+    FILE_SOLO = f'{DIR}/sql/get_ranked_matches_params.sql'
+    FILE_TEAM = f'{DIR}/sql/get_ranked_matches_team_params.sql'
+    dataframe_civ = CIVS.copy()
+    dataframe_civ = dataframe_civ.reset_index()
+    labels = [
+        '3A', '3B', '3C',
+        '4A', '4B', '4C',
+        '13A', '13B',
+        '14A', '14B'
+    ]
+    dataframe_rm_solo_a = sql_functions.get_sql_results(FILE_SOLO, 3, 1000, 1300)
+    dataframe_rm_solo_a = dataframe_rm_solo_a.reset_index()
+    dataframe_rm_solo_b = sql_functions.get_sql_results(FILE_SOLO, 3, 1300, 1600)
+    dataframe_rm_solo_b = dataframe_rm_solo_b.reset_index()
+    dataframe_rm_solo_c = sql_functions.get_sql_results(FILE_SOLO, 3, 1600, 2500)
+    dataframe_rm_solo_c = dataframe_rm_solo_c.reset_index()
+    dataframe_rm_team_a = sql_functions.get_sql_results(FILE_TEAM, 4, 1000, 1600)
+    dataframe_rm_team_a = dataframe_rm_team_a.reset_index()
+    dataframe_rm_team_b = sql_functions.get_sql_results(FILE_TEAM, 4, 1600, 2200)
+    dataframe_rm_team_b = dataframe_rm_team_b.reset_index()
+    dataframe_rm_team_c = sql_functions.get_sql_results(FILE_TEAM, 4, 2200, 3500)
+    dataframe_rm_team_c = dataframe_rm_team_c.reset_index()
+    dataframe_ew_solo_a = sql_functions.get_sql_results(FILE_SOLO, 13, 900, 1200)
+    dataframe_ew_solo_a = dataframe_ew_solo_a.reset_index()
+    dataframe_ew_solo_b = sql_functions.get_sql_results(FILE_SOLO, 13, 1200, 2000)
+    dataframe_ew_solo_b = dataframe_ew_solo_b.reset_index()
+    dataframe_ew_team_a = sql_functions.get_sql_results(FILE_TEAM, 14, 900, 1300)
+    dataframe_ew_team_a = dataframe_ew_team_a.reset_index()
+    dataframe_ew_team_b = sql_functions.get_sql_results(FILE_TEAM, 14, 1300, 2000)
+    dataframe_ew_team_b = dataframe_ew_team_b.reset_index()
+    all_dataframes = [
+        dataframe_rm_solo_a, dataframe_rm_solo_b, dataframe_rm_solo_c
+    ]
+    all_dataframes = [
+        dataframe_rm_solo_a, dataframe_rm_solo_b, dataframe_rm_solo_c,
+        dataframe_rm_team_a, dataframe_rm_team_b, dataframe_rm_team_c,
+        dataframe_ew_solo_a, dataframe_ew_solo_b,
+        dataframe_ew_team_a, dataframe_ew_team_b
+    ]
+    iteration = 0
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
-    try:
-        dataframe_civ_rates.to_sql(
-            'civ_rates',
-            con=engine.connect(),
-            if_exists='replace',
-            index=True,
-            dtype={
-                'id': SmallInteger(),
-                'name': String(),
-                'nombre': String(),
-                'winrate': Float(),
-                'pickrate': Float()
-            }
-        )
-    except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
-        raise Exception('Error al conectar a la base de datos')
-    else:
-        logger.info('Cargados los reportes de civ rates')
+    for index, dataframe in enumerate(all_dataframes):
+        number_of_matches = all_dataframes[index]['match_id'].nunique()
+        all_dataframes[index]['number_of_wins'] = 0
+        all_dataframes[index] = dataframe_civ.merge(all_dataframes[index], left_on='id', right_on='civ')
+        all_dataframes[index] = all_dataframes[index].groupby(['id', 'name', 'nombre']).agg(
+            number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
+            number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
+        all_dataframes[index]['winrate'] = (all_dataframes[index]['number_of_wins'] / all_dataframes[index]['number_of_picks'])
+        all_dataframes[index]['pickrate'] = (all_dataframes[index]['number_of_picks'] / number_of_matches)
+        all_dataframes[index] = all_dataframes[index].drop(['number_of_picks', 'number_of_wins'], axis=1)
+        all_dataframes[index]['ladder_cat'] = labels[iteration]
+        if iteration == 0:
+            condition = 'replace'
+        else:
+            condition = 'append'
+        try:
+            all_dataframes[index].to_sql(
+                'civ_rates',
+                con=engine.connect(),
+                if_exists=condition,
+                index=True,
+                dtype={
+                    'id': SmallInteger(),
+                    'name': String(),
+                    'nombre': String(),
+                    'winrate': Float(),
+                    'pickrate': Float(),
+                    'label': String()
+                }
+            )
+        except exc.SQLAlchemyError:
+            logging.error('Error en la conexión a la base de datos')
+            raise Exception('Error al conectar a la base de datos')
+        else:
+            logger.info('Cargados los reportes de civ rates')
+        iteration = iteration + 1
 
 def update_players_elo():
     FILE = f'{DIR}/sql/get_players_info.sql'
@@ -275,14 +313,14 @@ def update_players_elo():
 def update_all():
     best_civs_duo()
     civ_vs_civ()
-    civ_winrate()
+    civ_rates()
     map_playrate()
     country_elo()
     update_players_elo()
 
 if __name__ == "__main__":
-    ALL = True
+    ALL = False
     if ALL:
         update_all()
     else:
-        update_players_elo()
+        civ_rates()

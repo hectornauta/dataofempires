@@ -98,10 +98,17 @@ def elo_distribution(ladder=3):
     FILE = f'{DIR}/sql/get_players_elo.sql'
     dataframe_players_elo = sql_functions.get_sql_results(FILE, ladder)
     # create the bins
-    counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3500, 50))
+    if ladder == 3 or ladder == 13:
+        counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 2500, 50))
+    elif ladder == 4:
+        counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3500, 100))
+    elif ladder == 13:
+        counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 2000, 50))
+    elif ladder == 14:
+        counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 2000, 50))
     bins = 0.5 * (bins[:-1] + bins[1:])
 
-    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de players'})
+    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de jugadores'})
     # figure_elo_distribution.show()
     return figure_elo_distribution
 
@@ -171,12 +178,13 @@ def map_playrate():
     )    # figure_elo_distribution.show()
     return figure_map_playrate
 
-def civ_rates():
+def civ_rates(ladder='3A'):
+    logger.info(f'Estoy por mostrar un gráfico, valor de ladder: {ladder}')
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
     dataframe_civ_rates['rate'] = np.sqrt((dataframe_civ_rates['winrate']) ** 2 + (40 + dataframe_civ_rates['pickrate']) ** 2)
-
+    logger.info(dataframe_civ_rates)
     figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
     figure_civ_rates.update_traces(textposition='top center')
     figure_civ_rates.update_layout(
@@ -191,9 +199,9 @@ def civ_rates():
     figure_civ_rates.update_layout(xaxis_tickformat='.0%')
     return figure_civ_rates
 
-def civ_win_rates():
+def civ_win_rates(ladder='3A'):
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
 
     figure_win_rates = px.bar(
@@ -212,9 +220,9 @@ def civ_win_rates():
     )
     return figure_win_rates
 
-def civ_pick_rates():
+def civ_pick_rates(ladder='3A'):
     FILE = f'{DIR}/sql/get_civ_rates.sql'
-    dataframe_civ_rates = sql_functions.get_sql_results(FILE)
+    dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
 
     figure_pick_rates = px.bar(

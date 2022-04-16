@@ -17,7 +17,9 @@ card = dbc.Card(
         },
         options=[
             {'label': 'Mapa aleatorio solo', 'value': 3},
-            {'label': 'Mapa aleatorio por equipos', 'value': 4}
+            {'label': 'Mapa aleatorio por equipos', 'value': 4},
+            {'label': 'Guerras imperiales solo', 'value': 13},
+            {'label': 'Guerras imperiales por equipos', 'value': 14}
         ],
         value=3
     )
