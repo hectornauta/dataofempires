@@ -237,9 +237,6 @@ def civ_rates():
     dataframe_ew_team_b = sql_functions.get_sql_results(FILE_TEAM, 14, 1300, 2000)
     dataframe_ew_team_b = dataframe_ew_team_b.reset_index()
     all_dataframes = [
-        dataframe_rm_solo_a, dataframe_rm_solo_b, dataframe_rm_solo_c
-    ]
-    all_dataframes = [
         dataframe_rm_solo_a, dataframe_rm_solo_b, dataframe_rm_solo_c,
         dataframe_rm_team_a, dataframe_rm_team_b, dataframe_rm_team_c,
         dataframe_ew_solo_a, dataframe_ew_solo_b,
@@ -319,7 +316,7 @@ def update_all():
     update_players_elo()
 
 if __name__ == "__main__":
-    ALL = False
+    ALL = True
     if ALL:
         update_all()
     else:

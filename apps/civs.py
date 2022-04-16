@@ -29,7 +29,7 @@ list_of_civs = CIVS.to_dict('records')
 
 tab1_content = dbc.Card(
     dcc.Dropdown(
-        id='dropdown_civ_rates_3',
+        id='dropdown_civ_rates',
         style={
             'color': '#212121',
             'background-color': '#212121',
@@ -45,7 +45,7 @@ tab1_content = dbc.Card(
 
 tab2_content = dbc.Card(
     dcc.Dropdown(
-        id='dropdown_civ_rates_4',
+        id='dropdown_civ_rates',
         style={
             'color': '#212121',
             'background-color': '#212121',
@@ -61,7 +61,7 @@ tab2_content = dbc.Card(
 
 tab3_content = dbc.Card(
     dcc.Dropdown(
-        id='dropdown_civ_rates_13',
+        id='dropdown_civ_rates',
         style={
             'color': '#212121',
             'background-color': '#212121',
@@ -76,7 +76,7 @@ tab3_content = dbc.Card(
 
 tab4_content = dbc.Card(
     dcc.Dropdown(
-        id='dropdown_civ_rates_14',
+        id='dropdown_civ_rates',
         style={
             'color': '#212121',
             'background-color': '#212121',
@@ -175,21 +175,21 @@ def create_graph_civ_pick_rate(value='3A'):
 
 @app.callback(
     Output('graph_civ_rates', 'figure'),
-    [Input('dropdown_civ_rates_3', 'value')])
+    [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_rates(selected_value):
     fig = create_graph_civ_rates(selected_value)
     logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_winrate', 'figure'),
-    [Input('dropdown_civ_rates_3', 'value')])
+    [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_winrate(selected_value):
     fig = create_graph_civ_winrate(selected_value)
     logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_pickrate', 'figure'),
-    [Input('dropdown_civ_rates_3', 'value')])
+    [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_pick_rate(selected_value):
     fig = create_graph_civ_pick_rate(selected_value)
     logger.info(selected_value)

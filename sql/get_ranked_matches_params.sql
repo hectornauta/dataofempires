@@ -21,7 +21,7 @@ AND NOT EXISTS(
         MP2.rating IS NULL
         OR (
             MP2.rating < %(min_elo)s
-            AND
+            OR
             MP2.rating>= %(max_elo)s
             )
         )

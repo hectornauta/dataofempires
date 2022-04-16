@@ -68,7 +68,9 @@ def civ_vs_civ(chosen_civ=-1):
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'] * 100
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
     # logger.info(dataframe_civ_vs_civ)
+    layout = go.Layout(autosize=True, margin={'l': 0, 'r': 0, 't': 20, 'b': 0})
     figure_civ_vs_civ = go.Figure(
+        layout=layout,
         data=[
             go.Table(
                 header=dict(
@@ -153,7 +155,9 @@ def map_playrate():
     dataframe_map_playrate = sql_functions.get_sql_results(FILE)
     dataframe_map_playrate.drop(['id'], axis=1, inplace=True)
     # create the bins
+    layout = go.Layout(autosize=True, margin={'l': 0, 'r': 0, 't': 20, 'b': 0})
     figure_map_playrate = go.Figure(
+        layout=layout,
         data=[
             go.Table(
                 header=dict(
