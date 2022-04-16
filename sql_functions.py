@@ -32,6 +32,14 @@ DB_NAME = config('DB_NAME')
 
 DIR = os.path.dirname(__file__)
 
+def get_profile_ids(username):
+    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    engine = db.create_engine(sql_connection)
+    sql_query = 'SELECT profile_id FROM players WHERE name = %(param_name)s'
+    with engine.connect() as conn:
+        result = conn.execute(sql_query, {'param_name': username}).fetchall()
+    return result
+
 def get_sql_results(query_file, ladder=-1, min_elo=-1, max_elo=-1):
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:

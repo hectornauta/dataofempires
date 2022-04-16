@@ -8,6 +8,7 @@ import pandas as pd
 
 import query_functions
 import etl
+import sql_functions
 
 logging.basicConfig(
     level=logging.INFO,
@@ -58,9 +59,19 @@ def create_tg_dataunit(json_match):
     list_match.append(temp_list_players)  # TODO: convertir a tupla
     logger.info(list_match)
 
+def get_player_matches_by_nickname(username):
+    profile_id = get_player_profile_id(username)
+    profile_id = str(profile_id[0][0])
+    logger.info(profile_id)
+    matches = extract_player_matches(profile_id)
+    logger.info(matches)
+    
+def get_player_profile_id(steam_name):
+    return sql_functions.get_profile_ids(steam_name)
+
 
 def extract_player_matches(player_id):
-    query = query_functions.get_player_matches(player_id, 1000)
+    query = query_functions.get_generic_player_all_history(player_id, 1000)
     logger.info(query)
 
     partidas = requests.get(query)
@@ -85,17 +96,19 @@ def extract_player_matches(player_id):
         cadena = json.dumps(partida)
         valid_match = True
 
-        # game_type = partida['game_type']
         # map_type = partida['map_type']
         ranked = partida['ranked']
+        game_type = partida['game_type']
         leaderboard_id = partida['leaderboard_id']
         jugadores = partida['players']
-        if ranked is None or leaderboard_id is None:
+        if game_type is None or ranked is None or not ranked or leaderboard_id is None:
             valid_match = False
         for jugador in jugadores:
             civ = jugador['civ']
             won = jugador['won']
-            if civ is None or int(civ) == 0 or won is None:  # check civ
+            team = jugador['team']
+            slot = jugador['slot']
+            if slot is None or civ is None or int(civ) == 0 or won is None or team is None:  # check civ and victory
                 valid_match = False
         if leaderboard_id != active_leaderboard:
             valid_match = False
@@ -175,3 +188,10 @@ def extract_player_matches(player_id):
     logger.info('Partidas inválidas: ' + str(invalid_matches))
     logger.info('Partidas ganadas: ' + str(wins))
     logger.info('Partidas perdidas: ' + str(defeats))
+    return dataframe_units
+
+if __name__ == "__main__":
+    # REPORTS = []
+    # REPORTS.append(countries_elo_stats())
+    # show_all_reports()
+    get_player_matches_by_nickname('Hectornauta')
