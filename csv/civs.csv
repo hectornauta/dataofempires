@@ -18,7 +18,7 @@ id,numero,nombre,name
 17,17,Hunos,Huns
 18,18,Coreanos,Koreans
 19,19,Italianos,Italians
-20,20,Indios,Indians
+20,20,Indostaníes (Indios),Hindustanis (Indians)
 21,21,Incas,Inca
 22,22,Magiares,Magyars
 23,23,Eslavos,Slavs
@@ -38,3 +38,7 @@ id,numero,nombre,name
 37,37,Sicilianos,Sicilians
 38,38,Polacos,Poles
 39,39,Bohemios,Bohemians
+40,40,Dravídicos,Dravidians
+41,41,Bengalíes,Bengalis
+42,42,Gurjaras,Gurjaras
+43,43,Indios,Indians

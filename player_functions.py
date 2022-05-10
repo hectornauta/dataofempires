@@ -65,10 +65,9 @@ def get_player_matches_by_nickname(username):
     logger.info(profile_id)
     matches = extract_player_matches(profile_id)
     logger.info(matches)
-    
+
 def get_player_profile_id(steam_name):
     return sql_functions.get_profile_ids(steam_name)
-
 
 def extract_player_matches(player_id):
     query = query_functions.get_generic_player_all_history(player_id, 1000)
@@ -189,6 +188,10 @@ def extract_player_matches(player_id):
     logger.info('Partidas ganadas: ' + str(wins))
     logger.info('Partidas perdidas: ' + str(defeats))
     return dataframe_units
+
+def transform_player_matches(ilst_of_matches):
+    dataframe = pd.DataFrame()
+    return dataframe
 
 if __name__ == "__main__":
     # REPORTS = []

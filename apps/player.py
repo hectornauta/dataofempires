@@ -20,11 +20,11 @@ switches = html.Div(
         dbc.Label("Seleccione los modos de juego que desea analizar"),
         dbc.Checklist(
             options=[
-                {"label": "Partidas no ranked", "value": 1},
-                {"label": "Ranked Mapa aleatorio 1vs1", "value": 2},
-                {"label": "Ranked Mapa aleatorio por equipos", "value": 3},
-                {"label": "Guerras imperiales 1vs1", "value": 4, "disabled": True},
-                {"label": "Guerras imperiales por equipos", "value": 5, "disabled": True},
+                {"label": "Partidas sin clasificación", "value": 0, "disabled": True},
+                {"label": "Mapa Aleatorio solo", "value": 3},
+                {"label": "Mapa Aleatorio por equipos", "value": 4},
+                {"label": "Guerras Imperiales solo", "value": 13, "disabled": True},
+                {"label": "Guerras Imperiales por equipos", "value": 14, "disabled": True},
             ],
             value=[2],
             id="switches-input",

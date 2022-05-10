@@ -26,7 +26,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 3, 29, 0, 0)
+LAST_DAY = datetime(2022, 5, 1, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -154,7 +154,7 @@ def transform_matches(json_matches, last_match):
                 civ = int(player['civ'])
                 won = int(player['won'])
                 list_matches_players.append([match_id, slot, profile_id, steam_id, country, slot_type, rating, rating_change, color, team, civ, won])
-                list_players.append([profile_id, steam_id, name, rating, country, finished])
+                list_players.append([profile_id, steam_id, name, country, finished])
         else:
             invalid_matches = invalid_matches + 1
         if matches_processed % 100 == 0:
@@ -167,7 +167,7 @@ def transform_matches(json_matches, last_match):
     if valid_matches > 0:
         dataframe_matches = pd.DataFrame(list_matches, columns=['match_id', 'num_players', 'game_type', 'map_size', 'map_type', 'leaderboard_id', 'rating_type', 'started', 'finished', 'version'])
         dataframe_matches_players = pd.DataFrame(list_matches_players, columns=['match_id', 'slot', 'profile_id', 'steam_id', 'country', 'slot_type', 'rating', 'rating_change', 'color', 'team', 'civ', 'won'])
-        dataframe_players = pd.DataFrame(list_players, columns=['profile_id', 'steam_id', 'name', 'rating', 'country', 'finished'])
+        dataframe_players = pd.DataFrame(list_players, columns=['profile_id', 'steam_id', 'name', 'country', 'finished'])
         dataframe_players = dataframe_players.drop_duplicates(subset=['profile_id'], keep='last')
         return [dataframe_matches, dataframe_matches_players, dataframe_players]
     else:
@@ -262,8 +262,9 @@ def load_matches(dataframes, last_match):
 
 def update_db():
     specific_timestamp = LAST_DAY
-    number_of_days = 3
+    number_of_days = 10
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
+    # for i in range(0, 8):
     for i in range(0, 24 * number_of_days):
         # specific_timestamp = datetime(2022, 3, 4, i, 0)  # Year, month, day, hour, minutes
         iterable_timestamp = specific_timestamp + one_hour * i
