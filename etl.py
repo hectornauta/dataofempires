@@ -26,7 +26,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 5, 1, 0, 0)
+LAST_DAY = datetime(2022, 5, 11, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -262,7 +262,7 @@ def load_matches(dataframes, last_match):
 
 def update_db():
     specific_timestamp = LAST_DAY
-    number_of_days = 10
+    number_of_days = 1
     one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
     # for i in range(0, 8):
     for i in range(0, 24 * number_of_days):

@@ -79,6 +79,18 @@ def get_civ_vs_civ():
     civ_vs_civ_table = Table('civ_vs_civ', civ_vs_civ_metadata, autoload_with=engine)
     civ_vs_civ_query = select(civ_vs_civ_table)
     results = conn.execute(civ_vs_civ_query)
+    # logger.info(f'\n {results}')
+    '''
+    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    engine = db.create_engine(sql_connection)
+    conn = engine.connect()
+    # civ_vs_civ_metadata = MetaData()
+    # civ_vs_civ_table = Table('civ_vs_civ', civ_vs_civ_metadata, autoload_with=engine)
+    civ_vs_civ_query = select(column('civ_1'), column('civ_2'), column(f'wins_{ladder}'), column(f'matches_{ladder}'), column(f'winrate_{ladder}'))
+    results = conn.execute(civ_vs_civ_query)
+    logger.info(f'\n {results}')
+    return results
+    '''
     return results
 if __name__ == "__main__":
     get_civ_vs_civ()

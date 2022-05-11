@@ -3,6 +3,8 @@ import os
 
 from decouple import config
 
+from functools import reduce
+
 import numpy as np
 import pandas as pd
 import sqlalchemy as db
@@ -137,6 +139,97 @@ def map_playrate():
         logger.info('Cargados los reportes de mapas')
 
 def civ_vs_civ():
+    FILE_SOLO = f'{DIR}/sql/get_ranked_matches_params.sql'
+    dataframe_civ = CIVS.copy()
+    dataframe_civ = dataframe_civ.reset_index()
+    labels = [
+        '3A', '3B', '3C',
+        '13A', '13B'
+    ]
+    dict_iterations = {
+        1: '3A',
+        2: '3B',
+        3: '3C',
+        4: '13A',
+        5: '13B'
+    }
+    dataframe_rm_solo_a = sql_functions.get_sql_results(FILE_SOLO, 3, 1000, 1300)
+    dataframe_rm_solo_a = dataframe_rm_solo_a.reset_index()
+    dataframe_rm_solo_b = sql_functions.get_sql_results(FILE_SOLO, 3, 1300, 1600)
+    dataframe_rm_solo_b = dataframe_rm_solo_b.reset_index()
+    dataframe_rm_solo_c = sql_functions.get_sql_results(FILE_SOLO, 3, 1600, 2500)
+    dataframe_rm_solo_c = dataframe_rm_solo_c.reset_index()
+    dataframe_ew_solo_a = sql_functions.get_sql_results(FILE_SOLO, 13, 900, 1200)
+    dataframe_ew_solo_a = dataframe_ew_solo_a.reset_index()
+    dataframe_ew_solo_b = sql_functions.get_sql_results(FILE_SOLO, 13, 1200, 2000)
+    dataframe_ew_solo_b = dataframe_ew_solo_b.reset_index()
+    all_dataframes = [
+        dataframe_rm_solo_a, dataframe_rm_solo_b, dataframe_rm_solo_c,
+        dataframe_ew_solo_a, dataframe_ew_solo_b
+    ]
+    all_civ_vs_civ_dataframes = []
+    iteration = 0
+    for dataframe in all_dataframes:
+        iteration = iteration + 1
+        dataframe = dataframe.drop(['rating', 'country'], axis=1)
+        dataframe = dataframe.merge(dataframe, how='inner', left_on=['match_id'], right_on=['match_id'])
+        dataframe = dataframe[dataframe['civ_x'] != dataframe['civ_y']]
+        dataframe = dataframe[dataframe['slot_x'] < 2]
+        dataframe_temp = dataframe.to_dict('records')
+        DICT_CIVS = {}
+        for match in dataframe_temp:
+            add_combination(DICT_CIVS, match['civ_x'], match['civ_y'], match['won_x'])
+        dataframe_temp = pd.DataFrame.from_dict(DICT_CIVS, orient='index', columns=['wins', 'matches', 'civ_1', 'civ_2'])
+        dataframe_temp = dataframe_temp.reset_index()
+        dataframe_temp['winrate'] = dataframe_temp['wins'] / dataframe_temp['matches']
+        dataframe_temp = dataframe_temp.drop(['index'], axis=1)
+        dataframe_temp = dataframe_temp.sort_values(by='winrate', ascending=False)
+        dataframe_temp = dataframe_temp.set_index(['civ_1', 'civ_2'])
+        
+        dataframe_temp = dataframe_temp.rename(
+            columns={
+                'winrate': f'winrate_{dict_iterations[iteration]}',
+                'matches': f'matches_{dict_iterations[iteration]}',
+                'wins': f'wins_{dict_iterations[iteration]}'
+            }
+        )
+        all_civ_vs_civ_dataframes.append(dataframe_temp)
+    # for dataframe in all_civ_vs_civ_dataframes:
+        # logger.info(f'{dataframe.index}')
+        # logger.info(f'\n {dataframe}')
+    dataframe_final = reduce(lambda df1, df2: pd.merge(df1, df2, how='outer', on=['civ_1', 'civ_2']), all_civ_vs_civ_dataframes)
+    dataframe_final = dataframe_final.rename(
+        columns={
+            'winrate': f'winrate_{dict_iterations[iteration]}',
+            'matches': f'matches_{dict_iterations[iteration]}',
+            'wins': f'wins_{dict_iterations[iteration]}'
+        }
+    )
+    dataframe_final = dataframe_final.sort_values(by=['civ_1', 'civ_2'])
+    # logger.info(f'{dataframe_final}')
+    iteration = 0
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_final.to_sql(
+            'civ_vs_civ',
+            con=engine.connect(),
+            if_exists='replace',
+            index=True,
+            dtype={
+                'civ_1': SmallInteger(),
+                'civ_2': SmallInteger()
+                # 'wins': Integer(),
+                # 'matches': Integer(),
+                # 'winrate': Float(),
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Cargados los reportes de civ vs civ')
+
+    '''
     FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
     dataframe_matches_players = sql_functions.get_sql_results(FILE)
     dataframe_matches_players = dataframe_matches_players.drop(['rating', 'country'], axis=1)
@@ -152,28 +245,9 @@ def civ_vs_civ():
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['wins'] / dataframe_civ_vs_civ['matches']
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.drop(['index'], axis=1)
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(by='winrate', ascending=False)
-    # logger.info(dataframe_civ_vs_civ)
+    logger.info(f'\n {dataframe_civ_vs_civ}')
+    '''
 
-    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
-    try:
-        dataframe_civ_vs_civ.to_sql(
-            'civ_vs_civ',
-            con=engine.connect(),
-            if_exists='replace',
-            index=False,
-            dtype={
-                'civ_1': SmallInteger(),
-                'civ_2': SmallInteger(),
-                'wins': Integer(),
-                'matches': Integer(),
-                'winrate': Float()
-            }
-        )
-    except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
-        raise Exception('Error al conectar a la base de datos')
-    else:
-        logger.info('Cargados los reportes de civ vs civ')
 
 def best_civs_duo():
     FILE = f'{DIR}/sql/get_all_duo_matches.sql'
@@ -316,8 +390,8 @@ def update_all():
     update_players_elo()
 
 if __name__ == "__main__":
-    ALL = True
+    ALL = False
     if ALL:
         update_all()
     else:
-        civ_rates()
+        civ_vs_civ()

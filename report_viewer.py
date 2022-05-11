@@ -53,12 +53,22 @@ def get_player_stats():
     # TODO: elo progression
     return None
 
-def civ_vs_civ(chosen_civ=-1):
+def civ_vs_civ(chosen_civ=-1, ladder='3A'):
     sql_results = sql_functions.get_civ_vs_civ()
     dataframe_civ_vs_civ = pd.DataFrame.from_records(
         sql_results,
         columns=sql_results.keys()
     )
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ[['civ_1', 'civ_2', f'wins_{ladder}', f'matches_{ladder}', f'winrate_{ladder}']]
+
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
+        columns={
+            f'wins_{ladder}': 'wins',
+            f'matches_{ladder}': 'matches',
+            f'winrate_{ladder}': 'winrate'
+        }
+    )
+
     if chosen_civ != -1:
         dataframe_civ_vs_civ = dataframe_civ_vs_civ.loc[dataframe_civ_vs_civ['civ_1'].isin([chosen_civ])]
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_1', right_on='id')
@@ -249,4 +259,4 @@ if __name__ == "__main__":
     # REPORTS = []
     # REPORTS.append(countries_elo_stats())
     # show_all_reports()
-    civ_vs_civ()
+    civ_vs_civ(1, '3A')

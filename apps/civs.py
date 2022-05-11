@@ -117,6 +117,57 @@ tabs = html.Div(
     ]
 )
 
+tab1_civ_vs_civ_content = dbc.Card(
+    dcc.Dropdown(
+        id='dropdown_civ_vs_civ_ladder',
+        style={
+            'color': '#212121',
+            'background-color': '#212121',
+        },
+        options=[
+            {'label': '1000-1300', 'value': '3A'},
+            {'label': '1300-1600', 'value': '3B'},
+            {'label': '+1600', 'value': '3C'}
+        ],
+        value='3A'
+    )
+)
+
+tab2_civ_vs_civ_content = dbc.Card(
+    dcc.Dropdown(
+        id='dropdown_civ_vs_civ_ladder',
+        style={
+            'color': '#212121',
+            'background-color': '#212121',
+        },
+        options=[
+            {'label': '900-1200', 'value': '13A'},
+            {'label': '1200-2000', 'value': '13B'}
+        ],
+        value='13A'
+    )
+)
+
+tabs_civ_vs_civ = html.Div(
+    [
+        dbc.Tabs(
+            [
+                dbc.Tab(
+                    label="Mapa Aleatorio solo",
+                    tab_id="tab_civ_vs_civ_rm_solo"
+                ),
+                dbc.Tab(
+                    label="Guerras Imperiales solo",
+                    tab_id="tab_civ_vs_civ_ew_solo"
+                ),
+            ],
+            id="tabs_civ_vs_civ",
+            active_tab="tab_civ_vs_civ_rm_solo",
+        ),
+        html.Div(id="content_civ_vs_civ"),
+    ]
+)
+
 card = dbc.Card(
     dcc.Dropdown(
         id='dropdown-civ_vs_civ',
@@ -135,6 +186,7 @@ layout = html.Div([
         className='text-center text-primary mb-4',
         style={"textAlign": "center"}
     ),
+    tabs_civ_vs_civ,
     card,
     dcc.Graph(id='table_civ_vs_civ', figure=report_viewer.civ_vs_civ()),
 
@@ -143,6 +195,28 @@ layout = html.Div([
     dcc.Graph(id='graph_civ_winrate', figure=report_viewer.civ_pick_rates()),
     dcc.Graph(id='graph_civ_pickrate', figure=report_viewer.civ_win_rates())
 ])
+
+@app.callback(Output("content_civ_vs_civ", "children"), [Input("tabs_civ_vs_civ", "active_tab")])
+def switch_tabs_civ_vs_civ(at):
+    if at == "tab_civ_vs_civ_rm_solo":
+        return tab1_civ_vs_civ_content
+    elif at == "tab_civ_vs_civ_ew_solo":
+        return tab2_civ_vs_civ_content
+    return html.P("This shouldn't ever be displayed...")
+
+def create_table_civ_vs_civ(value1=-1, value2='3A'):
+    return report_viewer.civ_vs_civ(value1, value2)
+
+@app.callback(
+    Output('table_civ_vs_civ', 'figure'),
+    [
+        Input('dropdown-civ_vs_civ', 'value'),
+        Input('dropdown_civ_vs_civ_ladder', 'value')
+    ]
+)
+def update_table_civ_vs_civ(x1, x2):
+    fig = report_viewer.civ_vs_civ(x1, x2)
+    return fig
 
 @app.callback(Output("content", "children"), [Input("tabs", "active_tab")])
 def switch_tab(at):
@@ -155,16 +229,6 @@ def switch_tab(at):
     elif at == "tab_ew_tg":
         return tab4_content
     return html.P("This shouldn't ever be displayed...")
-
-def create_table_civ_vs_civ(value=-1):
-    return report_viewer.civ_vs_civ(value)
-
-@app.callback(
-    Output('table_civ_vs_civ', 'figure'),
-    [Input('dropdown-civ_vs_civ', 'value')])
-def update_table_civ_vs_civ(selected_value):
-    fig = report_viewer.civ_vs_civ(selected_value)
-    return fig
 
 def create_graph_civ_rates(value='3A'):
     return report_viewer.civ_rates(value)
@@ -192,5 +256,5 @@ def update_graph_civ_winrate(selected_value):
     [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_pick_rate(selected_value):
     fig = create_graph_civ_pick_rate(selected_value)
-    logger.info(selected_value)
+    # logger.info(selected_value)
     return fig
