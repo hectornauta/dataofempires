@@ -55,6 +55,38 @@ def get_player_stats():
     # TODO: elo progression
     return None
 
+def get_civ_asset_name(x):
+    x = x.lower()
+    return f'![Image_{x}](assets/{x}.png)'
+
+def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
+    sql_results = sql_functions.get_civ_vs_civ()
+    dataframe_civ_vs_civ = pd.DataFrame.from_records(
+        sql_results,
+        columns=sql_results.keys()
+    )
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ[['civ_1', 'civ_2', f'wins_{ladder}', f'matches_{ladder}', f'winrate_{ladder}']]
+
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
+        columns={
+            f'wins_{ladder}': 'wins',
+            f'matches_{ladder}': 'matches',
+            f'winrate_{ladder}': 'winrate'
+        }
+    )
+
+    if chosen_civ != -1:
+        dataframe_civ_vs_civ = dataframe_civ_vs_civ.loc[dataframe_civ_vs_civ['civ_1'].isin([chosen_civ])]
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_1', right_on='id')
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_2', right_on='id')
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(['nombre_x', 'nombre_y'], ascending=[True, True])
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'] * 100
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
+    dataframe_civ_vs_civ['image_y'] = dataframe_civ_vs_civ['name_y'].apply(get_civ_asset_name)
+    dataframe_civ_vs_civ.drop(['name_y', 'name_x'], axis=1, inplace=True)
+    logger.info(dataframe_civ_vs_civ)
+    return dataframe_civ_vs_civ
+
 def civ_vs_civ(chosen_civ=-1, ladder='3A'):
     sql_results = sql_functions.get_civ_vs_civ()
     dataframe_civ_vs_civ = pd.DataFrame.from_records(
@@ -129,6 +161,50 @@ def elo_distribution(ladder=3):
 def get_flag(x):
     return flag.flag(x)
 
+def get_dataframe_countries(ladder=3):
+    COUNTRIES = pd.read_csv('csv/countries.csv')
+    COUNTRIES.set_index('alpha-2', inplace=True)
+    FILE = f'{DIR}/sql/get_players_elo.sql'
+    dataframe_countries = sql_functions.get_sql_results(FILE, ladder)
+    dataframe_countries = dataframe_countries.reset_index()
+    dataframe_countries = dataframe_countries.groupby(['country']).agg(
+        mean_elo=pd.NamedAgg(column="elo", aggfunc="mean"),
+        max_elo=pd.NamedAgg(column="elo", aggfunc="max"),
+        std_elo=pd.NamedAgg(column="elo", aggfunc="std"),
+        sem_elo=pd.NamedAgg(column="elo", aggfunc="sem"),
+        var_elo=pd.NamedAgg(column="elo", aggfunc="var"),
+        number_of_players=pd.NamedAgg(column="country", aggfunc="count"),
+    )
+    dataframe_countries = dataframe_countries.reset_index()
+    # logger.info(dataframe_countries)
+    dataframe_countries_elo = dataframe_countries.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
+    dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
+    dataframe_countries_elo['flag'] = dataframe_countries_elo['country'].apply(get_flag)
+    dataframe_countries_elo = dataframe_countries_elo[[
+        'flag',
+        'name',
+        'mean_elo',
+        'max_elo',
+        'number_of_players',
+        # 'std_elo',
+        # 'sem_elo',
+        # 'var_elo'
+    ]]
+    dataframe_countries_elo = dataframe_countries_elo.rename(
+        columns={
+            'flag': 'Bandera',
+            'name': 'Nombre',
+            'mean_elo': 'Elo promedio',
+            'max_elo': 'Elo máximo',
+            'number_of_players': 'Cantidad de jugadores',
+            # 'std_elo': 'Desviación estándar',
+            # 'sem_elo': 'Error estándar',
+            # 'var_elo': 'Varianza'
+        }
+    )
+
+    return dataframe_countries_elo
+
 def countries_elo_stats(ladder=3):
     # TODO: control de errores
     COUNTRIES = pd.read_csv('csv/countries.csv')
@@ -179,7 +255,7 @@ def map_playrate():
                     values=list(
                         dataframe_map_playrate.columns
                     ),
-                    fill_color='paleturquoise',
+                    # fill_color='paleturquoise',
                     align='left'
                 ),
                 cells=dict(
@@ -189,7 +265,7 @@ def map_playrate():
                         dataframe_map_playrate.playrate,
                         dataframe_map_playrate.number_of_matches
                     ],
-                    fill_color='lavender',
+                    # fill_color='lavender',
                     align='left'
                 )
             )
@@ -265,4 +341,5 @@ if __name__ == "__main__":
     # REPORTS.append(countries_elo_stats())
     # show_all_reports()
     # civ_vs_civ(1, '3A')
-    countries_elo_stats()
+    # countries_elo_stats()
+    get_civ_vs_civ_dataframe()

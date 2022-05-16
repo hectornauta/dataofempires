@@ -25,6 +25,14 @@ card = dbc.Card(
     )
 )
 
+tableCountries = dbc.Table.from_dataframe(
+    report_viewer.get_dataframe_countries(),
+    id='table_countries',
+    striped=True,
+    bordered=True,
+    hover=True
+)
+
 layout = html.Div([
     html.H1(
         'Estadísticas sobre jugadores',
@@ -32,7 +40,7 @@ layout = html.Div([
         style={"textAlign": "left"}
     ),
     card,
-
+    html.Div(id="table_countries-container"),
     dcc.Graph(id='graph1', figure=report_viewer.countries_elo_stats()),
     dcc.Graph(id='graph2', figure=report_viewer.elo_distribution())
 ])
@@ -42,6 +50,18 @@ def create_map_countries(value=3):
 def create_elo_distribution(value=3):
     return report_viewer.elo_distribution(value)
 
+@app.callback(
+    Output('table_countries-container', 'children'),
+    [Input('dropdown', 'value')])
+def update_table_countries(selected_value):
+    dataframe_countries = report_viewer.get_dataframe_countries(selected_value)
+    return dbc.Table.from_dataframe(
+        dataframe_countries,
+        striped=True,
+        responsive=True,
+        bordered=True,
+        hover=True
+    )
 @app.callback(
     Output('graph1', 'figure'),
     [Input('dropdown', 'value')])
