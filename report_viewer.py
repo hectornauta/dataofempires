@@ -17,6 +17,8 @@ import plotly.graph_objects as go
 
 import sql_functions
 
+import flag
+
 DIR = os.path.dirname(__file__)
 
 logging.basicConfig(
@@ -124,6 +126,9 @@ def elo_distribution(ladder=3):
     # figure_elo_distribution.show()
     return figure_elo_distribution
 
+def get_flag(x):
+    return flag.flag(x)
+
 def countries_elo_stats(ladder=3):
     # TODO: control de errores
     COUNTRIES = pd.read_csv('csv/countries.csv')
@@ -142,7 +147,7 @@ def countries_elo_stats(ladder=3):
     # logger.info(dataframe_countries)
     dataframe_countries_elo = dataframe_countries.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
     dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
-    # logger.info(dataframe_countries_elo)
+    dataframe_countries_elo['flag'] = dataframe_countries_elo['country'].apply(get_flag)
     figure_countries_elo = px.choropleth(
         dataframe_countries_elo,
         locations="alpha-3",
@@ -193,12 +198,12 @@ def map_playrate():
     return figure_map_playrate
 
 def civ_rates(ladder='3A'):
-    logger.info(f'Estoy por mostrar un gráfico, valor de ladder: {ladder}')
+    # logger.info(f'Estoy por mostrar un gráfico, valor de ladder: {ladder}')
     FILE = f'{DIR}/sql/get_civ_rates.sql'
     dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
     dataframe_civ_rates['rate'] = np.sqrt((dataframe_civ_rates['winrate']) ** 2 + (40 + dataframe_civ_rates['pickrate']) ** 2)
-    logger.info(dataframe_civ_rates)
+    # logger.info(dataframe_civ_rates)
     figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
     figure_civ_rates.update_traces(textposition='top center')
     figure_civ_rates.update_layout(
@@ -259,4 +264,5 @@ if __name__ == "__main__":
     # REPORTS = []
     # REPORTS.append(countries_elo_stats())
     # show_all_reports()
-    civ_vs_civ(1, '3A')
+    # civ_vs_civ(1, '3A')
+    countries_elo_stats()

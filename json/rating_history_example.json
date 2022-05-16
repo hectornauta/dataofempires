@@ -1,0 +1,3842 @@
+[
+    {
+        "rating": 1699,
+        "num_wins": 218,
+        "num_losses": 272,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1652311320
+    },
+    {
+        "rating": 1681,
+        "num_wins": 217,
+        "num_losses": 272,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1652309563
+    },
+    {
+        "rating": 1695,
+        "num_wins": 217,
+        "num_losses": 271,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1652139763
+    },
+    {
+        "rating": 1708,
+        "num_wins": 217,
+        "num_losses": 270,
+        "streak": 2,
+        "drops": 13,
+        "timestamp": 1652137444
+    },
+    {
+        "rating": 1692,
+        "num_wins": 216,
+        "num_losses": 270,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1652134328
+    },
+    {
+        "rating": 1676,
+        "num_wins": 215,
+        "num_losses": 270,
+        "streak": -4,
+        "drops": 13,
+        "timestamp": 1651955044
+    },
+    {
+        "rating": 1692,
+        "num_wins": 215,
+        "num_losses": 269,
+        "streak": -3,
+        "drops": 13,
+        "timestamp": 1651883675
+    },
+    {
+        "rating": 1709,
+        "num_wins": 215,
+        "num_losses": 268,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1651880454
+    },
+    {
+        "rating": 1725,
+        "num_wins": 215,
+        "num_losses": 267,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1651794286
+    },
+    {
+        "rating": 1744,
+        "num_wins": 215,
+        "num_losses": 266,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1651791911
+    },
+    {
+        "rating": 1731,
+        "num_wins": 214,
+        "num_losses": 266,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1651790028
+    },
+    {
+        "rating": 1746,
+        "num_wins": 214,
+        "num_losses": 265,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1651621759
+    },
+    {
+        "rating": 1757,
+        "num_wins": 214,
+        "num_losses": 264,
+        "streak": 2,
+        "drops": 13,
+        "timestamp": 1651618710
+    },
+    {
+        "rating": 1742,
+        "num_wins": 213,
+        "num_losses": 264,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1651279134
+    },
+    {
+        "rating": 1730,
+        "num_wins": 212,
+        "num_losses": 264,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1651195617
+    },
+    {
+        "rating": 1745,
+        "num_wins": 212,
+        "num_losses": 263,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1651193021
+    },
+    {
+        "rating": 1733,
+        "num_wins": 211,
+        "num_losses": 263,
+        "streak": -3,
+        "drops": 13,
+        "timestamp": 1651103726
+    },
+    {
+        "rating": 1748,
+        "num_wins": 211,
+        "num_losses": 262,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1651101316
+    },
+    {
+        "rating": 1764,
+        "num_wins": 211,
+        "num_losses": 261,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1650068403
+    },
+    {
+        "rating": 1781,
+        "num_wins": 211,
+        "num_losses": 260,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1650066839
+    },
+    {
+        "rating": 1765,
+        "num_wins": 210,
+        "num_losses": 260,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1650064968
+    },
+    {
+        "rating": 1777,
+        "num_wins": 210,
+        "num_losses": 259,
+        "streak": 2,
+        "drops": 13,
+        "timestamp": 1649908171
+    },
+    {
+        "rating": 1763,
+        "num_wins": 209,
+        "num_losses": 259,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1649906692
+    },
+    {
+        "rating": 1747,
+        "num_wins": 208,
+        "num_losses": 259,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1649906243
+    },
+    {
+        "rating": 1763,
+        "num_wins": 208,
+        "num_losses": 258,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1649904820
+    },
+    {
+        "rating": 1776,
+        "num_wins": 208,
+        "num_losses": 257,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1649465613
+    },
+    {
+        "rating": 1758,
+        "num_wins": 207,
+        "num_losses": 257,
+        "streak": -3,
+        "drops": 13,
+        "timestamp": 1649461597
+    },
+    {
+        "rating": 1773,
+        "num_wins": 207,
+        "num_losses": 256,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1649460461
+    },
+    {
+        "rating": 1790,
+        "num_wins": 207,
+        "num_losses": 255,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1649372540
+    },
+    {
+        "rating": 1805,
+        "num_wins": 207,
+        "num_losses": 254,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1649370956
+    },
+    {
+        "rating": 1786,
+        "num_wins": 206,
+        "num_losses": 254,
+        "streak": -4,
+        "drops": 13,
+        "timestamp": 1649202341
+    },
+    {
+        "rating": 1803,
+        "num_wins": 206,
+        "num_losses": 253,
+        "streak": -3,
+        "drops": 13,
+        "timestamp": 1649117455
+    },
+    {
+        "rating": 1818,
+        "num_wins": 206,
+        "num_losses": 252,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1649115597
+    },
+    {
+        "rating": 1834,
+        "num_wins": 206,
+        "num_losses": 251,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1649113647
+    },
+    {
+        "rating": 1850,
+        "num_wins": 206,
+        "num_losses": 250,
+        "streak": 4,
+        "drops": 13,
+        "timestamp": 1648773954
+    },
+    {
+        "rating": 1835,
+        "num_wins": 205,
+        "num_losses": 250,
+        "streak": 3,
+        "drops": 13,
+        "timestamp": 1648770283
+    },
+    {
+        "rating": 1819,
+        "num_wins": 204,
+        "num_losses": 250,
+        "streak": 2,
+        "drops": 13,
+        "timestamp": 1647996017
+    },
+    {
+        "rating": 1799,
+        "num_wins": 203,
+        "num_losses": 250,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1647992876
+    },
+    {
+        "rating": 1784,
+        "num_wins": 202,
+        "num_losses": 250,
+        "streak": -3,
+        "drops": 13,
+        "timestamp": 1647564503
+    },
+    {
+        "rating": 1801,
+        "num_wins": 202,
+        "num_losses": 249,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1647562105
+    },
+    {
+        "rating": 1815,
+        "num_wins": 202,
+        "num_losses": 248,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1647197350
+    },
+    {
+        "rating": 1831,
+        "num_wins": 202,
+        "num_losses": 247,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1647120484
+    },
+    {
+        "rating": 1818,
+        "num_wins": 201,
+        "num_losses": 247,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1646783337
+    },
+    {
+        "rating": 1834,
+        "num_wins": 201,
+        "num_losses": 246,
+        "streak": 6,
+        "drops": 13,
+        "timestamp": 1646095132
+    },
+    {
+        "rating": 1820,
+        "num_wins": 200,
+        "num_losses": 246,
+        "streak": 5,
+        "drops": 13,
+        "timestamp": 1644894561
+    },
+    {
+        "rating": 1803,
+        "num_wins": 199,
+        "num_losses": 246,
+        "streak": 4,
+        "drops": 13,
+        "timestamp": 1644694360
+    },
+    {
+        "rating": 1788,
+        "num_wins": 198,
+        "num_losses": 246,
+        "streak": 3,
+        "drops": 13,
+        "timestamp": 1644692235
+    },
+    {
+        "rating": 1771,
+        "num_wins": 197,
+        "num_losses": 246,
+        "streak": 2,
+        "drops": 13,
+        "timestamp": 1644538094
+    },
+    {
+        "rating": 1754,
+        "num_wins": 196,
+        "num_losses": 246,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1642898377
+    },
+    {
+        "rating": 1767,
+        "num_wins": 196,
+        "num_losses": 246,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1642898377
+    },
+    {
+        "rating": 1753,
+        "num_wins": 195,
+        "num_losses": 246,
+        "streak": -1,
+        "drops": 13,
+        "timestamp": 1642896202
+    },
+    {
+        "rating": 1763,
+        "num_wins": 195,
+        "num_losses": 245,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1639949463
+    },
+    {
+        "rating": 1776,
+        "num_wins": 195,
+        "num_losses": 245,
+        "streak": 1,
+        "drops": 13,
+        "timestamp": 1639949463
+    },
+    {
+        "rating": 1760,
+        "num_wins": 194,
+        "num_losses": 245,
+        "streak": -2,
+        "drops": 13,
+        "timestamp": 1639947595
+    },
+    {
+        "rating": 1777,
+        "num_wins": 194,
+        "num_losses": 244,
+        "streak": -1,
+        "drops": 12,
+        "timestamp": 1639332637
+    },
+    {
+        "rating": 1793,
+        "num_wins": 194,
+        "num_losses": 243,
+        "streak": 2,
+        "drops": 12,
+        "timestamp": 1638232394
+    },
+    {
+        "rating": 1779,
+        "num_wins": 193,
+        "num_losses": 243,
+        "streak": 1,
+        "drops": 12,
+        "timestamp": 1637192291
+    },
+    {
+        "rating": 1770,
+        "num_wins": 192,
+        "num_losses": 243,
+        "streak": -1,
+        "drops": 12,
+        "timestamp": 1635029777
+    },
+    {
+        "rating": 1784,
+        "num_wins": 192,
+        "num_losses": 243,
+        "streak": -1,
+        "drops": 12,
+        "timestamp": 1635029777
+    },
+    {
+        "rating": 1795,
+        "num_wins": 192,
+        "num_losses": 242,
+        "streak": 1,
+        "drops": 12,
+        "timestamp": 1634519721
+    },
+    {
+        "rating": 1780,
+        "num_wins": 191,
+        "num_losses": 242,
+        "streak": -3,
+        "drops": 12,
+        "timestamp": 1634516800
+    },
+    {
+        "rating": 1797,
+        "num_wins": 191,
+        "num_losses": 241,
+        "streak": -2,
+        "drops": 12,
+        "timestamp": 1634426851
+    },
+    {
+        "rating": 1811,
+        "num_wins": 191,
+        "num_losses": 240,
+        "streak": -1,
+        "drops": 12,
+        "timestamp": 1634425506
+    },
+    {
+        "rating": 1826,
+        "num_wins": 191,
+        "num_losses": 239,
+        "streak": 1,
+        "drops": 12,
+        "timestamp": 1633909091
+    },
+    {
+        "rating": 1813,
+        "num_wins": 190,
+        "num_losses": 239,
+        "streak": -6,
+        "drops": 12,
+        "timestamp": 1630107134
+    },
+    {
+        "rating": 1829,
+        "num_wins": 190,
+        "num_losses": 239,
+        "streak": -6,
+        "drops": 12,
+        "timestamp": 1630107134
+    },
+    {
+        "rating": 1837,
+        "num_wins": 190,
+        "num_losses": 238,
+        "streak": -5,
+        "drops": 12,
+        "timestamp": 1630105860
+    },
+    {
+        "rating": 1850,
+        "num_wins": 190,
+        "num_losses": 237,
+        "streak": -4,
+        "drops": 12,
+        "timestamp": 1629937623
+    },
+    {
+        "rating": 1868,
+        "num_wins": 190,
+        "num_losses": 236,
+        "streak": -3,
+        "drops": 12,
+        "timestamp": 1629935157
+    },
+    {
+        "rating": 1885,
+        "num_wins": 190,
+        "num_losses": 235,
+        "streak": -2,
+        "drops": 12,
+        "timestamp": 1629605316
+    },
+    {
+        "rating": 1900,
+        "num_wins": 190,
+        "num_losses": 234,
+        "streak": -1,
+        "drops": 11,
+        "timestamp": 1629171381
+    },
+    {
+        "rating": 1914,
+        "num_wins": 190,
+        "num_losses": 233,
+        "streak": 3,
+        "drops": 11,
+        "timestamp": 1629169665
+    },
+    {
+        "rating": 1900,
+        "num_wins": 189,
+        "num_losses": 233,
+        "streak": 2,
+        "drops": 11,
+        "timestamp": 1629167783
+    },
+    {
+        "rating": 1885,
+        "num_wins": 188,
+        "num_losses": 233,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1628999756
+    },
+    {
+        "rating": 1870,
+        "num_wins": 187,
+        "num_losses": 233,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1628996188
+    },
+    {
+        "rating": 1886,
+        "num_wins": 187,
+        "num_losses": 232,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1628995743
+    },
+    {
+        "rating": 1903,
+        "num_wins": 187,
+        "num_losses": 231,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1628723787
+    },
+    {
+        "rating": 1925,
+        "num_wins": 187,
+        "num_losses": 230,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1628721297
+    },
+    {
+        "rating": 1940,
+        "num_wins": 187,
+        "num_losses": 229,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1628473974
+    },
+    {
+        "rating": 1924,
+        "num_wins": 186,
+        "num_losses": 229,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1628383719
+    },
+    {
+        "rating": 1940,
+        "num_wins": 186,
+        "num_losses": 228,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1628380863
+    },
+    {
+        "rating": 1926,
+        "num_wins": 185,
+        "num_losses": 228,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1628380186
+    },
+    {
+        "rating": 1909,
+        "num_wins": 184,
+        "num_losses": 228,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1628294191
+    },
+    {
+        "rating": 1931,
+        "num_wins": 184,
+        "num_losses": 227,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1628291156
+    },
+    {
+        "rating": 1947,
+        "num_wins": 184,
+        "num_losses": 226,
+        "streak": 5,
+        "drops": 10,
+        "timestamp": 1628222168
+    },
+    {
+        "rating": 1932,
+        "num_wins": 183,
+        "num_losses": 226,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1628219705
+    },
+    {
+        "rating": 1916,
+        "num_wins": 182,
+        "num_losses": 226,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1628211946
+    },
+    {
+        "rating": 1904,
+        "num_wins": 181,
+        "num_losses": 226,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1628209640
+    },
+    {
+        "rating": 1890,
+        "num_wins": 180,
+        "num_losses": 226,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1627765222
+    },
+    {
+        "rating": 1875,
+        "num_wins": 179,
+        "num_losses": 226,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1627762969
+    },
+    {
+        "rating": 1892,
+        "num_wins": 179,
+        "num_losses": 225,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1626738658
+    },
+    {
+        "rating": 1908,
+        "num_wins": 179,
+        "num_losses": 224,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1626583258
+    },
+    {
+        "rating": 1921,
+        "num_wins": 179,
+        "num_losses": 223,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1626581489
+    },
+    {
+        "rating": 1904,
+        "num_wins": 178,
+        "num_losses": 223,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1626568251
+    },
+    {
+        "rating": 1916,
+        "num_wins": 178,
+        "num_losses": 222,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1626565979
+    },
+    {
+        "rating": 1902,
+        "num_wins": 177,
+        "num_losses": 222,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1626564098
+    },
+    {
+        "rating": 1919,
+        "num_wins": 177,
+        "num_losses": 221,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1626311406
+    },
+    {
+        "rating": 1932,
+        "num_wins": 177,
+        "num_losses": 220,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1626308053
+    },
+    {
+        "rating": 1917,
+        "num_wins": 176,
+        "num_losses": 220,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1626050548
+    },
+    {
+        "rating": 1905,
+        "num_wins": 175,
+        "num_losses": 220,
+        "streak": -7,
+        "drops": 10,
+        "timestamp": 1626049090
+    },
+    {
+        "rating": 1920,
+        "num_wins": 175,
+        "num_losses": 219,
+        "streak": -6,
+        "drops": 10,
+        "timestamp": 1626046932
+    },
+    {
+        "rating": 1935,
+        "num_wins": 175,
+        "num_losses": 218,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1625960528
+    },
+    {
+        "rating": 1952,
+        "num_wins": 175,
+        "num_losses": 217,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1625957834
+    },
+    {
+        "rating": 1966,
+        "num_wins": 175,
+        "num_losses": 216,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1625956728
+    },
+    {
+        "rating": 1980,
+        "num_wins": 175,
+        "num_losses": 215,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1625875429
+    },
+    {
+        "rating": 1997,
+        "num_wins": 175,
+        "num_losses": 214,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1625873194
+    },
+    {
+        "rating": 2012,
+        "num_wins": 175,
+        "num_losses": 213,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1625872571
+    },
+    {
+        "rating": 1998,
+        "num_wins": 174,
+        "num_losses": 213,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1625869885
+    },
+    {
+        "rating": 1981,
+        "num_wins": 173,
+        "num_losses": 213,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1625789467
+    },
+    {
+        "rating": 1967,
+        "num_wins": 172,
+        "num_losses": 213,
+        "streak": -7,
+        "drops": 10,
+        "timestamp": 1625787528
+    },
+    {
+        "rating": 1982,
+        "num_wins": 172,
+        "num_losses": 212,
+        "streak": -6,
+        "drops": 10,
+        "timestamp": 1625786979
+    },
+    {
+        "rating": 1996,
+        "num_wins": 172,
+        "num_losses": 211,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1625784650
+    },
+    {
+        "rating": 2013,
+        "num_wins": 172,
+        "num_losses": 210,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1625702075
+    },
+    {
+        "rating": 2029,
+        "num_wins": 172,
+        "num_losses": 209,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1625699736
+    },
+    {
+        "rating": 2047,
+        "num_wins": 172,
+        "num_losses": 208,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1625627599
+    },
+    {
+        "rating": 2061,
+        "num_wins": 172,
+        "num_losses": 207,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1625443176
+    },
+    {
+        "rating": 2075,
+        "num_wins": 172,
+        "num_losses": 206,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1625440517
+    },
+    {
+        "rating": 2063,
+        "num_wins": 171,
+        "num_losses": 206,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1625435026
+    },
+    {
+        "rating": 2082,
+        "num_wins": 171,
+        "num_losses": 205,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1625433259
+    },
+    {
+        "rating": 2093,
+        "num_wins": 171,
+        "num_losses": 204,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1625357923
+    },
+    {
+        "rating": 2078,
+        "num_wins": 170,
+        "num_losses": 204,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1625355771
+    },
+    {
+        "rating": 2067,
+        "num_wins": 169,
+        "num_losses": 204,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1625353986
+    },
+    {
+        "rating": 2080,
+        "num_wins": 169,
+        "num_losses": 203,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1625280606
+    },
+    {
+        "rating": 2091,
+        "num_wins": 169,
+        "num_losses": 202,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1625278986
+    },
+    {
+        "rating": 2103,
+        "num_wins": 169,
+        "num_losses": 201,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1625106044
+    },
+    {
+        "rating": 2087,
+        "num_wins": 168,
+        "num_losses": 201,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1625099096
+    },
+    {
+        "rating": 2098,
+        "num_wins": 168,
+        "num_losses": 200,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1625097531
+    },
+    {
+        "rating": 2109,
+        "num_wins": 168,
+        "num_losses": 199,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1621033956
+    },
+    {
+        "rating": 2141,
+        "num_wins": 168,
+        "num_losses": 199,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1621033956
+    },
+    {
+        "rating": 2142,
+        "num_wins": 168,
+        "num_losses": 198,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1621032551
+    },
+    {
+        "rating": 2148,
+        "num_wins": 168,
+        "num_losses": 197,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1620952248
+    },
+    {
+        "rating": 2156,
+        "num_wins": 168,
+        "num_losses": 196,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1620949433
+    },
+    {
+        "rating": 2136,
+        "num_wins": 167,
+        "num_losses": 196,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1620947065
+    },
+    {
+        "rating": 2120,
+        "num_wins": 166,
+        "num_losses": 196,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1620871749
+    },
+    {
+        "rating": 2127,
+        "num_wins": 166,
+        "num_losses": 195,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1620869394
+    },
+    {
+        "rating": 2129,
+        "num_wins": 166,
+        "num_losses": 194,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1620605396
+    },
+    {
+        "rating": 2115,
+        "num_wins": 165,
+        "num_losses": 194,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1620603118
+    },
+    {
+        "rating": 2094,
+        "num_wins": 164,
+        "num_losses": 194,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1620519348
+    },
+    {
+        "rating": 2100,
+        "num_wins": 164,
+        "num_losses": 193,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1620517303
+    },
+    {
+        "rating": 2107,
+        "num_wins": 164,
+        "num_losses": 192,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1620515570
+    },
+    {
+        "rating": 2117,
+        "num_wins": 164,
+        "num_losses": 191,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1620430973
+    },
+    {
+        "rating": 2127,
+        "num_wins": 164,
+        "num_losses": 190,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1620429722
+    },
+    {
+        "rating": 2138,
+        "num_wins": 164,
+        "num_losses": 189,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1620259309
+    },
+    {
+        "rating": 2123,
+        "num_wins": 163,
+        "num_losses": 189,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1620095564
+    },
+    {
+        "rating": 2131,
+        "num_wins": 163,
+        "num_losses": 188,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1620093485
+    },
+    {
+        "rating": 2116,
+        "num_wins": 162,
+        "num_losses": 188,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1620002614
+    },
+    {
+        "rating": 2100,
+        "num_wins": 161,
+        "num_losses": 188,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1619998899
+    },
+    {
+        "rating": 2082,
+        "num_wins": 160,
+        "num_losses": 188,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1619927684
+    },
+    {
+        "rating": 2062,
+        "num_wins": 159,
+        "num_losses": 188,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1619926192
+    },
+    {
+        "rating": 2070,
+        "num_wins": 159,
+        "num_losses": 187,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1619922233
+    },
+    {
+        "rating": 2079,
+        "num_wins": 159,
+        "num_losses": 186,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1619386537
+    },
+    {
+        "rating": 2058,
+        "num_wins": 158,
+        "num_losses": 186,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1619383929
+    },
+    {
+        "rating": 2068,
+        "num_wins": 158,
+        "num_losses": 185,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1619381779
+    },
+    {
+        "rating": 2078,
+        "num_wins": 158,
+        "num_losses": 184,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1619380498
+    },
+    {
+        "rating": 2057,
+        "num_wins": 157,
+        "num_losses": 184,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1619295027
+    },
+    {
+        "rating": 2035,
+        "num_wins": 156,
+        "num_losses": 184,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1619292775
+    },
+    {
+        "rating": 2011,
+        "num_wins": 155,
+        "num_losses": 184,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1619232511
+    },
+    {
+        "rating": 1991,
+        "num_wins": 154,
+        "num_losses": 184,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1619052640
+    },
+    {
+        "rating": 2003,
+        "num_wins": 154,
+        "num_losses": 183,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1619048638
+    },
+    {
+        "rating": 2014,
+        "num_wins": 154,
+        "num_losses": 182,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1618966918
+    },
+    {
+        "rating": 2020,
+        "num_wins": 154,
+        "num_losses": 181,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1618961431
+    },
+    {
+        "rating": 2000,
+        "num_wins": 153,
+        "num_losses": 181,
+        "streak": -7,
+        "drops": 10,
+        "timestamp": 1618790555
+    },
+    {
+        "rating": 2012,
+        "num_wins": 153,
+        "num_losses": 180,
+        "streak": -6,
+        "drops": 10,
+        "timestamp": 1618788141
+    },
+    {
+        "rating": 2025,
+        "num_wins": 153,
+        "num_losses": 179,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1618711438
+    },
+    {
+        "rating": 2035,
+        "num_wins": 153,
+        "num_losses": 178,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1618618747
+    },
+    {
+        "rating": 2043,
+        "num_wins": 153,
+        "num_losses": 177,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1618617862
+    },
+    {
+        "rating": 2049,
+        "num_wins": 153,
+        "num_losses": 176,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1618616133
+    },
+    {
+        "rating": 2064,
+        "num_wins": 153,
+        "num_losses": 175,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1618544253
+    },
+    {
+        "rating": 2080,
+        "num_wins": 153,
+        "num_losses": 174,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1618541319
+    },
+    {
+        "rating": 2057,
+        "num_wins": 152,
+        "num_losses": 174,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1618540095
+    },
+    {
+        "rating": 2070,
+        "num_wins": 152,
+        "num_losses": 173,
+        "streak": 5,
+        "drops": 10,
+        "timestamp": 1618452103
+    },
+    {
+        "rating": 2050,
+        "num_wins": 151,
+        "num_losses": 173,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1618449526
+    },
+    {
+        "rating": 2026,
+        "num_wins": 150,
+        "num_losses": 173,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1618265314
+    },
+    {
+        "rating": 2005,
+        "num_wins": 149,
+        "num_losses": 173,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1618188246
+    },
+    {
+        "rating": 1979,
+        "num_wins": 148,
+        "num_losses": 173,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1618185822
+    },
+    {
+        "rating": 1956,
+        "num_wins": 147,
+        "num_losses": 173,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1618183922
+    },
+    {
+        "rating": 1964,
+        "num_wins": 147,
+        "num_losses": 172,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1618183345
+    },
+    {
+        "rating": 1975,
+        "num_wins": 147,
+        "num_losses": 171,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1618108511
+    },
+    {
+        "rating": 1979,
+        "num_wins": 147,
+        "num_losses": 170,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1618107372
+    },
+    {
+        "rating": 1958,
+        "num_wins": 146,
+        "num_losses": 170,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1618026706
+    },
+    {
+        "rating": 1969,
+        "num_wins": 146,
+        "num_losses": 169,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1618024291
+    },
+    {
+        "rating": 1975,
+        "num_wins": 146,
+        "num_losses": 168,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1618022957
+    },
+    {
+        "rating": 1982,
+        "num_wins": 146,
+        "num_losses": 167,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1618020586
+    },
+    {
+        "rating": 1965,
+        "num_wins": 145,
+        "num_losses": 167,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1617930281
+    },
+    {
+        "rating": 1978,
+        "num_wins": 145,
+        "num_losses": 166,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1617927669
+    },
+    {
+        "rating": 1990,
+        "num_wins": 145,
+        "num_losses": 165,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1617925105
+    },
+    {
+        "rating": 1973,
+        "num_wins": 144,
+        "num_losses": 165,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1617752834
+    },
+    {
+        "rating": 1981,
+        "num_wins": 144,
+        "num_losses": 164,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1617750663
+    },
+    {
+        "rating": 1991,
+        "num_wins": 144,
+        "num_losses": 163,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1617583312
+    },
+    {
+        "rating": 1972,
+        "num_wins": 143,
+        "num_losses": 163,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1617580458
+    },
+    {
+        "rating": 1953,
+        "num_wins": 142,
+        "num_losses": 163,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1617578107
+    },
+    {
+        "rating": 1967,
+        "num_wins": 142,
+        "num_losses": 162,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1617419038
+    },
+    {
+        "rating": 1949,
+        "num_wins": 140,
+        "num_losses": 160,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1617333573
+    },
+    {
+        "rating": 1931,
+        "num_wins": 139,
+        "num_losses": 160,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1617332039
+    },
+    {
+        "rating": 1948,
+        "num_wins": 139,
+        "num_losses": 159,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1617324793
+    },
+    {
+        "rating": 1967,
+        "num_wins": 139,
+        "num_losses": 157,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1616887567
+    },
+    {
+        "rating": 1981,
+        "num_wins": 139,
+        "num_losses": 156,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1616885474
+    },
+    {
+        "rating": 1993,
+        "num_wins": 139,
+        "num_losses": 155,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1616884744
+    },
+    {
+        "rating": 1971,
+        "num_wins": 138,
+        "num_losses": 155,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1616882886
+    },
+    {
+        "rating": 1949,
+        "num_wins": 137,
+        "num_losses": 155,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1616717879
+    },
+    {
+        "rating": 1959,
+        "num_wins": 137,
+        "num_losses": 154,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1616716833
+    },
+    {
+        "rating": 1969,
+        "num_wins": 137,
+        "num_losses": 153,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1616714332
+    },
+    {
+        "rating": 1950,
+        "num_wins": 136,
+        "num_losses": 153,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1616629245
+    },
+    {
+        "rating": 1970,
+        "num_wins": 136,
+        "num_losses": 152,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1616459163
+    },
+    {
+        "rating": 1946,
+        "num_wins": 135,
+        "num_losses": 152,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1616456459
+    },
+    {
+        "rating": 1959,
+        "num_wins": 135,
+        "num_losses": 151,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1616213639
+    },
+    {
+        "rating": 1942,
+        "num_wins": 134,
+        "num_losses": 151,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1616211387
+    },
+    {
+        "rating": 1956,
+        "num_wins": 134,
+        "num_losses": 150,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1616209536
+    },
+    {
+        "rating": 1968,
+        "num_wins": 134,
+        "num_losses": 149,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1615694527
+    },
+    {
+        "rating": 1978,
+        "num_wins": 134,
+        "num_losses": 148,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1615692298
+    },
+    {
+        "rating": 1985,
+        "num_wins": 134,
+        "num_losses": 147,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1615690236
+    },
+    {
+        "rating": 1993,
+        "num_wins": 134,
+        "num_losses": 146,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1615688690
+    },
+    {
+        "rating": 1968,
+        "num_wins": 133,
+        "num_losses": 146,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1615687470
+    },
+    {
+        "rating": 1949,
+        "num_wins": 132,
+        "num_losses": 146,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1615607014
+    },
+    {
+        "rating": 1926,
+        "num_wins": 131,
+        "num_losses": 146,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1615604776
+    },
+    {
+        "rating": 1930,
+        "num_wins": 131,
+        "num_losses": 145,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1615603377
+    },
+    {
+        "rating": 1935,
+        "num_wins": 131,
+        "num_losses": 144,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1615600977
+    },
+    {
+        "rating": 1917,
+        "num_wins": 130,
+        "num_losses": 144,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1615087312
+    },
+    {
+        "rating": 1922,
+        "num_wins": 130,
+        "num_losses": 143,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1615085172
+    },
+    {
+        "rating": 1935,
+        "num_wins": 130,
+        "num_losses": 142,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1615082871
+    },
+    {
+        "rating": 1908,
+        "num_wins": 129,
+        "num_losses": 142,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1615000139
+    },
+    {
+        "rating": 1891,
+        "num_wins": 128,
+        "num_losses": 142,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1614997374
+    },
+    {
+        "rating": 1902,
+        "num_wins": 128,
+        "num_losses": 141,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1614996269
+    },
+    {
+        "rating": 1908,
+        "num_wins": 128,
+        "num_losses": 140,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1613354131
+    },
+    {
+        "rating": 1929,
+        "num_wins": 128,
+        "num_losses": 140,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1613354131
+    },
+    {
+        "rating": 1931,
+        "num_wins": 128,
+        "num_losses": 139,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1612672861
+    },
+    {
+        "rating": 1935,
+        "num_wins": 128,
+        "num_losses": 138,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1612669178
+    },
+    {
+        "rating": 1944,
+        "num_wins": 128,
+        "num_losses": 137,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1612667651
+    },
+    {
+        "rating": 1924,
+        "num_wins": 127,
+        "num_losses": 137,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1612232686
+    },
+    {
+        "rating": 1931,
+        "num_wins": 127,
+        "num_losses": 136,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1612229700
+    },
+    {
+        "rating": 1940,
+        "num_wins": 127,
+        "num_losses": 135,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1612146453
+    },
+    {
+        "rating": 1950,
+        "num_wins": 127,
+        "num_losses": 134,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1612144653
+    },
+    {
+        "rating": 1931,
+        "num_wins": 126,
+        "num_losses": 134,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1611886938
+    },
+    {
+        "rating": 1939,
+        "num_wins": 126,
+        "num_losses": 133,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1611885252
+    },
+    {
+        "rating": 1951,
+        "num_wins": 126,
+        "num_losses": 132,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1611884469
+    },
+    {
+        "rating": 1929,
+        "num_wins": 125,
+        "num_losses": 132,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1611713034
+    },
+    {
+        "rating": 1907,
+        "num_wins": 124,
+        "num_losses": 132,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1611627473
+    },
+    {
+        "rating": 1881,
+        "num_wins": 123,
+        "num_losses": 132,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1610858625
+    },
+    {
+        "rating": 1883,
+        "num_wins": 123,
+        "num_losses": 131,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1610857078
+    },
+    {
+        "rating": 1895,
+        "num_wins": 123,
+        "num_losses": 130,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1610855436
+    },
+    {
+        "rating": 1902,
+        "num_wins": 123,
+        "num_losses": 129,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1610337076
+    },
+    {
+        "rating": 1906,
+        "num_wins": 123,
+        "num_losses": 128,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1610334422
+    },
+    {
+        "rating": 1879,
+        "num_wins": 122,
+        "num_losses": 128,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1610254261
+    },
+    {
+        "rating": 1861,
+        "num_wins": 121,
+        "num_losses": 128,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1610251489
+    },
+    {
+        "rating": 1834,
+        "num_wins": 120,
+        "num_losses": 128,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1610248988
+    },
+    {
+        "rating": 1821,
+        "num_wins": 119,
+        "num_losses": 128,
+        "streak": -8,
+        "drops": 10,
+        "timestamp": 1610241694
+    },
+    {
+        "rating": 1830,
+        "num_wins": 119,
+        "num_losses": 127,
+        "streak": -7,
+        "drops": 10,
+        "timestamp": 1610238565
+    },
+    {
+        "rating": 1842,
+        "num_wins": 119,
+        "num_losses": 126,
+        "streak": -6,
+        "drops": 10,
+        "timestamp": 1610237256
+    },
+    {
+        "rating": 1845,
+        "num_wins": 119,
+        "num_losses": 125,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1610171974
+    },
+    {
+        "rating": 1857,
+        "num_wins": 119,
+        "num_losses": 124,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1610170674
+    },
+    {
+        "rating": 1866,
+        "num_wins": 119,
+        "num_losses": 123,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1610167352
+    },
+    {
+        "rating": 1880,
+        "num_wins": 119,
+        "num_losses": 122,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1610165938
+    },
+    {
+        "rating": 1880,
+        "num_wins": 119,
+        "num_losses": 121,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1609727711
+    },
+    {
+        "rating": 1885,
+        "num_wins": 119,
+        "num_losses": 120,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1609725566
+    },
+    {
+        "rating": 1865,
+        "num_wins": 118,
+        "num_losses": 120,
+        "streak": -6,
+        "drops": 10,
+        "timestamp": 1609724500
+    },
+    {
+        "rating": 1870,
+        "num_wins": 118,
+        "num_losses": 119,
+        "streak": -5,
+        "drops": 10,
+        "timestamp": 1609554595
+    },
+    {
+        "rating": 1881,
+        "num_wins": 118,
+        "num_losses": 118,
+        "streak": -4,
+        "drops": 10,
+        "timestamp": 1609552247
+    },
+    {
+        "rating": 1887,
+        "num_wins": 118,
+        "num_losses": 117,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1609122319
+    },
+    {
+        "rating": 1903,
+        "num_wins": 118,
+        "num_losses": 116,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1609044241
+    },
+    {
+        "rating": 1920,
+        "num_wins": 118,
+        "num_losses": 115,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1609041780
+    },
+    {
+        "rating": 1928,
+        "num_wins": 118,
+        "num_losses": 114,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1609040053
+    },
+    {
+        "rating": 1904,
+        "num_wins": 117,
+        "num_losses": 114,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1609037653
+    },
+    {
+        "rating": 1884,
+        "num_wins": 116,
+        "num_losses": 114,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1609035912
+    },
+    {
+        "rating": 1888,
+        "num_wins": 116,
+        "num_losses": 113,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1608962669
+    },
+    {
+        "rating": 1870,
+        "num_wins": 115,
+        "num_losses": 113,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1608960491
+    },
+    {
+        "rating": 1854,
+        "num_wins": 114,
+        "num_losses": 113,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1608958037
+    },
+    {
+        "rating": 1867,
+        "num_wins": 114,
+        "num_losses": 112,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1608955015
+    },
+    {
+        "rating": 1873,
+        "num_wins": 114,
+        "num_losses": 111,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1608948483
+    },
+    {
+        "rating": 1853,
+        "num_wins": 113,
+        "num_losses": 111,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1608438953
+    },
+    {
+        "rating": 1865,
+        "num_wins": 113,
+        "num_losses": 110,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1608357373
+    },
+    {
+        "rating": 1880,
+        "num_wins": 113,
+        "num_losses": 109,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1608355288
+    },
+    {
+        "rating": 1867,
+        "num_wins": 112,
+        "num_losses": 109,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1608352482
+    },
+    {
+        "rating": 1837,
+        "num_wins": 111,
+        "num_losses": 109,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1608350778
+    },
+    {
+        "rating": 1846,
+        "num_wins": 111,
+        "num_losses": 108,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1608345360
+    },
+    {
+        "rating": 1819,
+        "num_wins": 110,
+        "num_losses": 108,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1608342114
+    },
+    {
+        "rating": 1797,
+        "num_wins": 109,
+        "num_losses": 108,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1608260727
+    },
+    {
+        "rating": 1812,
+        "num_wins": 109,
+        "num_losses": 107,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1608258537
+    },
+    {
+        "rating": 1791,
+        "num_wins": 108,
+        "num_losses": 107,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1608256503
+    },
+    {
+        "rating": 1772,
+        "num_wins": 107,
+        "num_losses": 107,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1608176421
+    },
+    {
+        "rating": 1753,
+        "num_wins": 106,
+        "num_losses": 107,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1608001800
+    },
+    {
+        "rating": 1743,
+        "num_wins": 105,
+        "num_losses": 107,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1607999804
+    },
+    {
+        "rating": 1748,
+        "num_wins": 105,
+        "num_losses": 106,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1607842728
+    },
+    {
+        "rating": 1733,
+        "num_wins": 104,
+        "num_losses": 106,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1607839772
+    },
+    {
+        "rating": 1710,
+        "num_wins": 103,
+        "num_losses": 106,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1607836089
+    },
+    {
+        "rating": 1720,
+        "num_wins": 103,
+        "num_losses": 105,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1607828820
+    },
+    {
+        "rating": 1703,
+        "num_wins": 102,
+        "num_losses": 105,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1607826605
+    },
+    {
+        "rating": 1681,
+        "num_wins": 101,
+        "num_losses": 105,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1607663055
+    },
+    {
+        "rating": 1693,
+        "num_wins": 101,
+        "num_losses": 104,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1607660721
+    },
+    {
+        "rating": 1674,
+        "num_wins": 100,
+        "num_losses": 104,
+        "streak": -3,
+        "drops": 10,
+        "timestamp": 1607482439
+    },
+    {
+        "rating": 1682,
+        "num_wins": 100,
+        "num_losses": 103,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1607481459
+    },
+    {
+        "rating": 1697,
+        "num_wins": 100,
+        "num_losses": 102,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1607479038
+    },
+    {
+        "rating": 1711,
+        "num_wins": 100,
+        "num_losses": 101,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1607317067
+    },
+    {
+        "rating": 1690,
+        "num_wins": 99,
+        "num_losses": 101,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1607315122
+    },
+    {
+        "rating": 1704,
+        "num_wins": 99,
+        "num_losses": 100,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1606530115
+    },
+    {
+        "rating": 1691,
+        "num_wins": 98,
+        "num_losses": 100,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1602467536
+    },
+    {
+        "rating": 1701,
+        "num_wins": 98,
+        "num_losses": 100,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1602467536
+    },
+    {
+        "rating": 1687,
+        "num_wins": 97,
+        "num_losses": 100,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1602382346
+    },
+    {
+        "rating": 1670,
+        "num_wins": 96,
+        "num_losses": 100,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1602380968
+    },
+    {
+        "rating": 1682,
+        "num_wins": 96,
+        "num_losses": 99,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1602379160
+    },
+    {
+        "rating": 1664,
+        "num_wins": 95,
+        "num_losses": 99,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1602306541
+    },
+    {
+        "rating": 1651,
+        "num_wins": 94,
+        "num_losses": 99,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1602304727
+    },
+    {
+        "rating": 1667,
+        "num_wins": 94,
+        "num_losses": 98,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1602303899
+    },
+    {
+        "rating": 1678,
+        "num_wins": 94,
+        "num_losses": 97,
+        "streak": 5,
+        "drops": 10,
+        "timestamp": 1602303333
+    },
+    {
+        "rating": 1659,
+        "num_wins": 93,
+        "num_losses": 97,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1602301200
+    },
+    {
+        "rating": 1638,
+        "num_wins": 92,
+        "num_losses": 97,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1602300379
+    },
+    {
+        "rating": 1621,
+        "num_wins": 91,
+        "num_losses": 97,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1602294518
+    },
+    {
+        "rating": 1607,
+        "num_wins": 90,
+        "num_losses": 97,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1602210494
+    },
+    {
+        "rating": 1590,
+        "num_wins": 89,
+        "num_losses": 97,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1602208490
+    },
+    {
+        "rating": 1602,
+        "num_wins": 89,
+        "num_losses": 96,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1602206946
+    },
+    {
+        "rating": 1608,
+        "num_wins": 89,
+        "num_losses": 95,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1602202842
+    },
+    {
+        "rating": 1595,
+        "num_wins": 88,
+        "num_losses": 95,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1601950258
+    },
+    {
+        "rating": 1576,
+        "num_wins": 87,
+        "num_losses": 95,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1601948361
+    },
+    {
+        "rating": 1590,
+        "num_wins": 87,
+        "num_losses": 94,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1601863167
+    },
+    {
+        "rating": 1571,
+        "num_wins": 86,
+        "num_losses": 94,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1601860519
+    },
+    {
+        "rating": 1546,
+        "num_wins": 85,
+        "num_losses": 94,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1601759540
+    },
+    {
+        "rating": 1554,
+        "num_wins": 85,
+        "num_losses": 93,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1601758000
+    },
+    {
+        "rating": 1533,
+        "num_wins": 84,
+        "num_losses": 93,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1601755247
+    },
+    {
+        "rating": 1512,
+        "num_wins": 83,
+        "num_losses": 93,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1601753497
+    },
+    {
+        "rating": 1525,
+        "num_wins": 83,
+        "num_losses": 92,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1601752658
+    },
+    {
+        "rating": 1538,
+        "num_wins": 83,
+        "num_losses": 91,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1601262534
+    },
+    {
+        "rating": 1522,
+        "num_wins": 82,
+        "num_losses": 91,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1601176706
+    },
+    {
+        "rating": 1536,
+        "num_wins": 82,
+        "num_losses": 90,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1601173989
+    },
+    {
+        "rating": 1516,
+        "num_wins": 81,
+        "num_losses": 90,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1600649431
+    },
+    {
+        "rating": 1530,
+        "num_wins": 81,
+        "num_losses": 89,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1600647369
+    },
+    {
+        "rating": 1535,
+        "num_wins": 81,
+        "num_losses": 88,
+        "streak": 4,
+        "drops": 10,
+        "timestamp": 1600573570
+    },
+    {
+        "rating": 1518,
+        "num_wins": 80,
+        "num_losses": 88,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1600571666
+    },
+    {
+        "rating": 1500,
+        "num_wins": 79,
+        "num_losses": 88,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1600569458
+    },
+    {
+        "rating": 1483,
+        "num_wins": 78,
+        "num_losses": 88,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1600568986
+    },
+    {
+        "rating": 1466,
+        "num_wins": 77,
+        "num_losses": 88,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1600567217
+    },
+    {
+        "rating": 1479,
+        "num_wins": 77,
+        "num_losses": 87,
+        "streak": 3,
+        "drops": 10,
+        "timestamp": 1600566919
+    },
+    {
+        "rating": 1457,
+        "num_wins": 76,
+        "num_losses": 87,
+        "streak": 2,
+        "drops": 10,
+        "timestamp": 1600484365
+    },
+    {
+        "rating": 1441,
+        "num_wins": 75,
+        "num_losses": 87,
+        "streak": 1,
+        "drops": 10,
+        "timestamp": 1600043008
+    },
+    {
+        "rating": 1418,
+        "num_wins": 74,
+        "num_losses": 87,
+        "streak": -2,
+        "drops": 10,
+        "timestamp": 1600040897
+    },
+    {
+        "rating": 1430,
+        "num_wins": 74,
+        "num_losses": 86,
+        "streak": -1,
+        "drops": 10,
+        "timestamp": 1600040487
+    },
+    {
+        "rating": 1424,
+        "num_wins": 73,
+        "num_losses": 85,
+        "streak": -2,
+        "drops": 9,
+        "timestamp": 1599970859
+    },
+    {
+        "rating": 1440,
+        "num_wins": 73,
+        "num_losses": 84,
+        "streak": -1,
+        "drops": 9,
+        "timestamp": 1599966105
+    },
+    {
+        "rating": 1452,
+        "num_wins": 73,
+        "num_losses": 83,
+        "streak": 1,
+        "drops": 9,
+        "timestamp": 1599965097
+    },
+    {
+        "rating": 1435,
+        "num_wins": 72,
+        "num_losses": 83,
+        "streak": -1,
+        "drops": 9,
+        "timestamp": 1599884971
+    },
+    {
+        "rating": 1450,
+        "num_wins": 72,
+        "num_losses": 82,
+        "streak": 1,
+        "drops": 9,
+        "timestamp": 1599882016
+    },
+    {
+        "rating": 1431,
+        "num_wins": 71,
+        "num_losses": 82,
+        "streak": -1,
+        "drops": 9,
+        "timestamp": 1598669978
+    },
+    {
+        "rating": 1444,
+        "num_wins": 71,
+        "num_losses": 81,
+        "streak": 1,
+        "drops": 8,
+        "timestamp": 1598584777
+    },
+    {
+        "rating": 1427,
+        "num_wins": 70,
+        "num_losses": 81,
+        "streak": -2,
+        "drops": 8,
+        "timestamp": 1598582995
+    },
+    {
+        "rating": 1440,
+        "num_wins": 70,
+        "num_losses": 80,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1598581178
+    },
+    {
+        "rating": 1454,
+        "num_wins": 70,
+        "num_losses": 79,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1598578813
+    },
+    {
+        "rating": 1418,
+        "num_wins": 68,
+        "num_losses": 79,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1598577576
+    },
+    {
+        "rating": 1433,
+        "num_wins": 68,
+        "num_losses": 78,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1598575622
+    },
+    {
+        "rating": 1412,
+        "num_wins": 67,
+        "num_losses": 78,
+        "streak": -6,
+        "drops": 7,
+        "timestamp": 1598575153
+    },
+    {
+        "rating": 1431,
+        "num_wins": 67,
+        "num_losses": 76,
+        "streak": -4,
+        "drops": 7,
+        "timestamp": 1598572312
+    },
+    {
+        "rating": 1446,
+        "num_wins": 67,
+        "num_losses": 75,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1598314735
+    },
+    {
+        "rating": 1465,
+        "num_wins": 67,
+        "num_losses": 74,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1598312808
+    },
+    {
+        "rating": 1483,
+        "num_wins": 67,
+        "num_losses": 72,
+        "streak": 3,
+        "drops": 7,
+        "timestamp": 1598310251
+    },
+    {
+        "rating": 1466,
+        "num_wins": 66,
+        "num_losses": 72,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1598152401
+    },
+    {
+        "rating": 1450,
+        "num_wins": 65,
+        "num_losses": 72,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1598150095
+    },
+    {
+        "rating": 1435,
+        "num_wins": 64,
+        "num_losses": 72,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1598144709
+    },
+    {
+        "rating": 1446,
+        "num_wins": 64,
+        "num_losses": 71,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1598142203
+    },
+    {
+        "rating": 1427,
+        "num_wins": 63,
+        "num_losses": 71,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1598140176
+    },
+    {
+        "rating": 1405,
+        "num_wins": 62,
+        "num_losses": 71,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1598139938
+    },
+    {
+        "rating": 1416,
+        "num_wins": 62,
+        "num_losses": 70,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1598138372
+    },
+    {
+        "rating": 1399,
+        "num_wins": 61,
+        "num_losses": 70,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1597554907
+    },
+    {
+        "rating": 1412,
+        "num_wins": 61,
+        "num_losses": 69,
+        "streak": 3,
+        "drops": 7,
+        "timestamp": 1597551542
+    },
+    {
+        "rating": 1392,
+        "num_wins": 60,
+        "num_losses": 69,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1597547644
+    },
+    {
+        "rating": 1374,
+        "num_wins": 59,
+        "num_losses": 69,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1597545455
+    },
+    {
+        "rating": 1353,
+        "num_wins": 58,
+        "num_losses": 69,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1597543430
+    },
+    {
+        "rating": 1355,
+        "num_wins": 58,
+        "num_losses": 68,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1596420659
+    },
+    {
+        "rating": 1333,
+        "num_wins": 57,
+        "num_losses": 68,
+        "streak": -5,
+        "drops": 7,
+        "timestamp": 1596418839
+    },
+    {
+        "rating": 1344,
+        "num_wins": 57,
+        "num_losses": 67,
+        "streak": -4,
+        "drops": 7,
+        "timestamp": 1596416696
+    },
+    {
+        "rating": 1352,
+        "num_wins": 57,
+        "num_losses": 66,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1596416245
+    },
+    {
+        "rating": 1361,
+        "num_wins": 57,
+        "num_losses": 65,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1596342242
+    },
+    {
+        "rating": 1374,
+        "num_wins": 57,
+        "num_losses": 64,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1596339687
+    },
+    {
+        "rating": 1389,
+        "num_wins": 57,
+        "num_losses": 63,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1596330780
+    },
+    {
+        "rating": 1367,
+        "num_wins": 56,
+        "num_losses": 63,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1596328948
+    },
+    {
+        "rating": 1377,
+        "num_wins": 56,
+        "num_losses": 62,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1596325204
+    },
+    {
+        "rating": 1357,
+        "num_wins": 55,
+        "num_losses": 62,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1596075608
+    },
+    {
+        "rating": 1371,
+        "num_wins": 55,
+        "num_losses": 61,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1596072594
+    },
+    {
+        "rating": 1382,
+        "num_wins": 55,
+        "num_losses": 60,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1596070231
+    },
+    {
+        "rating": 1363,
+        "num_wins": 54,
+        "num_losses": 60,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1595898382
+    },
+    {
+        "rating": 1372,
+        "num_wins": 54,
+        "num_losses": 59,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1595896233
+    },
+    {
+        "rating": 1355,
+        "num_wins": 53,
+        "num_losses": 59,
+        "streak": -4,
+        "drops": 7,
+        "timestamp": 1595894885
+    },
+    {
+        "rating": 1366,
+        "num_wins": 53,
+        "num_losses": 58,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1595893754
+    },
+    {
+        "rating": 1377,
+        "num_wins": 53,
+        "num_losses": 57,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1595739352
+    },
+    {
+        "rating": 1384,
+        "num_wins": 53,
+        "num_losses": 56,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1595737544
+    },
+    {
+        "rating": 1397,
+        "num_wins": 53,
+        "num_losses": 55,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1595736281
+    },
+    {
+        "rating": 1379,
+        "num_wins": 52,
+        "num_losses": 55,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1595728869
+    },
+    {
+        "rating": 1387,
+        "num_wins": 52,
+        "num_losses": 54,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1595461448
+    },
+    {
+        "rating": 1370,
+        "num_wins": 51,
+        "num_losses": 54,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1595292860
+    },
+    {
+        "rating": 1352,
+        "num_wins": 50,
+        "num_losses": 54,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1595290648
+    },
+    {
+        "rating": 1363,
+        "num_wins": 50,
+        "num_losses": 53,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1595288525
+    },
+    {
+        "rating": 1378,
+        "num_wins": 50,
+        "num_losses": 52,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1595194886
+    },
+    {
+        "rating": 1393,
+        "num_wins": 50,
+        "num_losses": 51,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1595193229
+    },
+    {
+        "rating": 1375,
+        "num_wins": 49,
+        "num_losses": 51,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1595192815
+    },
+    {
+        "rating": 1389,
+        "num_wins": 49,
+        "num_losses": 50,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1595191388
+    },
+    {
+        "rating": 1401,
+        "num_wins": 49,
+        "num_losses": 49,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1595189417
+    },
+    {
+        "rating": 1412,
+        "num_wins": 49,
+        "num_losses": 48,
+        "streak": 3,
+        "drops": 7,
+        "timestamp": 1595187171
+    },
+    {
+        "rating": 1394,
+        "num_wins": 48,
+        "num_losses": 48,
+        "streak": 2,
+        "drops": 7,
+        "timestamp": 1595121675
+    },
+    {
+        "rating": 1376,
+        "num_wins": 47,
+        "num_losses": 48,
+        "streak": 1,
+        "drops": 7,
+        "timestamp": 1595052615
+    },
+    {
+        "rating": 1357,
+        "num_wins": 46,
+        "num_losses": 48,
+        "streak": -4,
+        "drops": 7,
+        "timestamp": 1595050546
+    },
+    {
+        "rating": 1364,
+        "num_wins": 46,
+        "num_losses": 47,
+        "streak": -3,
+        "drops": 7,
+        "timestamp": 1595048239
+    },
+    {
+        "rating": 1375,
+        "num_wins": 46,
+        "num_losses": 46,
+        "streak": -2,
+        "drops": 7,
+        "timestamp": 1595044824
+    },
+    {
+        "rating": 1383,
+        "num_wins": 46,
+        "num_losses": 45,
+        "streak": -1,
+        "drops": 7,
+        "timestamp": 1594866099
+    },
+    {
+        "rating": 1395,
+        "num_wins": 46,
+        "num_losses": 44,
+        "streak": 1,
+        "drops": 6,
+        "timestamp": 1594863456
+    },
+    {
+        "rating": 1374,
+        "num_wins": 45,
+        "num_losses": 44,
+        "streak": -3,
+        "drops": 6,
+        "timestamp": 1594440945
+    },
+    {
+        "rating": 1389,
+        "num_wins": 45,
+        "num_losses": 43,
+        "streak": -2,
+        "drops": 6,
+        "timestamp": 1594439719
+    },
+    {
+        "rating": 1397,
+        "num_wins": 45,
+        "num_losses": 42,
+        "streak": -1,
+        "drops": 5,
+        "timestamp": 1594359849
+    },
+    {
+        "rating": 1413,
+        "num_wins": 45,
+        "num_losses": 41,
+        "streak": 1,
+        "drops": 5,
+        "timestamp": 1594356055
+    },
+    {
+        "rating": 1392,
+        "num_wins": 44,
+        "num_losses": 41,
+        "streak": -1,
+        "drops": 5,
+        "timestamp": 1594353691
+    },
+    {
+        "rating": 1402,
+        "num_wins": 44,
+        "num_losses": 40,
+        "streak": 1,
+        "drops": 5,
+        "timestamp": 1594345849
+    },
+    {
+        "rating": 1381,
+        "num_wins": 43,
+        "num_losses": 40,
+        "streak": -1,
+        "drops": 5,
+        "timestamp": 1594273753
+    },
+    {
+        "rating": 1391,
+        "num_wins": 43,
+        "num_losses": 39,
+        "streak": 1,
+        "drops": 5,
+        "timestamp": 1594271371
+    },
+    {
+        "rating": 1374,
+        "num_wins": 42,
+        "num_losses": 39,
+        "streak": -2,
+        "drops": 5,
+        "timestamp": 1594269329
+    },
+    {
+        "rating": 1388,
+        "num_wins": 42,
+        "num_losses": 38,
+        "streak": -1,
+        "drops": 5,
+        "timestamp": 1594265009
+    },
+    {
+        "rating": 1399,
+        "num_wins": 42,
+        "num_losses": 37,
+        "streak": 2,
+        "drops": 5,
+        "timestamp": 1593846210
+    },
+    {
+        "rating": 1379,
+        "num_wins": 41,
+        "num_losses": 37,
+        "streak": 1,
+        "drops": 5,
+        "timestamp": 1593840702
+    },
+    {
+        "rating": 1356,
+        "num_wins": 40,
+        "num_losses": 37,
+        "streak": -1,
+        "drops": 5,
+        "timestamp": 1593838400
+    },
+    {
+        "rating": 1369,
+        "num_wins": 40,
+        "num_losses": 36,
+        "streak": 1,
+        "drops": 5,
+        "timestamp": 1593837346
+    },
+    {
+        "rating": 1345,
+        "num_wins": 39,
+        "num_losses": 36,
+        "streak": -3,
+        "drops": 4,
+        "timestamp": 1593650204
+    },
+    {
+        "rating": 1356,
+        "num_wins": 39,
+        "num_losses": 35,
+        "streak": -2,
+        "drops": 3,
+        "timestamp": 1593648107
+    },
+    {
+        "rating": 1369,
+        "num_wins": 39,
+        "num_losses": 34,
+        "streak": -1,
+        "drops": 3,
+        "timestamp": 1593646944
+    },
+    {
+        "rating": 1382,
+        "num_wins": 39,
+        "num_losses": 33,
+        "streak": 4,
+        "drops": 3,
+        "timestamp": 1593373361
+    },
+    {
+        "rating": 1360,
+        "num_wins": 38,
+        "num_losses": 33,
+        "streak": 3,
+        "drops": 3,
+        "timestamp": 1593371052
+    },
+    {
+        "rating": 1343,
+        "num_wins": 37,
+        "num_losses": 33,
+        "streak": 2,
+        "drops": 3,
+        "timestamp": 1593368913
+    },
+    {
+        "rating": 1325,
+        "num_wins": 36,
+        "num_losses": 33,
+        "streak": 1,
+        "drops": 3,
+        "timestamp": 1592700778
+    },
+    {
+        "rating": 1310,
+        "num_wins": 35,
+        "num_losses": 33,
+        "streak": -1,
+        "drops": 3,
+        "timestamp": 1592447862
+    },
+    {
+        "rating": 1319,
+        "num_wins": 35,
+        "num_losses": 32,
+        "streak": 1,
+        "drops": 3,
+        "timestamp": 1592445046
+    },
+    {
+        "rating": 1312,
+        "num_wins": 34,
+        "num_losses": 32,
+        "streak": -1,
+        "drops": 3,
+        "timestamp": 1592443612
+    },
+    {
+        "rating": 1333,
+        "num_wins": 34,
+        "num_losses": 31,
+        "streak": 2,
+        "drops": 3,
+        "timestamp": 1592268017
+    },
+    {
+        "rating": 1312,
+        "num_wins": 33,
+        "num_losses": 31,
+        "streak": 1,
+        "drops": 3,
+        "timestamp": 1592265644
+    },
+    {
+        "rating": 1294,
+        "num_wins": 32,
+        "num_losses": 31,
+        "streak": -3,
+        "drops": 3,
+        "timestamp": 1592181915
+    },
+    {
+        "rating": 1303,
+        "num_wins": 32,
+        "num_losses": 30,
+        "streak": -2,
+        "drops": 3,
+        "timestamp": 1592179908
+    },
+    {
+        "rating": 1317,
+        "num_wins": 32,
+        "num_losses": 29,
+        "streak": -1,
+        "drops": 3,
+        "timestamp": 1592179588
+    },
+    {
+        "rating": 1321,
+        "num_wins": 32,
+        "num_losses": 28,
+        "streak": 1,
+        "drops": 2,
+        "timestamp": 1592178241
+    },
+    {
+        "rating": 1293,
+        "num_wins": 31,
+        "num_losses": 28,
+        "streak": -1,
+        "drops": 2,
+        "timestamp": 1592097223
+    },
+    {
+        "rating": 1312,
+        "num_wins": 31,
+        "num_losses": 27,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1592093419
+    },
+    {
+        "rating": 1295,
+        "num_wins": 30,
+        "num_losses": 27,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1592090132
+    },
+    {
+        "rating": 1312,
+        "num_wins": 30,
+        "num_losses": 26,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1592008804
+    },
+    {
+        "rating": 1295,
+        "num_wins": 29,
+        "num_losses": 26,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1591563663
+    },
+    {
+        "rating": 1287,
+        "num_wins": 28,
+        "num_losses": 26,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1591561465
+    },
+    {
+        "rating": 1305,
+        "num_wins": 28,
+        "num_losses": 25,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1591559231
+    },
+    {
+        "rating": 1289,
+        "num_wins": 27,
+        "num_losses": 25,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1591556590
+    },
+    {
+        "rating": 1272,
+        "num_wins": 26,
+        "num_losses": 25,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1591504814
+    },
+    {
+        "rating": 1284,
+        "num_wins": 26,
+        "num_losses": 24,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1591502622
+    },
+    {
+        "rating": 1268,
+        "num_wins": 25,
+        "num_losses": 24,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1591500699
+    },
+    {
+        "rating": 1252,
+        "num_wins": 24,
+        "num_losses": 24,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1591492020
+    },
+    {
+        "rating": 1268,
+        "num_wins": 24,
+        "num_losses": 23,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1590906952
+    },
+    {
+        "rating": 1248,
+        "num_wins": 23,
+        "num_losses": 23,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1590904298
+    },
+    {
+        "rating": 1259,
+        "num_wins": 23,
+        "num_losses": 22,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1590901576
+    },
+    {
+        "rating": 1243,
+        "num_wins": 22,
+        "num_losses": 22,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1590899437
+    },
+    {
+        "rating": 1225,
+        "num_wins": 21,
+        "num_losses": 22,
+        "streak": -2,
+        "drops": 1,
+        "timestamp": 1590898010
+    },
+    {
+        "rating": 1236,
+        "num_wins": 21,
+        "num_losses": 21,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1590643928
+    },
+    {
+        "rating": 1246,
+        "num_wins": 21,
+        "num_losses": 20,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1590641324
+    },
+    {
+        "rating": 1229,
+        "num_wins": 20,
+        "num_losses": 20,
+        "streak": -3,
+        "drops": 1,
+        "timestamp": 1590639620
+    },
+    {
+        "rating": 1237,
+        "num_wins": 20,
+        "num_losses": 19,
+        "streak": -2,
+        "drops": 1,
+        "timestamp": 1590259830
+    },
+    {
+        "rating": 1250,
+        "num_wins": 20,
+        "num_losses": 18,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1589611522
+    },
+    {
+        "rating": 1265,
+        "num_wins": 20,
+        "num_losses": 17,
+        "streak": 3,
+        "drops": 1,
+        "timestamp": 1589608764
+    },
+    {
+        "rating": 1252,
+        "num_wins": 19,
+        "num_losses": 17,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1589605666
+    },
+    {
+        "rating": 1235,
+        "num_wins": 18,
+        "num_losses": 17,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1589093393
+    },
+    {
+        "rating": 1221,
+        "num_wins": 17,
+        "num_losses": 17,
+        "streak": -2,
+        "drops": 1,
+        "timestamp": 1589091404
+    },
+    {
+        "rating": 1236,
+        "num_wins": 17,
+        "num_losses": 16,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1589089291
+    },
+    {
+        "rating": 1252,
+        "num_wins": 17,
+        "num_losses": 15,
+        "streak": 4,
+        "drops": 1,
+        "timestamp": 1589086311
+    },
+    {
+        "rating": 1229,
+        "num_wins": 16,
+        "num_losses": 15,
+        "streak": 3,
+        "drops": 1,
+        "timestamp": 1589004792
+    },
+    {
+        "rating": 1217,
+        "num_wins": 15,
+        "num_losses": 15,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1588485075
+    },
+    {
+        "rating": 1205,
+        "num_wins": 14,
+        "num_losses": 15,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1588481767
+    },
+    {
+        "rating": 1191,
+        "num_wins": 13,
+        "num_losses": 15,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1588479853
+    },
+    {
+        "rating": 1206,
+        "num_wins": 13,
+        "num_losses": 14,
+        "streak": 5,
+        "drops": 1,
+        "timestamp": 1588476834
+    },
+    {
+        "rating": 1195,
+        "num_wins": 12,
+        "num_losses": 14,
+        "streak": 4,
+        "drops": 1,
+        "timestamp": 1588400669
+    },
+    {
+        "rating": 1178,
+        "num_wins": 11,
+        "num_losses": 14,
+        "streak": 3,
+        "drops": 1,
+        "timestamp": 1588397036
+    },
+    {
+        "rating": 1160,
+        "num_wins": 10,
+        "num_losses": 14,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1587614924
+    },
+    {
+        "rating": 1144,
+        "num_wins": 9,
+        "num_losses": 14,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1587445989
+    },
+    {
+        "rating": 1129,
+        "num_wins": 8,
+        "num_losses": 14,
+        "streak": -2,
+        "drops": 1,
+        "timestamp": 1584781661
+    },
+    {
+        "rating": 1139,
+        "num_wins": 8,
+        "num_losses": 13,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1584779580
+    },
+    {
+        "rating": 1154,
+        "num_wins": 8,
+        "num_losses": 12,
+        "streak": 2,
+        "drops": 1,
+        "timestamp": 1584687988
+    },
+    {
+        "rating": 1130,
+        "num_wins": 7,
+        "num_losses": 12,
+        "streak": 1,
+        "drops": 1,
+        "timestamp": 1584657275
+    },
+    {
+        "rating": 1109,
+        "num_wins": 6,
+        "num_losses": 12,
+        "streak": -1,
+        "drops": 1,
+        "timestamp": 1584407483
+    },
+    {
+        "rating": 1135,
+        "num_wins": 6,
+        "num_losses": 11,
+        "streak": 1,
+        "drops": 0,
+        "timestamp": 1584075491
+    },
+    {
+        "rating": 1105,
+        "num_wins": 5,
+        "num_losses": 11,
+        "streak": -2,
+        "drops": 0,
+        "timestamp": 1583558789
+    },
+    {
+        "rating": 1105,
+        "num_wins": 5,
+        "num_losses": 10,
+        "streak": -1,
+        "drops": 0,
+        "timestamp": 1583289151
+    },
+    {
+        "rating": 1105,
+        "num_wins": 5,
+        "num_losses": 9,
+        "streak": 1,
+        "drops": 0,
+        "timestamp": 1583037408
+    },
+    {
+        "rating": 1024,
+        "num_wins": 4,
+        "num_losses": 9,
+        "streak": -6,
+        "drops": 0,
+        "timestamp": 1582938025
+    },
+    {
+        "rating": 1050,
+        "num_wins": 4,
+        "num_losses": 8,
+        "streak": -5,
+        "drops": 0,
+        "timestamp": 1582863428
+    },
+    {
+        "rating": 1079,
+        "num_wins": 4,
+        "num_losses": 7,
+        "streak": -4,
+        "drops": 0,
+        "timestamp": 1582862388
+    },
+    {
+        "rating": 1079,
+        "num_wins": 4,
+        "num_losses": 6,
+        "streak": -3,
+        "drops": 0,
+        "timestamp": 1582775253
+    }
+]

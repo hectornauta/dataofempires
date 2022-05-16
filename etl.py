@@ -83,7 +83,7 @@ def extract_matches(param_timestamp, session):
         if json_matches.status_code == 200:
             logger.info('Datos descargados')
             now = datetime.now().strftime('%Y%m%d%H%M%S')
-            with open(f'json/{now}.json', 'w', encoding='utf-8') as f:
+            with open(f'dumps/{now}.json', 'w', encoding='utf-8') as f:
                 try:
                     json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
                 except json.decoder.JSONDecodeError as error:

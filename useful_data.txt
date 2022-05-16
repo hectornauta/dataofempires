@@ -7,6 +7,7 @@
     1v1 Empire Wars=13
     Team Empire Wars=14
 # 1628294400
+    https://aoe2.net/api/player/matches?game=aoe2de&steam_id=76561198147771075&count=100
 # 1628298000
 # 1628301600
 

@@ -185,7 +185,7 @@ def civ_vs_civ():
         dataframe_temp = dataframe_temp.drop(['index'], axis=1)
         dataframe_temp = dataframe_temp.sort_values(by='winrate', ascending=False)
         dataframe_temp = dataframe_temp.set_index(['civ_1', 'civ_2'])
-        
+
         dataframe_temp = dataframe_temp.rename(
             columns={
                 'winrate': f'winrate_{dict_iterations[iteration]}',
@@ -352,7 +352,7 @@ def civ_rates():
             logging.error('Error en la conexión a la base de datos')
             raise Exception('Error al conectar a la base de datos')
         else:
-            logger.info('Cargados los reportes de civ rates')
+            logger.info(f'Cargados los reportes de civ rates para {labels[iteration]}')
         iteration = iteration + 1
 
 def update_players_elo():
@@ -360,6 +360,7 @@ def update_players_elo():
     dataframe_players_info = sql_functions.get_sql_results(FILE)
     dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name', 'country'], sort=False)['finished'].max()
     dataframe_players_info = dataframe_players_info.reset_index()
+    dataframe_players_info.to_json(path_or_buf='json/players.json', orient="records")
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         dataframe_players_info.to_sql(
@@ -394,4 +395,4 @@ if __name__ == "__main__":
     if ALL:
         update_all()
     else:
-        civ_vs_civ()
+        update_players_elo()
