@@ -1,8 +1,2 @@
-SELECT
-    country,
-    mean_elo,
-    max_elo,
-    std_elo,
-    sem_elo,
-    var_elo
+SELECT *
 FROM countries_elo

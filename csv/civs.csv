@@ -1,11 +1,11 @@
 id,numero,nombre,name
 1,1,Ingleses,Britons
-2,2,Franceses,French
+2,2,Franceses,Franks
 3,3,Godos,Goths
 4,4,Teutones,Teutons
 5,5,Japoneses,Japanese
 6,6,Chinos,Chinese
-7,7,Bizantinos,Byzantine
+7,7,Bizantinos,Byzantines
 8,8,Persas,Persians
 9,9,Sarracenos,Saracens
 10,10,Turcos,Turks
@@ -23,7 +23,7 @@ id,numero,nombre,name
 22,22,Magiares,Magyars
 23,23,Eslavos,Slavs
 24,24,Portugueses,Portuguese
-25,25,Etíopes,Ethopians
+25,25,Etíopes,Ethiopians
 26,26,Malíes,Malians
 27,27,Bereberes,Berber
 28,28,Jemeres,Khmer

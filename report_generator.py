@@ -19,6 +19,8 @@ from sqlalchemy.types import NCHAR
 
 import sql_functions
 
+import gamedata
+
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
@@ -58,34 +60,82 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
 
 def country_elo():
-    # TODO: Hacer que solamente tome un elo por jugador
-    FILE = f'{DIR}/sql/get_ranked_matches_params.sql'
-    dataframe_countries = sql_functions.get_sql_results(FILE, 3, 1000, 2000)
-    dataframe_countries = dataframe_countries.reset_index()
-    dataframe_countries = dataframe_countries.drop(['match_id', 'slot', 'civ', 'won', 'map_type'], axis=1)
-    dataframe_countries = dataframe_countries.groupby(['country']).agg(
-        mean_elo=pd.NamedAgg(column="rating", aggfunc="mean"),
-        max_elo=pd.NamedAgg(column="rating", aggfunc="max"),
-        std_elo=pd.NamedAgg(column="rating", aggfunc="std"),
-        sem_elo=pd.NamedAgg(column="rating", aggfunc="sem"),
-        var_elo=pd.NamedAgg(column="rating", aggfunc="var"),
+    COUNTRIES = gamedata.countries()
+    FILE_QUERY = f'{DIR}/sql/get_ranked_matches_ladder.sql'
+
+    labels = [
+        '3',
+        '4',
+        '13',
+        '14'
+    ]
+    dict_iterations = {
+        1: '3',
+        2: '4',
+        3: '13',
+        4: '14',
+    }
+
+    dataframe_rm_solo = sql_functions.get_sql_results(FILE_QUERY, 3)
+    dataframe_rm_solo = dataframe_rm_solo.reset_index()
+    dataframe_rm_team = sql_functions.get_sql_results(FILE_QUERY, 4)
+    dataframe_rm_team = dataframe_rm_team.reset_index()
+    dataframe_ew_solo = sql_functions.get_sql_results(FILE_QUERY, 13)
+    dataframe_ew_solo = dataframe_ew_solo.reset_index()
+    dataframe_ew_team = sql_functions.get_sql_results(FILE_QUERY, 14)
+    dataframe_ew_team = dataframe_ew_team.reset_index()
+    all_dataframes = [
+        dataframe_rm_solo,
+        dataframe_rm_team,
+        dataframe_ew_solo,
+        dataframe_ew_team
+    ]
+    all_countries_dataframes = []
+    iteration = 0
+    for dataframe in all_dataframes:
+        iteration = iteration + 1
+        dataframe = dataframe.sort_values('finished')
+        dataframe = dataframe.groupby(['country', 'profile_id']).agg(
+            rating=pd.NamedAgg(column="rating", aggfunc="last")
+        )
+        dataframe = dataframe.reset_index()
+        dataframe = dataframe.groupby(['country']).agg(
+            number_of_players=pd.NamedAgg(column="profile_id", aggfunc="count"),
+            mean_elo=pd.NamedAgg(column="rating", aggfunc="mean"),
+            max_elo=pd.NamedAgg(column="rating", aggfunc="max"),
+            # std_elo=pd.NamedAgg(column="rating", aggfunc="std"),
+            # sem_elo=pd.NamedAgg(column="rating", aggfunc="sem"),
+            # var_elo=pd.NamedAgg(column="rating", aggfunc="var")
+        )
+        dataframe = dataframe.rename(
+            columns={
+                'number_of_players': f'number_of_players_{dict_iterations[iteration]}',
+                'mean_elo': f'mean_elo_{dict_iterations[iteration]}',
+                'max_elo': f'max_elo_{dict_iterations[iteration]}'
+            }
+        )
+        all_countries_dataframes.append(dataframe)
+    
+    dataframe_final = reduce(lambda df1, df2: pd.merge(df1, df2, how='outer', on=['country']), all_countries_dataframes)
+    # logger.info(dataframe_final)
+    dataframe_final = dataframe_final.rename(
+        columns={
+            'number_of_players_': f'number_of_players__{dict_iterations[iteration]}',
+            'mean_elo': f'mean_elo_{dict_iterations[iteration]}',
+            'max_elo': f'max_elo_{dict_iterations[iteration]}'
+        }
     )
-    dataframe_countries = dataframe_countries.reset_index()
-    # logger.info(dataframe_countries)
+    dataframe_final = dataframe_final.sort_values(by=['country'])
+    # logger.info(dataframe_final)
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
-        dataframe_countries.to_sql(
+        dataframe_final.to_sql(
             'countries_elo',
             con=engine.connect(),
             if_exists='replace',
-            index=False,
+            index=True,
             dtype={
-                'country': NCHAR(2),
-                'mean_elo': Float(),
-                'max_elo': Float(),
-                'std_elo': Float(),
-                'sem_elo': Float(),
-                'var_elo': Float()
+                'country': NCHAR(2)
             }
         )
     except exc.SQLAlchemyError:
@@ -140,7 +190,8 @@ def map_playrate():
 
 def civ_vs_civ():
     FILE_SOLO = f'{DIR}/sql/get_ranked_matches_params.sql'
-    dataframe_civ = CIVS.copy()
+
+    dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
     labels = [
         '3A', '3B', '3C',
@@ -395,4 +446,4 @@ if __name__ == "__main__":
     if ALL:
         update_all()
     else:
-        update_players_elo()
+        country_elo()

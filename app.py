@@ -47,6 +47,7 @@ def temp_main():
 # meta_tags are required for the app layout to be mobile responsive
 app = dash.Dash(
     __name__,
+    assets_folder='assets',
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.DARKLY],
     meta_tags=[{

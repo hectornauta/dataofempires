@@ -7,8 +7,11 @@ from dash.dependencies import Input, Output
 import plotly.express as px
 import pandas as pd
 import pathlib
+
 from app import app
 import report_viewer
+import gamedata
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,6 +22,7 @@ logging.basicConfig(
 )
 logger = logging.getLogger()
 
+# TODO: usar gamedata
 CIVS = pd.read_csv('csv/civs.csv')
 CIVS.drop(['numero', 'name'], axis=1, inplace=True)
 CIVS = CIVS.astype({"id": int}, errors='raise')
@@ -39,6 +43,8 @@ tab1_content = dbc.Card(
             {'label': '1300-1600', 'value': '3B'},
             {'label': '+1600', 'value': '3C'}
         ],
+        searchable=False,
+        clearable=False,
         value='3A'
     )
 )
@@ -55,6 +61,8 @@ tab2_content = dbc.Card(
             {'label': '1600-2200', 'value': '4B'},
             {'label': '+2200', 'value': '4C'}
         ],
+        searchable=False,
+        clearable=False,
         value='4A'
     )
 )
@@ -70,6 +78,8 @@ tab3_content = dbc.Card(
             {'label': '900-1200', 'value': '13A'},
             {'label': '1200-2000', 'value': '13B'}
         ],
+        searchable=False,
+        clearable=False,
         value='13A'
     )
 )
@@ -85,6 +95,8 @@ tab4_content = dbc.Card(
             {'label': '900-1300', 'value': '14A'},
             {'label': '1300-2000', 'value': '14B'}
         ],
+        searchable=False,
+        clearable=False,
         value='14A'
     )
 )
@@ -129,6 +141,8 @@ tab1_civ_vs_civ_content = dbc.Card(
             {'label': '1300-1600', 'value': '3B'},
             {'label': '+1600', 'value': '3C'}
         ],
+        searchable=False,
+        clearable=False,
         value='3A'
     )
 )
@@ -144,6 +158,8 @@ tab2_civ_vs_civ_content = dbc.Card(
             {'label': '900-1200', 'value': '13A'},
             {'label': '1200-2000', 'value': '13B'}
         ],
+        searchable=False,
+        clearable=False,
         value='13A'
     )
 )
@@ -176,10 +192,20 @@ card = dbc.Card(
             'background-color': '#212121',
         },
         options=list_of_civs,
+        searchable=False,
+        clearable=False,
         value=3
     )
 )
 
+
+table_civ_vs_civ = dbc.Table.from_dataframe(
+    report_viewer.get_civ_vs_civ_dataframe(),
+    id='table_civ_vs_civ',
+    striped=True,
+    bordered=True,
+    hover=True
+)
 layout = html.Div([
     html.H1(
         'Estadísticas sobre civilizaciones',
@@ -188,7 +214,7 @@ layout = html.Div([
     ),
     tabs_civ_vs_civ,
     card,
-    dcc.Graph(id='table_civ_vs_civ', figure=report_viewer.civ_vs_civ()),
+    html.Div(id="table_civ_vs_civ-container"),
 
     tabs,
     dcc.Graph(id='graph_civ_rates', figure=report_viewer.civ_rates()),
@@ -204,19 +230,22 @@ def switch_tabs_civ_vs_civ(at):
         return tab2_civ_vs_civ_content
     return html.P("This shouldn't ever be displayed...")
 
-def create_table_civ_vs_civ(value1=-1, value2='3A'):
-    return report_viewer.civ_vs_civ(value1, value2)
-
 @app.callback(
-    Output('table_civ_vs_civ', 'figure'),
+    Output('table_civ_vs_civ-container', 'children'),
     [
         Input('dropdown-civ_vs_civ', 'value'),
         Input('dropdown_civ_vs_civ_ladder', 'value')
     ]
 )
 def update_table_civ_vs_civ(x1, x2):
-    fig = report_viewer.civ_vs_civ(x1, x2)
-    return fig
+    dataframe_civ_vs_civ = report_viewer.get_civ_vs_civ_dataframe(x1, x2)
+    return dbc.Table.from_dataframe(
+        dataframe_civ_vs_civ,
+        striped=True,
+        responsive=True,
+        bordered=True,
+        hover=True
+    )
 
 @app.callback(Output("content", "children"), [Input("tabs", "active_tab")])
 def switch_tab(at):

@@ -49,7 +49,7 @@ def get_sql_results(query_file, ladder=-1, min_elo=-1, max_elo=-1):
         logger.error(f'Error al leer los archivos SQL: {e}')
         raise Exception('Ha ocurrido un error al leer los archivos SQL')
     else:
-        # logger.info(f'Valores recibidos: {ladder} {min_elo} {max_elo}')
+        logger.info(f'Valores recibidos: {ladder} {min_elo} {max_elo}')
         if ladder != -1 and min_elo == -1 and max_elo == -1:
             dataframe_results = pd.read_sql_query(sql_query, sql_connection, params={'ladder': ladder})
         elif ladder == -1 or min_elo == 1 or max_elo == -1:
@@ -70,6 +70,16 @@ def get_sql_matches_players(ladder=-1, min_elo=-1, max_elo=-1, num_players=-1):
     # logger.info(matches_query)
     for result in results:
         logger.info(result)
+
+def get_countries_elo():
+    sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    engine = db.create_engine(sql_connection)
+    conn = engine.connect()
+    countries_elo_metadata = MetaData()
+    countries_elo_table = Table('countries_elo', countries_elo_metadata, autoload_with=engine)
+    countries_elo_query = select(countries_elo_table)
+    results = conn.execute(countries_elo_query)
+    return results
 
 def get_civ_vs_civ():
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
@@ -93,5 +103,5 @@ def get_civ_vs_civ():
     '''
     return results
 if __name__ == "__main__":
-    get_civ_vs_civ()
+    get_countries_elo()
     logger.info('...')

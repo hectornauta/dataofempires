@@ -12,10 +12,14 @@ from math import sqrt
 
 import plotly.express as px
 
+from dash import html
+import dash_bootstrap_components as dbc
+
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 
 import sql_functions
+import gamedata
 
 import flag
 
@@ -57,7 +61,9 @@ def get_player_stats():
 
 def get_civ_asset_name(x):
     x = x.lower()
-    return f'![Image_{x}](assets/{x}.png)'
+    emblem_path = f'/assets/civ_icons/{x}.png'
+    # logger.info(emblem_path)
+    return html.Img(src=emblem_path, height='30px')
 
 def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
     sql_results = sql_functions.get_civ_vs_civ()
@@ -82,9 +88,31 @@ def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(['nombre_x', 'nombre_y'], ascending=[True, True])
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'] * 100
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
+    dataframe_civ_vs_civ['image_x'] = dataframe_civ_vs_civ['name_x'].apply(get_civ_asset_name)
     dataframe_civ_vs_civ['image_y'] = dataframe_civ_vs_civ['name_y'].apply(get_civ_asset_name)
     dataframe_civ_vs_civ.drop(['name_y', 'name_x'], axis=1, inplace=True)
-    logger.info(dataframe_civ_vs_civ)
+    # logger.info(dataframe_civ_vs_civ)
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ[[
+        'image_x',
+        'nombre_x',
+        'image_y',
+        'nombre_y',
+        'matches',
+        'wins',
+        'winrate'
+    ]]
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
+        columns={
+            'image_x': 'Emblema',
+            'nombre_x': 'Civilización escogida',
+            'image_y': 'Emblema enemigo',
+            'nombre_y': 'Civilización enemiga',
+            'matches': 'Partidas jugadas',
+            'wins': 'Partidas ganadas',
+            'winrate': 'Winrate'
+        }
+    )
+    # logger.info(dataframe_civ_vs_civ)
     return dataframe_civ_vs_civ
 
 def civ_vs_civ(chosen_civ=-1, ladder='3A'):
@@ -121,7 +149,7 @@ def civ_vs_civ(chosen_civ=-1, ladder='3A'):
                     values=list(
                         ['Civilización 1', 'Civilización 2', 'Partidas ganadas', 'Partidas en total', 'Winrate']
                     ),
-                    fill_color='paleturquoise',
+                    # fill_color='paleturquoise',
                     align='left'
                 ),
                 cells=dict(
@@ -132,7 +160,7 @@ def civ_vs_civ(chosen_civ=-1, ladder='3A'):
                         dataframe_civ_vs_civ.matches,
                         dataframe_civ_vs_civ.winrate,
                     ],
-                    fill_color='lavender',
+                    # fill_color='lavender',
                     align='left'
                 )
             )
@@ -162,51 +190,44 @@ def get_flag(x):
     return flag.flag(x)
 
 def get_dataframe_countries(ladder=3):
-    COUNTRIES = pd.read_csv('csv/countries.csv')
-    COUNTRIES.set_index('alpha-2', inplace=True)
-    FILE = f'{DIR}/sql/get_players_elo.sql'
-    dataframe_countries = sql_functions.get_sql_results(FILE, ladder)
-    dataframe_countries = dataframe_countries.reset_index()
-    dataframe_countries = dataframe_countries.groupby(['country']).agg(
-        mean_elo=pd.NamedAgg(column="elo", aggfunc="mean"),
-        max_elo=pd.NamedAgg(column="elo", aggfunc="max"),
-        std_elo=pd.NamedAgg(column="elo", aggfunc="std"),
-        sem_elo=pd.NamedAgg(column="elo", aggfunc="sem"),
-        var_elo=pd.NamedAgg(column="elo", aggfunc="var"),
-        number_of_players=pd.NamedAgg(column="country", aggfunc="count"),
+    COUNTRIES = gamedata.countries()
+    ladder = str(ladder)
+    sql_results = sql_functions.get_countries_elo()
+    dataframe_countries = pd.DataFrame.from_records(
+        sql_results,
+        columns=sql_results.keys()
     )
-    dataframe_countries = dataframe_countries.reset_index()
-    # logger.info(dataframe_countries)
-    dataframe_countries_elo = dataframe_countries.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
-    dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
-    dataframe_countries_elo['flag'] = dataframe_countries_elo['country'].apply(get_flag)
-    dataframe_countries_elo = dataframe_countries_elo[[
+    logger.info(dataframe_countries)
+    dataframe_countries = dataframe_countries[['country', f'number_of_players_{ladder}', f'mean_elo_{ladder}', f'max_elo_{ladder}']]
+
+    dataframe_countries = dataframe_countries.merge(COUNTRIES, how='left', left_on='country', right_on='alpha-2')
+    dataframe_countries = dataframe_countries.sort_values(['country'], ascending=True)
+    dataframe_countries['flag'] = dataframe_countries['country'].apply(get_flag)
+
+    dataframe_countries = dataframe_countries[[
         'flag',
         'name',
-        'mean_elo',
-        'max_elo',
-        'number_of_players',
-        # 'std_elo',
-        # 'sem_elo',
-        # 'var_elo'
+        f'number_of_players_{ladder}',
+        f'mean_elo_{ladder}',
+        f'max_elo_{ladder}'
     ]]
-    dataframe_countries_elo = dataframe_countries_elo.rename(
+    dataframe_countries = dataframe_countries.rename(
         columns={
             'flag': 'Bandera',
             'name': 'Nombre',
-            'mean_elo': 'Elo promedio',
-            'max_elo': 'Elo máximo',
-            'number_of_players': 'Cantidad de jugadores',
+            f'number_of_players_{ladder}': 'Cantidad de jugadores',
+            f'mean_elo_{ladder}': 'Elo promedio',
+            f'max_elo_{ladder}': 'Elo máximo',
             # 'std_elo': 'Desviación estándar',
             # 'sem_elo': 'Error estándar',
             # 'var_elo': 'Varianza'
         }
     )
+    logger.info(dataframe_countries)
 
-    return dataframe_countries_elo
+    return dataframe_countries
 
 def countries_elo_stats(ladder=3):
-    # TODO: control de errores
     COUNTRIES = pd.read_csv('csv/countries.csv')
     COUNTRIES.set_index('alpha-2', inplace=True)
     FILE = f'{DIR}/sql/get_players_elo.sql'
@@ -236,7 +257,7 @@ def countries_elo_stats(ladder=3):
         geo=dict(
             showframe=False,
             showcoastlines=False,
-            projection_type='orthographic'
+            projection_type='natural earth'
         )
     )
     return figure_countries_elo
@@ -342,4 +363,5 @@ if __name__ == "__main__":
     # show_all_reports()
     # civ_vs_civ(1, '3A')
     # countries_elo_stats()
-    get_civ_vs_civ_dataframe()
+    # get_civ_vs_civ_dataframe()
+    get_dataframe_countries()
