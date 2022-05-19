@@ -267,6 +267,7 @@ def get_player_time_rates(player_matches, ladder='3', profile_id=220170):
 def get_all_stats(player_matches, profile_id=220170):
     dataframe_player = player_matches
     dataframe_player = dataframe_player[dataframe_player['profile_id'] == int(profile_id)]
+    dataframe_player = dataframe_player.sort_values(by='finished')
     dataframe_player = dataframe_player.groupby(['leaderboard_id']).agg(
         wins=pd.NamedAgg(column="won", aggfunc="sum"),
         matches=pd.NamedAgg(column="profile_id", aggfunc="count"),

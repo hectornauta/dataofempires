@@ -11,6 +11,7 @@
 .idea/
 #OTROS
 .env
+heroku.env
 database.ini
 /assets
 /dumps
