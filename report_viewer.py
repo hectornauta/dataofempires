@@ -197,7 +197,7 @@ def get_dataframe_countries(ladder=3):
         sql_results,
         columns=sql_results.keys()
     )
-    logger.info(dataframe_countries)
+    # logger.info(dataframe_countries)
     dataframe_countries = dataframe_countries[['country', f'number_of_players_{ladder}', f'mean_elo_{ladder}', f'max_elo_{ladder}']]
 
     dataframe_countries = dataframe_countries.merge(COUNTRIES, how='left', left_on='country', right_on='alpha-2')
@@ -223,7 +223,7 @@ def get_dataframe_countries(ladder=3):
             # 'var_elo': 'Varianza'
         }
     )
-    logger.info(dataframe_countries)
+    # logger.info(dataframe_countries)
 
     return dataframe_countries
 

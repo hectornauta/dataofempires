@@ -228,6 +228,8 @@ def switch_tabs_civ_vs_civ(at):
         return tab1_civ_vs_civ_content
     elif at == "tab_civ_vs_civ_ew_solo":
         return tab2_civ_vs_civ_content
+    else:
+        return tab1_civ_vs_civ_content
     return html.P("This shouldn't ever be displayed...")
 
 @app.callback(
@@ -271,14 +273,14 @@ def create_graph_civ_pick_rate(value='3A'):
     [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_rates(selected_value):
     fig = create_graph_civ_rates(selected_value)
-    logger.info(selected_value)
+    # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_winrate', 'figure'),
     [Input('dropdown_civ_rates', 'value')])
 def update_graph_civ_winrate(selected_value):
     fig = create_graph_civ_winrate(selected_value)
-    logger.info(selected_value)
+    # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_pickrate', 'figure'),

@@ -15,3 +15,12 @@ def countries():
     COUNTRIES.set_index('alpha-2', inplace=True)
     return COUNTRIES
 
+def leaderboards(ladder):
+    dict_leaderboards = {
+        '0': 'No ranked',
+        '3': 'Mapa aleatorio solo',
+        '4': 'Mapa aleatorio por equipos',
+        '13': 'Guerras Imperiales solo',
+        '14': 'Guerras Imperiales por equipos'
+    }
+    return dict_leaderboards[ladder]

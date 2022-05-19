@@ -28,6 +28,9 @@ logging.basicConfig(
 logger = logging.getLogger()
 
 def get_profile_id(steam_id=-1, name=''):
+    '''
+    Dado un steam_id o username, devuelve el profile_id
+    '''
     if steam_id != -1:
         with open('json/players.json') as file_players:
             players = json.load(file_players)
@@ -186,95 +189,6 @@ def get_player_matches(profile_id, number_of_matches=1000):
     else:
         return None
 
-def get_dataframe_with_json(json_file='dumps/20220516122934.json', profile_id=2201170):
-    with open(json_file, encoding='utf-8') as temp_file:
-        player_matches = json.load(temp_file)
-        player_matches = json.dumps(player_matches)
-    for match in player_matches:
-        valid_match = True
-
-        ranked = match['ranked']
-        game_type = match['game_type']
-        leaderboard_id = match['leaderboard_id']
-        jugadores = match['players']
-        if game_type is None or ranked is None or not ranked or leaderboard_id is None:
-            valid_match = False
-
-        for jugador in jugadores:
-            civ = jugador['civ']
-            won = jugador['won']
-            team = jugador['team']
-            slot = jugador['slot']
-            if slot is None or civ is None or int(civ) == 0 or won is None or team is None:  # check civ and victory
-                valid_match = False
-        if valid_match:
-            # Obtenemos los datos relevantes
-            match_id = int(match['match_id'])
-            num_players = int(match['num_players'])
-            game_type = int(match['game_type'])
-            map_size = int(match['map_size'])
-            map_type = int(match['map_type'])
-            leaderboard_id = int(match['leaderboard_id'])
-            rating_type = int(match['rating_type'])
-            started = int(match['started'])
-            finished = int(match['finished'])
-            version = None if match['version'] is None else int(match['version'])
-            players = match['players']
-            for player in players:
-                profile_id = int(player['profile_id'])
-                steam_id = None if player['steam_id'] is None else int(player['steam_id'])
-                country = None if player['country'] is None else str(player['country'])[:2]
-                slot = int(player['slot'])
-                slot_type = int(player['slot_type'])
-                rating = None if player['rating'] is None else int(player['rating'])
-                rating_change = None if player['rating_change'] is None else int(player['rating_change'])
-                color = None if player['color'] is None else int(player['color'])
-                name = None if player['name'] is None else (str(player['name']))[:32]
-                team = int(player['team'])
-                civ = int(player['civ'])
-                won = int(player['won'])
-                player_matches.append(
-                    [
-                        match_id,
-                        slot,
-                        profile_id,
-                        steam_id,
-                        country,
-                        slot_type,
-                        rating,
-                        rating_change,
-                        color,
-                        team,
-                        civ,
-                        won,
-                        map_type,
-                        leaderboard_id,
-                        started,
-                        finished
-                    ]
-                )
-    dataframe_matches_players = pd.DataFrame(
-        player_matches, columns=[
-            'match_id',
-            'slot',
-            'profile_id',
-            'steam_id',
-            'country',
-            'slot_type',
-            'rating',
-            'rating_change',
-            'color',
-            'team',
-            'civ',
-            'won',
-            'map_type',
-            'leaderboard_id',
-            'started',
-            'finished'
-        ]
-    )
-    return dataframe_matches_players
-
 def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
     dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
@@ -289,7 +203,8 @@ def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
-    logger.info(player_matches)
+    player_matches = player_matches.sort_values(by='winrate', ascending=False)
+    return player_matches
 def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
@@ -308,9 +223,11 @@ def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
+    player_matches = player_matches.sort_values(by='winrate', ascending=False)
     # player_matches = player_matches.drop(['number_of_picks', 'number_of_wins'], axis=1)
     logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+    return player_matches
 
 def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
     dataframe_map = gamedata.maps()
@@ -330,9 +247,11 @@ def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
+    player_matches = player_matches.sort_values(by='winrate', ascending=False)
     # player_matches = player_matches.drop(['number_of_picks', 'number_of_wins'], axis=1)
     logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+    return player_matches
 def get_player_time_rates(player_matches, ladder='3', profile_id=220170):
 
     player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
@@ -343,7 +262,45 @@ def get_player_time_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches[['seconds', 'minutes', 'won']]
     logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+    return player_matches
 
+def get_all_stats(player_matches, profile_id=220170):
+    dataframe_player = player_matches
+    dataframe_player = dataframe_player[dataframe_player['profile_id'] == int(profile_id)]
+    dataframe_player = dataframe_player.groupby(['leaderboard_id']).agg(
+        wins=pd.NamedAgg(column="won", aggfunc="sum"),
+        matches=pd.NamedAgg(column="profile_id", aggfunc="count"),
+        actual_elo=pd.NamedAgg(column="rating", aggfunc="last"),
+        max_elo=pd.NamedAgg(column="rating", aggfunc="max"),
+    )
+    dataframe_player['losses'] = dataframe_player['matches'] - dataframe_player['wins']
+    dataframe_player['winrate'] = dataframe_player['wins'] / dataframe_player['matches']
+    dataframe_player['winrate'] = dataframe_player['winrate'] * 100
+    dataframe_player['winrate'] = dataframe_player['winrate'].map('{:,.2f} %'.format)
+    # Transformación HTML
+    dict_leaderboard = {
+        0: 'No ranked',
+        3: 'Mapa aleatorio solo',
+        4: 'Mapa aleatorio por equipos',
+        13: 'Guerras Imperiales solo',
+        14: 'Guerras Imperiales por equipos'
+    }
+    dataframe_player = dataframe_player.reset_index()
+    dataframe_player = dataframe_player.replace({"leaderboard_id": dict_leaderboard})
+    dataframe_player = dataframe_player.rename(
+        columns={
+            'leaderboard_id': 'Modo',
+            'matches': 'Partidas',
+            'wins': 'Victorias',
+            'losses': 'Derrotas',
+            'winrate': 'Winrate',
+            'actual_elo': 'Elo actual',
+            'max_elo': 'Elo máximo',
+        }
+    )
+
+    logger.info(dataframe_player)
+    return dataframe_player
 if __name__ == "__main__":
     ALL = False
     if not ALL:
@@ -351,6 +308,7 @@ if __name__ == "__main__":
         player_matches = get_player_matches(profile_id)
         # player_matches = get_dataframe_with_json()
         # get_player_civ_rates(player_matches, ladder='4')
-        get_enemy_civ_rates(player_matches, ladder='3')
+        # get_enemy_civ_rates(player_matches, ladder='4')
         # get_player_map_rates(player_matches, ladder='4')
+        get_all_stats(player_matches, 1194828)
         # get_player_time_rates(player_matches, ladder='4')

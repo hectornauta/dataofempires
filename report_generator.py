@@ -115,7 +115,7 @@ def country_elo():
             }
         )
         all_countries_dataframes.append(dataframe)
-    
+
     dataframe_final = reduce(lambda df1, df2: pd.merge(df1, df2, how='outer', on=['country']), all_countries_dataframes)
     # logger.info(dataframe_final)
     dataframe_final = dataframe_final.rename(
@@ -316,19 +316,43 @@ def best_civs_duo():
     df4 = dataframe_matches_players.groupby(np.sort(dataframe_matches_players[c], axis=1).T.tolist()).size()
     df3 = df1 + df2
     df3 = df3.sort_values()
-    # logger.info(f'\n {dataframe_matches_players}')
-    # dataframe_matches_players = dataframe_matches_players.groupby(['civ_x', 'civ_y']).agg(
-    #     number_of_wins=pd.NamedAgg(column="won_x", aggfunc="count")
-    # )
-    # dataframe_matches_players = dataframe_matches_players.reset_index()
-    # dataframe_matches_players = dataframe_matches_players[~pd.DataFrame(np.sort(dataframe_matches_players.filter(like='civ_'))).duplicated()]
-    # dataframe_matches_players = dataframe_matches_players.sort_values(by=['number_of_wins'])
-    # logger.info(f'\n {dataframe_matches_players}')
-    # logger.info(f'\n {df1}')
-    # logger.info(f'\n {df2}')
-    # logger.info(f'\n {df3}')
-    # logger.info(f'\n {df4}')
+    dataframe_matches_players = dataframe_matches_players.groupby(['civ_x', 'civ_y']).agg(
+        wins=pd.NamedAgg(column="won_x", aggfunc="count"),
+        losses=pd.NamedAgg(column="lost", aggfunc="sum")
+    )
+    dataframe_matches_players['picks'] = dataframe_matches_players['wins'] + dataframe_matches_players['losses']
+    dataframe_matches_players['winrate'] = dataframe_matches_players['wins'] / dataframe_matches_players['picks']
+    dataframe_matches_players = dataframe_matches_players.reset_index()
+    dataframe_matches_players = dataframe_matches_players[~pd.DataFrame(np.sort(dataframe_matches_players.filter(like='civ_'))).duplicated()]
+    dataframe_matches_players = dataframe_matches_players.sort_values(by=['winrate'])
 
+    dataframe_matches_players = dataframe_matches_players.rename(
+        columns={
+            'civ_x': 'civ_1',
+            'civ_y': 'civ_2',
+        }
+    )
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_matches_players.to_sql(
+            'civs_duo',
+            con=engine.connect(),
+            if_exists='replace',
+            index=False,
+            dtype={
+                'civ_1': Integer(),
+                'civ_2': Integer(),
+                'wins': Integer(),
+                'losses': Integer(),
+                'picks': Integer(),
+                'winrate': Float()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Actualizados los players')
 
 def civ_rates():
     FILE_SOLO = f'{DIR}/sql/get_ranked_matches_params.sql'
@@ -409,9 +433,14 @@ def civ_rates():
 def update_players_elo():
     FILE = f'{DIR}/sql/get_players_info.sql'
     dataframe_players_info = sql_functions.get_sql_results(FILE)
-    dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name', 'country'], sort=False)['finished'].max()
+    dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name'], sort=False)['finished'].max()
     dataframe_players_info = dataframe_players_info.reset_index()
-    dataframe_players_info.to_json(path_or_buf='json/players.json', orient="records")
+    # TODO: no guardar finished ni country
+    dataframe_to_json = dataframe_players_info[['profile_id', 'steam_id', 'name']]
+    dataframe_to_json.to_json(
+        path_or_buf='json/players.json',
+        orient="records"
+    )
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         dataframe_players_info.to_sql(
@@ -433,6 +462,30 @@ def update_players_elo():
     else:
         logger.info('Actualizados los players')
 
+def restore_players():
+    dataframe_restore = pd.read_json('json/players.json', encoding='UTF-8')
+    logger.info(dataframe_restore)
+    engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    try:
+        dataframe_restore.to_sql(
+            'players',
+            con=engine.connect(),
+            if_exists='replace',
+            index=False,
+            dtype={
+                'profile_id': Integer(),
+                'steam_id': BigInteger(),
+                'name': VARCHAR(32),
+                'finished': Integer()
+            }
+        )
+    except exc.SQLAlchemyError:
+        logging.error('Error en la conexión a la base de datos')
+        raise Exception('Error al conectar a la base de datos')
+    else:
+        logger.info('Actualizados los players')
+
+
 def update_all():
     best_civs_duo()
     civ_vs_civ()
@@ -446,4 +499,4 @@ if __name__ == "__main__":
     if ALL:
         update_all()
     else:
-        country_elo()
+        best_civs_duo()
