@@ -35,7 +35,9 @@ Clonar el repositorio (o bien, descargarlo desde https://github.com/hectornauta/
 
 En el directorio/carpeta donde se ha clonado/descargado el proyecto, abrir una terminal de comandos
 > Mantener presionada la tecla SHIFT
+
 > Clic derecho en un espacio vacío
+
 > Hacer clic en "Abrir ventana de línea de comandos/PowerShell"
 
 Crear un entorno virtual utilizando el comando
@@ -47,8 +49,12 @@ Activar el entorno virtual con el comando
 Instalar los siguientes paquetes, ejecutando el siguiente comando para hacer uso del archivo requirements.txt
 > pip install -r requirements.txt 
 
-Crear un archivo llamado simplemente **.env** con las credenciales de PostgreSQL, con el siguiente formato
+Crear un archivo llamado simplemente **.env** con las credenciales de PostgreSQL, con el siguiente formato:
+
 >DB_NAME=
+
 >DB_USER=
+
 >DB_PASSWORD=
+
 >DB_HOST=127.0.0.1
