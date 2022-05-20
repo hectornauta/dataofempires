@@ -6,11 +6,9 @@ Data of Empires es una app que permite obtener y visualizar datos correspondient
 Para esto se sirve de los datos ofrecidos por https://aoe2.net/#api. Con los datos se realiza el proceso de Extracción, Transformación y Carga para su análisis y visualización posterior.
 
 ## Herramientas utilizadas
-- Pandas
-- Plotly
-- Dash
-- Librería requests
-- PostgreSQL
+- Biblotecas: Pandas, Plotly, requests
+- Framework :Dash
+- DB: PostgreSQL
 
 ## Funciones y estado
 - Análisis del historial personal de partidas de un jugador **WIP**
@@ -46,15 +44,17 @@ Crear un entorno virtual utilizando el comando
 Activar el entorno virtual con el comando
 > .\env\Scripts\activate
 
-Instalar los siguientes paquetes, ejecutando el siguiente comando para hacer uso del archivo requirements.txt
+Instalar las dependencias, ejecutando el siguiente comando para hacer uso del archivo requirements.txt
 > pip install -r requirements.txt 
 
 Crear un archivo llamado simplemente **.env** con las credenciales de PostgreSQL, con el siguiente formato:
 
->DB_NAME=
+>DB_NAME =
 
->DB_USER=
+>DB_USER =
 
->DB_PASSWORD=
+>DB_PASSWORD =
 
->DB_HOST=127.0.0.1
+>DB_HOST =
+
+>DB_PORT =
