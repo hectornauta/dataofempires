@@ -18,6 +18,8 @@ from requests_futures.sessions import FuturesSession
 
 import gamedata
 
+import pickle
+
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
@@ -189,22 +191,6 @@ def get_player_matches(profile_id, number_of_matches=1000):
     else:
         return None
 
-def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
-    dataframe_civ = gamedata.civs()
-    dataframe_civ = dataframe_civ.reset_index()
-
-    player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
-    player_matches = player_matches[player_matches['profile_id'] != int(profile_id)]
-    number_of_matches = player_matches['match_id'].nunique()
-    player_matches['number_of_wins'] = 0
-    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='outer')
-    player_matches = player_matches.groupby(['id', 'name', 'nombre']).agg(
-        number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
-        number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
-    player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
-    player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
-    player_matches = player_matches.sort_values(by='winrate', ascending=False)
-    return player_matches
 def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
@@ -218,15 +204,81 @@ def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     number_of_matches = player_matches['match_id'].nunique()
     player_matches['number_of_wins'] = 0
     player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='outer')
-    player_matches = player_matches.groupby(['id', 'name', 'nombre']).agg(
+    player_matches = player_matches.groupby(['name', 'nombre']).agg(
         number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
+
+    player_matches = player_matches.reset_index()
+    player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
+
     # player_matches = player_matches.drop(['number_of_picks', 'number_of_wins'], axis=1)
-    logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+    player_matches = player_matches.rename(
+        columns={
+            'image': 'Emblema',
+            'name': 'Civilization',
+            'nombre': 'Civilización',
+            'number_of_wins': 'Victorias',
+            'number_of_picks': 'Partidas',
+            'winrate': 'Porcentaje de victorias',
+            'pickrate': 'Porcentaje de uso'
+        }
+    )
+    player_matches = player_matches[[
+        'Emblema',
+        'Civilización',
+        'Civilization',
+        'Partidas',
+        'Victorias',
+        'Porcentaje de victorias',
+        'Porcentaje de uso'
+    ]]
+    logger.info(player_matches)
+    return player_matches
+
+def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
+    dataframe_civ = gamedata.civs()
+    dataframe_civ = dataframe_civ.reset_index()
+
+    player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
+    player_matches = player_matches[player_matches['profile_id'] != int(profile_id)]
+    number_of_matches = player_matches['match_id'].nunique()
+    player_matches['number_of_wins'] = 0
+    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='outer')
+    player_matches = player_matches.groupby(['name', 'nombre']).agg(
+        number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
+        number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
+    player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
+
+    player_matches = player_matches.reset_index()
+    player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
+
+    player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
+    player_matches = player_matches.sort_values(by='winrate', ascending=False)
+    player_matches = player_matches.rename(
+        columns={
+            'image': 'Emblema',
+            'name': 'Civilization',
+            'nombre': 'Civilización',
+            'number_of_wins': 'Derrotas',
+            'number_of_picks': 'Partidas',
+            'winrate': 'Porcentaje de derrotas',
+            'pickrate': 'Porcentaje de aparición'
+        }
+    )
+    player_matches = player_matches[[
+        'Emblema',
+        'Civilización',
+        'Civilization',
+        'Partidas',
+        'Derrotas',
+        'Porcentaje de derrotas',
+        'Porcentaje de aparición'
+    ]]
+    logger.info(player_matches)
     return player_matches
 
 def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
@@ -242,15 +294,41 @@ def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
     number_of_matches = player_matches['match_id'].nunique()
     player_matches['number_of_wins'] = 0
     player_matches = dataframe_map.merge(player_matches, left_on='id', right_on='map_type', how='outer')
-    player_matches = player_matches.groupby(['id', 'name', 'nombre']).agg(
+    pd.set_option('display.max_columns', None)
+    player_matches = player_matches.groupby(['name', 'nombre']).agg(
         number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
+
+    player_matches = player_matches.reset_index()
+    player_matches = player_matches[player_matches.number_of_picks > 1]
+    # player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
+
     # player_matches = player_matches.drop(['number_of_picks', 'number_of_wins'], axis=1)
-    logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+
+    logger.info(player_matches)
+    player_matches = player_matches.rename(
+        columns={
+            'name': 'Map',
+            'nombre': 'Mapa',
+            'number_of_wins': 'Victorias',
+            'number_of_picks': 'Partidas',
+            'winrate': 'Porcentaje de victorias',
+            'pickrate': 'Porcentaje de aparición'
+        }
+    )
+    player_matches = player_matches[[
+        'Mapa',
+        'Map',
+        'Partidas',
+        'Victorias',
+        'Porcentaje de victorias',
+        'Porcentaje de aparición'
+    ]]
+    logger.info(player_matches)
     return player_matches
 def get_player_time_rates(player_matches, ladder='3', profile_id=220170):
 
@@ -260,8 +338,15 @@ def get_player_time_rates(player_matches, ladder='3', profile_id=220170):
     player_matches['seconds'] = player_matches['finished'] - player_matches['started']
     player_matches['minutes'] = player_matches['seconds'] / 60
     player_matches = player_matches[['seconds', 'minutes', 'won']]
-    logger.info(player_matches)
     # player_matches['ladder_cat'] = labels
+    player_matches = player_matches.rename(
+        columns={
+            'seconds': 'Segundos',
+            'minutes': 'Minutos',
+            'won': 'Victoria'
+        }
+    )
+    logger.info(player_matches)
     return player_matches
 
 def get_all_stats(player_matches, profile_id=220170):
@@ -302,9 +387,18 @@ def get_all_stats(player_matches, profile_id=220170):
 
     logger.info(dataframe_player)
     return dataframe_player
+
 if __name__ == "__main__":
-    ALL = False
-    if not ALL:
+    TEST = True
+    if TEST:
+        file_matches = open('files/player_matches.obj', 'rb')
+        player_matches = pickle.load(file_matches)
+        # get_player_civ_rates(player_matches, ladder='4')
+        # get_enemy_civ_rates(player_matches, ladder='3')
+        get_player_map_rates(player_matches, ladder='4')
+        # get_all_stats(player_matches, 1194828)
+        # get_player_time_rates(player_matches, ladder='4')
+    else:
         profile_id = get_profile_id(name='DS_Jokerwin')
         player_matches = get_player_matches(profile_id)
         # player_matches = get_dataframe_with_json()

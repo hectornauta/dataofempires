@@ -1,4 +1,8 @@
 import pandas as pd
+
+from dash import html
+import dash_bootstrap_components as dbc
+
 def civs():
     CIVS = pd.read_csv('csv/civs.csv')
     CIVS.drop(['numero'], axis=1, inplace=True)
@@ -24,3 +28,9 @@ def leaderboards(ladder):
         '14': 'Guerras Imperiales por equipos'
     }
     return dict_leaderboards[ladder]
+
+def get_civ_asset_name(x):
+    x = x.lower()
+    emblem_path = f'/assets/civ_icons/{x}.png'
+    # logger.info(emblem_path)
+    return html.Img(src=emblem_path, height='30px')
