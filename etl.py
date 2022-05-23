@@ -26,7 +26,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 5, 16, 0, 0)
+LAST_DAY = datetime(2022, 5, 21, 0, 0)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -154,7 +154,7 @@ def transform_matches(json_matches, last_match):
                 civ = int(player['civ'])
                 won = int(player['won'])
                 list_matches_players.append([match_id, slot, profile_id, steam_id, country, slot_type, rating, rating_change, color, team, civ, won])
-                list_players.append([profile_id, steam_id, name, country, finished])
+                list_players.append([profile_id, steam_id, name, finished])
         else:
             invalid_matches = invalid_matches + 1
         if matches_processed % 100 == 0:
@@ -167,7 +167,7 @@ def transform_matches(json_matches, last_match):
     if valid_matches > 0:
         dataframe_matches = pd.DataFrame(list_matches, columns=['match_id', 'num_players', 'game_type', 'map_size', 'map_type', 'leaderboard_id', 'rating_type', 'started', 'finished', 'version'])
         dataframe_matches_players = pd.DataFrame(list_matches_players, columns=['match_id', 'slot', 'profile_id', 'steam_id', 'country', 'slot_type', 'rating', 'rating_change', 'color', 'team', 'civ', 'won'])
-        dataframe_players = pd.DataFrame(list_players, columns=['profile_id', 'steam_id', 'name', 'country', 'finished'])
+        dataframe_players = pd.DataFrame(list_players, columns=['profile_id', 'steam_id', 'name', 'finished'])
         dataframe_players = dataframe_players.drop_duplicates(subset=['profile_id'], keep='last')
         return [dataframe_matches, dataframe_matches_players, dataframe_players]
     else:
@@ -245,7 +245,6 @@ def load_matches(dataframes, last_match):
                 'profile_id': Integer(),
                 'steam_id': BigInteger(),
                 'name': VARCHAR(32),
-                'country': NCHAR(2),
                 'finished': Integer()
             }
         )

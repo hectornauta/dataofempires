@@ -352,7 +352,7 @@ def best_civs_duo():
         logging.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
-        logger.info('Actualizados los players')
+        logger.info('Actualizados el rendimiento de dúo de civilizaciones')
 
 def civ_rates():
     FILE_SOLO = f'{DIR}/sql/get_ranked_matches_params.sql'
@@ -435,7 +435,11 @@ def update_players_elo():
     dataframe_players_info = sql_functions.get_sql_results(FILE)
     dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name'], sort=False)['finished'].max()
     dataframe_players_info = dataframe_players_info.reset_index()
-    # TODO: no guardar finished ni country
+    dataframe_players_info['steam_id'] = dataframe_players_info['steam_id'].astype(np.int64)
+
+    steam_id_dict = dict(zip(dataframe_players_info['steam_id'], dataframe_players_info['profile_id']))
+    name_dict = dict(zip(dataframe_players_info['name'], dataframe_players_info['profile_id']))
+
     dataframe_to_json = dataframe_players_info[['profile_id', 'steam_id', 'name']]
     dataframe_to_json.to_json(
         path_or_buf='json/players.json',
@@ -499,4 +503,4 @@ if __name__ == "__main__":
     if ALL:
         update_all()
     else:
-        best_civs_duo()
+        update_players_elo()

@@ -19,3 +19,4 @@ database.ini
 *.log
 borrador.txt
 test*
+json/players.json
