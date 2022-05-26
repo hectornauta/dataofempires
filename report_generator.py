@@ -18,7 +18,7 @@ from sqlalchemy.types import SmallInteger
 from sqlalchemy.types import NCHAR
 
 import sql_functions
-
+import redis_functions
 import gamedata
 
 logging.basicConfig(
@@ -437,8 +437,16 @@ def update_players_elo():
     dataframe_players_info = dataframe_players_info.reset_index()
     dataframe_players_info['steam_id'] = dataframe_players_info['steam_id'].astype(np.int64)
 
-    steam_id_dict = dict(zip(dataframe_players_info['steam_id'], dataframe_players_info['profile_id']))
-    name_dict = dict(zip(dataframe_players_info['name'], dataframe_players_info['profile_id']))
+    # steam_id_dict = dict(zip(dataframe_players_info['steam_id'], dataframe_players_info['profile_id']))
+    # name_dict = dict(zip(dataframe_players_info['name'], dataframe_players_info['profile_id']))
+
+    # logger.info(steam_id_dict)
+    # logger.info(steam_id_dict['76561198147771075'])
+    # logger.info(name_dict['Hectornauta'])
+    # raise Exception('Ups')
+
+    # redis_functions.load_dict('steam_ids', steam_id_dict)
+    # redis_functions.load_dict('names', name_dict)
 
     dataframe_to_json = dataframe_players_info[['profile_id', 'steam_id', 'name']]
     dataframe_to_json.to_json(

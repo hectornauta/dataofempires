@@ -31,7 +31,7 @@ LAST_DAY = datetime(2022, 5, 21, 0, 0)
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("dataofempires.log"),
+        logging.FileHandler("etl.log"),
         logging.StreamHandler()
     ]
 )
@@ -143,6 +143,7 @@ def transform_matches(json_matches, last_match):
             for player in players:
                 profile_id = int(player['profile_id'])
                 steam_id = None if player['steam_id'] is None else int(player['steam_id'])
+                # logger.info(f'steam_id in line 146:{steam_id}')
                 country = None if player['country'] is None else str(player['country'])[:2]
                 slot = int(player['slot'])
                 slot_type = int(player['slot_type'])
@@ -176,6 +177,7 @@ def load_matches(dataframes, last_match):
     logger.info('Cargando a la BD')
     dataframe_matches = dataframes[0]
     dataframes_matches_players = dataframes[1]
+    # logger.info(f'Check for steam_ids in load_matches:{dataframes_matches_players}')
     dataframes_players = dataframes[2]
 
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')

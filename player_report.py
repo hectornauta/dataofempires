@@ -16,9 +16,10 @@ import query_functions
 from concurrent.futures import as_completed
 from requests_futures.sessions import FuturesSession
 
-import gamedata
-
 import pickle
+
+import gamedata
+import redis_functions
 
 logging.basicConfig(
     level=logging.INFO,
@@ -33,6 +34,7 @@ def get_profile_id(steam_id=-1, name=''):
     '''
     Dado un steam_id o username, devuelve el profile_id
     '''
+    '''
     if steam_id != -1:
         with open('json/players.json') as file_players:
             players = json.load(file_players)
@@ -44,15 +46,11 @@ def get_profile_id(steam_id=-1, name=''):
             profile_id = player['profile_id']
             logger.info(profile_id)
     else:
-        with open('json/players.json') as file_players:
-            players = json.load(file_players)
-        try:
-            player = list(filter(lambda item: item['name'] == name, players))[0]
-        except IndexError as e:
-            profile_id = -1
-        else:
-            profile_id = player['profile_id']
-            logger.info(profile_id)
+    '''
+    profile_id = redis_functions.get_profile_id_by_name(name)
+    logger.info(profile_id)
+    if profile_id is None:
+        profile_id = -1
     return profile_id
 
 def get_player_matches(profile_id, number_of_matches=1000):
@@ -203,13 +201,17 @@ def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches[player_matches['profile_id'] == int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
     player_matches['number_of_wins'] = 0
-    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='outer')
+    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='right')
     player_matches = player_matches.groupby(['name', 'nombre']).agg(
         number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
+    player_matches['winrate'] = player_matches['winrate'] * 100
+    player_matches['pickrate'] = player_matches['pickrate'] * 100
+    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+    player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
 
     player_matches = player_matches.reset_index()
     player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
@@ -247,7 +249,7 @@ def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches[player_matches['profile_id'] != int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
     player_matches['number_of_wins'] = 0
-    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='outer')
+    player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='right')
     player_matches = player_matches.groupby(['name', 'nombre']).agg(
         number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
         number_of_picks=pd.NamedAgg(column="id", aggfunc="count"))
@@ -257,6 +259,10 @@ def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
     player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
 
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
+    player_matches['winrate'] = player_matches['winrate'] * 100
+    player_matches['pickrate'] = player_matches['pickrate'] * 100
+    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+    player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
     player_matches = player_matches.rename(
         columns={
@@ -293,7 +299,7 @@ def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches[player_matches['profile_id'] == int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
     player_matches['number_of_wins'] = 0
-    player_matches = dataframe_map.merge(player_matches, left_on='id', right_on='map_type', how='outer')
+    player_matches = dataframe_map.merge(player_matches, left_on='id', right_on='map_type', how='right')
     pd.set_option('display.max_columns', None)
     player_matches = player_matches.groupby(['name', 'nombre']).agg(
         number_of_wins=pd.NamedAgg(column="won", aggfunc="sum"),
@@ -301,9 +307,13 @@ def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
     player_matches['winrate'] = (player_matches['number_of_wins'] / player_matches['number_of_picks'])
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
+    player_matches['winrate'] = player_matches['winrate'] * 100
+    player_matches['pickrate'] = player_matches['pickrate'] * 100
+    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+    player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
 
     player_matches = player_matches.reset_index()
-    player_matches = player_matches[player_matches.number_of_picks > 1]
+    # player_matches = player_matches[player_matches.number_of_picks > 1]
     # player_matches['image'] = player_matches['name'].apply(gamedata.get_civ_asset_name)
 
     # player_matches = player_matches.drop(['number_of_picks', 'number_of_wins'], axis=1)
@@ -384,7 +394,7 @@ def get_all_stats(player_matches, profile_id=220170):
             'max_elo': 'Elo máximo',
         }
     )
-
+    dataframe_player = dataframe_player[['Modo', 'Partidas', 'Victorias', 'Derrotas', 'Elo actual', 'Elo máximo', 'Winrate']]
     logger.info(dataframe_player)
     return dataframe_player
 

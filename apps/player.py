@@ -96,6 +96,8 @@ def update_output(n_clicks, username_value):
     else:
         logger.info(username_value)
         player_profile_id = player_report.get_profile_id(name=username_value)
+        if player_profile_id == -1 or player_profile_id is None:
+            return 'No se ha encontrado su nombre de usuario en la base de datos'
         player_matches = player_report.get_player_matches(player_profile_id)
         stats = player_report.get_all_stats(player_matches, profile_id=player_profile_id)
         table_stats = dbc.Table.from_dataframe(
@@ -105,7 +107,7 @@ def update_output(n_clicks, username_value):
             bordered=True,
             hover=True
         )
-        
+
         stats_player_civ = player_report.get_player_civ_rates(player_matches, '4')
         table_player_civ = dbc.Table.from_dataframe(
             stats_player_civ,
@@ -114,7 +116,7 @@ def update_output(n_clicks, username_value):
             bordered=True,
             hover=True
         )
-        
+
         stats_enemy_civ = player_report.get_enemy_civ_rates(player_matches, '3')
         table_enemy_civ = dbc.Table.from_dataframe(
             stats_enemy_civ,
@@ -123,7 +125,7 @@ def update_output(n_clicks, username_value):
             bordered=True,
             hover=True
         )
-        
+
         stats_maps = player_report.get_player_map_rates(player_matches, '3')
         table_maps = dbc.Table.from_dataframe(
             stats_maps,
