@@ -100,7 +100,7 @@ def get_player_matches(profile_id, number_of_matches=1000):
         game_type = match['game_type']
         leaderboard_id = match['leaderboard_id']
         jugadores = match['players']
-        if game_type is None or ranked is None or not ranked or leaderboard_id is None:
+        if game_type is None or ranked is None or leaderboard_id is None:
             valid_match = False
 
         for jugador in jugadores:
