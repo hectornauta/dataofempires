@@ -52,7 +52,7 @@ inputs = html.Div(
 )
 
 player_report_container = html.Div([
-    html.H1('Obtener estadísssssticas personales', className='text-center border rounded', style={"textAlign": "left"})
+    html.H1('Obtener estadísticas personales', className='text-center border rounded', style={"textAlign": "left"})
 ])
 
 layout = html.Div([
@@ -74,9 +74,26 @@ layout = html.Div([
         className="me-2",
         n_clicks=0
     ),
+    html.Hr(),
+    dbc.Alert(
+        "Se están cargando los resultados, este proceso podria durar unos segundos",
+        id="alert-loading-player-report",
+        is_open=False,
+        duration=12000,
+    ),
     html.Div(id='player_report', children='Ingrese su id de Steam')
     # dcc.Graph(id='graph1', figure=report_viewer.map_playrate())
 ])
+
+@app.callback(
+    Output("alert-loading-player-report", "is_open"),
+    [Input("submit-button-player-report", "n_clicks")],
+    [State("alert-loading-player-report", "is_open")],
+)
+def toggle_alert(n, is_open):
+    if n:
+        return not is_open
+    return is_open
 
 @app.callback(
     Output('player_report', 'children'),

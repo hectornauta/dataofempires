@@ -14,6 +14,13 @@ layout = html.Div([
         className='text-center text-primary mb-4',
         style={"textAlign": "left"}
     ),
+    dbc.Table.from_dataframe(
+        report_viewer.map_playrate(),
+        striped=True,
+        responsive=True,
+        bordered=True,
+        hover=True
+    )
 
-    dcc.Graph(id='graph1', figure=report_viewer.map_playrate())
+    # dcc.Graph(id='graph1', figure=report_viewer.map_playrate())
 ])

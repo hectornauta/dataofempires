@@ -266,33 +266,20 @@ def map_playrate():
     FILE = f'{DIR}/sql/get_maps_playrate.sql'
     dataframe_map_playrate = sql_functions.get_sql_results(FILE)
     dataframe_map_playrate.drop(['id'], axis=1, inplace=True)
-    # create the bins
-    layout = go.Layout(autosize=True, margin={'l': 0, 'r': 0, 't': 20, 'b': 0})
-    figure_map_playrate = go.Figure(
-        layout=layout,
-        data=[
-            go.Table(
-                header=dict(
-                    values=list(
-                        dataframe_map_playrate.columns
-                    ),
-                    # fill_color='paleturquoise',
-                    align='left'
-                ),
-                cells=dict(
-                    values=[
-                        dataframe_map_playrate.name,
-                        dataframe_map_playrate.nombre,
-                        dataframe_map_playrate.playrate,
-                        dataframe_map_playrate.number_of_matches
-                    ],
-                    # fill_color='lavender',
-                    align='left'
-                )
-            )
-        ]
-    )    # figure_elo_distribution.show()
-    return figure_map_playrate
+
+    dataframe_map_playrate['playrate'] = dataframe_map_playrate['playrate'] * 100
+    dataframe_map_playrate['playrate'] = dataframe_map_playrate['playrate'].map('{:,.2f} %'.format)
+
+    # logger.info(dataframe_map_playrate)
+    dataframe_map_playrate = dataframe_map_playrate.rename(
+        columns={
+            'name': 'Map',
+            'nombre': 'Mapa',
+            'number_of_matches': 'Número de partidas analizadas',
+            'playrate': 'Porcentaje de uso'
+        }
+    )
+    return dataframe_map_playrate  # figure_map_playrate
 
 def civ_rates(ladder='3A'):
     # logger.info(f'Estoy por mostrar un gráfico, valor de ladder: {ladder}')
@@ -364,4 +351,5 @@ if __name__ == "__main__":
     # civ_vs_civ(1, '3A')
     # countries_elo_stats()
     # get_civ_vs_civ_dataframe()
-    get_dataframe_countries()
+    # get_dataframe_countries()
+    map_playrate()
