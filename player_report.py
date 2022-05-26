@@ -25,7 +25,7 @@ from report_viewer import get_progress_bar
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("player_report.log"),
+        logging.FileHandler("dataofempires.log"),
         logging.StreamHandler()
     ]
 )

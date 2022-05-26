@@ -31,7 +31,7 @@ LAST_DAY = datetime(2022, 5, 21, 0, 0)
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("etl.log"),
+        logging.FileHandler("dataofempires.log"),
         logging.StreamHandler()
     ]
 )

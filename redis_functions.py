@@ -13,7 +13,7 @@ REDIS_URI = config('REDIS_URI')
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("redis_functions.log"),
+        logging.FileHandler("dataofempires.log"),
         logging.StreamHandler()
     ]
 )
