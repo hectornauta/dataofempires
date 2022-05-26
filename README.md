@@ -11,18 +11,18 @@ Para esto se sirve de los datos ofrecidos por https://aoe2.net/#api. Con los dat
 - DB: PostgreSQL
 
 ## Funciones y estado
-- Análisis del historial personal de partidas de un jugador **WIP**
-    - Evolución de su elo a través del tiempo **WIP**
-    - Rendimiento discriminado por mapas y civilizaciones **WIP**
-- Estadísticas de civilizaciones y mapas **DONE**
-    -  Efectividad entre civilizaciones en partidas individuales **DONE**
-    -  Estadísticas de victorias y uso de civilizaciones **DONE**
-    -  Mejor combinación de civilzaciones en juego por equipos **DONE**
-    -  Porcentaje de selección de mapas **DONE**
+- Análisis del historial de partidas de un jugador ✔
+    - Evolución del elo a través del tiempo ✔
+    - Rendimiento discriminado por mapas y civilizaciones ✔
+- Estadísticas de civilizaciones y mapas ✔
+    -  Efectividad entre civilizaciones en partidas individuales ✔
+    -  Estadísticas de victorias y uso de civilizaciones ✔
+    -  Mejor combinación de civilzaciones en juego por equipos ✔
+    -  Porcentaje de selección de mapas ✔
 - Estadísticas de globales
-    - Distribución cantidad de jugadores por franjas de elo **DONE**
-    - Estadísticas de elo por país **DONE**
-- Presentación Web **WIP**
+    - Distribución cantidad de jugadores por franjas de elo ✔
+    - Estadísticas de elo por país ✔
+- Presentación Web ✔
 ## Requerimientos
 - Se incluye un archivo requirements.txt
 
