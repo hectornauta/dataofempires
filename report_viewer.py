@@ -224,7 +224,8 @@ def get_dataframe_countries(ladder=3):
         }
     )
     # logger.info(dataframe_countries)
-
+    dataframe_countries = dataframe_countries.dropna()
+    dataframe_countries['Elo promedio'] = dataframe_countries['Elo promedio'].astype(int)
     return dataframe_countries
 
 def countries_elo_stats(ladder=3):
