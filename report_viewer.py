@@ -65,6 +65,9 @@ def get_civ_asset_name(x):
     # logger.info(emblem_path)
     return html.Img(src=emblem_path, height='30px')
 
+def get_progress_bar(x):
+    return dbc.Progress(label=f'{x:.2f} %', value=int(x))
+
 def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
     sql_results = sql_functions.get_civ_vs_civ()
     dataframe_civ_vs_civ = pd.DataFrame.from_records(
@@ -85,9 +88,10 @@ def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
         dataframe_civ_vs_civ = dataframe_civ_vs_civ.loc[dataframe_civ_vs_civ['civ_1'].isin([chosen_civ])]
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_1', right_on='id')
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.merge(CIVS, how='left', left_on='civ_2', right_on='id')
+    dataframe_civ_vs_civ = dataframe_civ_vs_civ.dropna()
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.sort_values(['nombre_x', 'nombre_y'], ascending=[True, True])
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'] * 100
-    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
+    # dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].map('{:,.2f} %'.format)
     dataframe_civ_vs_civ['image_x'] = dataframe_civ_vs_civ['name_x'].apply(get_civ_asset_name)
     dataframe_civ_vs_civ['image_y'] = dataframe_civ_vs_civ['name_y'].apply(get_civ_asset_name)
     dataframe_civ_vs_civ.drop(['name_y', 'name_x'], axis=1, inplace=True)
@@ -101,6 +105,8 @@ def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
         'wins',
         'winrate'
     ]]
+    
+    dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].apply(get_progress_bar)
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
         columns={
             'image_x': 'Emblema',
@@ -182,7 +188,7 @@ def elo_distribution(ladder=3):
         counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 2000, 50))
     bins = 0.5 * (bins[:-1] + bins[1:])
 
-    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de jugadores'})
+    figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de jugadores'}, template='plotly_dark')
     # figure_elo_distribution.show()
     return figure_elo_distribution
 
@@ -225,6 +231,7 @@ def get_dataframe_countries(ladder=3):
     )
     # logger.info(dataframe_countries)
     dataframe_countries = dataframe_countries.dropna()
+    dataframe_countries = dataframe_countries.sort_values(by='Elo promedio', ascending=False)
     dataframe_countries['Elo promedio'] = dataframe_countries['Elo promedio'].astype(int)
     return dataframe_countries
 
@@ -254,6 +261,7 @@ def countries_elo_stats(ladder=3):
         color_continuous_scale=px.colors.sequential.amp
     )
     figure_countries_elo.update_layout(
+        template='plotly_dark',
         title_text='elo Promedio por país',
         geo=dict(
             showframe=False,
@@ -269,6 +277,7 @@ def map_playrate():
     dataframe_map_playrate.drop(['id'], axis=1, inplace=True)
 
     dataframe_map_playrate['playrate'] = dataframe_map_playrate['playrate'] * 100
+    # dataframe_map_playrate['playrate'] = dataframe_map_playrate['playrate'].apply(get_progress_bar)
     dataframe_map_playrate['playrate'] = dataframe_map_playrate['playrate'].map('{:,.2f} %'.format)
 
     # logger.info(dataframe_map_playrate)
@@ -288,10 +297,12 @@ def civ_rates(ladder='3A'):
     dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
     dataframe_civ_rates['rate'] = np.sqrt((dataframe_civ_rates['winrate']) ** 2 + (40 + dataframe_civ_rates['pickrate']) ** 2)
+    dataframe_civ_rates = dataframe_civ_rates.dropna()
     # logger.info(dataframe_civ_rates)
     figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
     figure_civ_rates.update_traces(textposition='top center')
     figure_civ_rates.update_layout(
+        template='plotly_dark',
         height=900,
         width=1280,
         title_text='Pick rate and Win rate de Civilizaciones',
@@ -307,6 +318,7 @@ def civ_win_rates(ladder='3A'):
     FILE = f'{DIR}/sql/get_civ_rates.sql'
     dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
+    dataframe_civ_rates = dataframe_civ_rates.dropna()
 
     figure_win_rates = px.bar(
         dataframe_civ_rates.sort_values(by='winrate', ascending=False),
@@ -314,11 +326,12 @@ def civ_win_rates(ladder='3A'):
         y='winrate',
         width=1280,
         hover_data={'nombre': True, 'winrate': ':.2%'}, color='winrate',
-        color_continuous_scale=px.colors.sequential.YlOrRd,
+        color_continuous_scale=px.colors.sequential.Blues,
         labels={'nombre': 'Civilización', 'winrate': 'Porcentaje de victorias'}, height=400
     )
     figure_win_rates.update_coloraxes(showscale=False)
     figure_win_rates.update_layout(
+        template='plotly_dark',
         yaxis_tickformat='.0%',
         title_text='Porcentaje de victorias de civilizaciones'
     )
@@ -328,6 +341,7 @@ def civ_pick_rates(ladder='3A'):
     FILE = f'{DIR}/sql/get_civ_rates.sql'
     dataframe_civ_rates = sql_functions.get_sql_results(FILE, ladder)
     dataframe_civ_rates.set_index('id', inplace=True)
+    dataframe_civ_rates = dataframe_civ_rates.dropna()
 
     figure_pick_rates = px.bar(
         dataframe_civ_rates.sort_values(by='pickrate', ascending=False),
@@ -335,11 +349,12 @@ def civ_pick_rates(ladder='3A'):
         y='pickrate',
         width=1280,
         hover_data={'nombre': True, 'pickrate': ':.2%'}, color='pickrate',
-        color_continuous_scale=px.colors.sequential.YlOrBr,
+        color_continuous_scale=px.colors.sequential.Blues,
         labels={'nombre': 'Civilización', 'pickrate': 'Porcentaje de veces escogida'}, height=400
     )
     figure_pick_rates.update_coloraxes(showscale=False)
     figure_pick_rates.update_layout(
+        template='plotly_dark',
         yaxis_tickformat='.0%',
         title_text='Porcentaje de uso de civilizaciones'
     )

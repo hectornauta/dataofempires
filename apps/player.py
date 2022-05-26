@@ -45,6 +45,48 @@ switches = html.Div(
     ]
 )
 
+radioButtonsLadder = html.Div(
+    [
+        dbc.RadioItems(
+            id="radio-player_report_ladder",
+            className="btn-group",
+            inputClassName="btn-check",
+            labelClassName="btn btn-outline-primary",
+            labelCheckedClassName="active",
+            options=[
+                {'label': 'No ranked', 'value': '0'},
+                {'label': 'Mapa Aleatorio solo', 'value': '3'},
+                {'label': 'Mapa Aleatorio por equipos', 'value': '4'},
+                {'label': 'Guerras Imperiales solo', 'value': '13'},
+                {'label': 'Guerras Imperiales por equipos', 'value': '14'},
+            ],
+            value='3',
+        ),
+    ],
+    className="radio-group",
+)
+
+title_player_stats = html.H2(
+    'Estadísticas de las últimas 1000 partidas',
+    className='text-center border rounded',
+    style={"textAlign": "left"}
+)
+title_player_civ = html.H2(
+    'Rendimiento por civilización',
+    className='text-center border rounded',
+    style={"textAlign": "left"}
+)
+title_player_maps = html.H2(
+    'Rendimiento por mapa',
+    className='text-center border rounded',
+    style={"textAlign": "left"}
+)
+title_enemy_civ = html.H2(
+    'Rendimiento ante civilizaciones enemigas (1vs1)',
+    className='text-center border rounded',
+    style={"textAlign": "left"}
+)
+
 inputs = html.Div(
     [
         dbc.Form([switches]),
@@ -79,9 +121,9 @@ layout = html.Div([
         "Se están cargando los resultados, este proceso podria durar unos segundos",
         id="alert-loading-player-report",
         is_open=False,
-        duration=12000,
+        duration=18000,
     ),
-    html.Div(id='player_report', children='Ingrese su id de Steam')
+    html.Div(id='player_report', children='Ingrese su nombre de usuario de Steam')
     # dcc.Graph(id='graph1', figure=report_viewer.map_playrate())
 ])
 
@@ -119,39 +161,50 @@ def update_output(n_clicks, username_value):
         stats = player_report.get_all_stats(player_matches, profile_id=player_profile_id)
         table_stats = dbc.Table.from_dataframe(
             stats,
+            id='table-player_report_stats',
             striped=True,
             responsive=True,
             bordered=True,
             hover=True
         )
-
-        stats_player_civ = player_report.get_player_civ_rates(player_matches, '4')
+        stats_player_civ = player_report.get_player_civ_rates(player_matches, '-1', profile_id=player_profile_id)
         table_player_civ = dbc.Table.from_dataframe(
             stats_player_civ,
+            id='table-player_report_player_civ',
             striped=True,
             responsive=True,
             bordered=True,
             hover=True
         )
-
-        stats_enemy_civ = player_report.get_enemy_civ_rates(player_matches, '3')
+        stats_enemy_civ = player_report.get_enemy_civ_rates(player_matches, '-1', profile_id=player_profile_id)
         table_enemy_civ = dbc.Table.from_dataframe(
             stats_enemy_civ,
+            id='table-player_report_player_map',
             striped=True,
             responsive=True,
             bordered=True,
             hover=True
         )
-
-        stats_maps = player_report.get_player_map_rates(player_matches, '3')
+        stats_maps = player_report.get_player_map_rates(player_matches, '-1', profile_id=player_profile_id)
         table_maps = dbc.Table.from_dataframe(
             stats_maps,
+            id='table-player_report_enemy_civ',
             striped=True,
             responsive=True,
             bordered=True,
             hover=True
         )
-        return [table_stats, table_player_civ, table_enemy_civ, table_maps]
+        return [
+            title_player_stats,
+            table_stats,
+            # radioButtonsLadder,
+            title_player_civ,
+            table_player_civ,
+            title_player_maps,
+            table_maps,
+            title_enemy_civ,
+            table_enemy_civ
+        ]
 
 '''@app.callback(
     Output(

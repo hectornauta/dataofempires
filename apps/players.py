@@ -11,10 +11,6 @@ import report_viewer
 card = dbc.Card(
     dcc.Dropdown(
         id='dropdown',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
         options=[
             {'label': 'Mapa aleatorio solo', 'value': 3},
             {'label': 'Mapa aleatorio por equipos', 'value': 4},

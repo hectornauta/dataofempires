@@ -61,7 +61,7 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
 
 def country_elo():
     COUNTRIES = gamedata.countries()
-    FILE_QUERY = f'{DIR}/sql/get_ranked_matches_ladder.sql'
+    FILE_QUERY = f'{DIR}/sql/get_ranked_matches_all_ladder.sql'
 
     labels = [
         '3',
@@ -146,7 +146,7 @@ def country_elo():
     return None
 
 def map_playrate():
-    FILE = f'{DIR}/sql/get_all_1vs1_matches.sql'
+    FILE = f'{DIR}/sql/get_ranked_matches_all.sql'
     dataframe_maps_rates = sql_functions.get_sql_results(FILE)
     dataframe_maps_rates = dataframe_maps_rates.drop(['rating', 'country', 'won', 'civ'], axis=1)
     dataframe_maps_rates = dataframe_maps_rates[dataframe_maps_rates['slot'] == 1]
@@ -511,4 +511,5 @@ if __name__ == "__main__":
     if ALL:
         update_all()
     else:
-        update_players_elo()
+        country_elo()
+        map_playrate()

@@ -20,11 +20,12 @@ import pickle
 
 import gamedata
 import redis_functions
+from report_viewer import get_progress_bar
 
 logging.basicConfig(
     level=logging.INFO,
     handlers=[
-        logging.FileHandler("dataofempires.log"),
+        logging.FileHandler("player_report.log"),
         logging.StreamHandler()
     ]
 )
@@ -62,11 +63,11 @@ def get_player_matches(profile_id, number_of_matches=1000):
     try:
         json_matches = session.get(query)
     except requests.exceptions.ConnectionError:
-        logging.error('Error con la conexión a internet')
+        logger.error('Error con la conexión a internet')
         raise Exception('Error con la conexión a internet')
         json_matches = None
     except requests.exceptions.Timeout:
-        logging.error('Error de Timeout al acceder a las páginas')
+        logger.error('Error de Timeout al acceder a las páginas')
         raise Exception('Error de Timeout al acceder a las páginas')
         json_matches = None
     else:
@@ -89,7 +90,7 @@ def get_player_matches(profile_id, number_of_matches=1000):
     matches_processed = 0
     invalid_matches = 0
     valid_matches = 0
-    logging.info(type(json_matches))
+    logger.info(type(json_matches))
     for match in json_matches:
         matches_processed = matches_processed + 1
         # Obtener un json tratable
@@ -189,17 +190,21 @@ def get_player_matches(profile_id, number_of_matches=1000):
     else:
         return None
 
-def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
+def get_player_civ_rates(player_matches_param, ladder='-1', profile_id=220170):
     dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
 
+    logger.info('Analizando performance por civilización')
     # logger.info(player_matches)
     # logger.info(dataframe_civ)
     # logger.info(player_matches)
+    player_matches = player_matches_param.copy()
 
-    player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
+    if not(ladder == '-1' or ladder == -1):
+        player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
     player_matches = player_matches[player_matches['profile_id'] == int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
+    logger.info(f'Cantidad de partidas {number_of_matches}')
     player_matches['number_of_wins'] = 0
     player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='right')
     player_matches = player_matches.groupby(['name', 'nombre']).agg(
@@ -210,7 +215,11 @@ def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
     player_matches['winrate'] = player_matches['winrate'] * 100
     player_matches['pickrate'] = player_matches['pickrate'] * 100
-    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+    
+    player_matches['winrate'] = player_matches['winrate'].apply(get_progress_bar)
+    # player_matches['pickrate'] = player_matches['pickrate'].apply(get_progress_bar)
+
+    # player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
     player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
 
     player_matches = player_matches.reset_index()
@@ -241,13 +250,21 @@ def get_player_civ_rates(player_matches, ladder='3', profile_id=220170):
     logger.info(player_matches)
     return player_matches
 
-def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
+def get_enemy_civ_rates(player_matches_param, ladder='-1', profile_id=220170):
     dataframe_civ = gamedata.civs()
     dataframe_civ = dataframe_civ.reset_index()
 
-    player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
+    player_matches = player_matches_param.copy()
+    logger.info('Analizando performance por civilización enemiga')
+
+    if (ladder == '-1' or ladder == -1):
+        options = ['3', 3, '13', 13]
+        player_matches = player_matches.loc[player_matches['leaderboard_id'].isin(options)]
+    else:
+        player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
     player_matches = player_matches[player_matches['profile_id'] != int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
+    logger.info(f'Cantidad de partidas {number_of_matches}')
     player_matches['number_of_wins'] = 0
     player_matches = dataframe_civ.merge(player_matches, left_on='id', right_on='civ', how='right')
     player_matches = player_matches.groupby(['name', 'nombre']).agg(
@@ -261,9 +278,13 @@ def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
     player_matches['pickrate'] = (player_matches['number_of_picks'] / number_of_matches)
     player_matches['winrate'] = player_matches['winrate'] * 100
     player_matches['pickrate'] = player_matches['pickrate'] * 100
-    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
-    player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
+
+    player_matches['winrate'] = player_matches['winrate'].apply(get_progress_bar)
+    # player_matches['pickrate'] = player_matches['pickrate'].apply(get_progress_bar)
+
+    # player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+    player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
     player_matches = player_matches.rename(
         columns={
             'image': 'Emblema',
@@ -287,17 +308,21 @@ def get_enemy_civ_rates(player_matches, ladder='3', profile_id=220170):
     logger.info(player_matches)
     return player_matches
 
-def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
+def get_player_map_rates(player_matches_param, ladder='-1', profile_id=220170):
     dataframe_map = gamedata.maps()
     dataframe_map = dataframe_map.reset_index()
 
+    player_matches = player_matches_param.copy()
+    logger.info('Analizando performance por mapa')
     # logger.info(player_matches)
     # logger.info(dataframe_civ)
     # logger.info(player_matches)
 
-    player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
+    if not(ladder == '-1' or ladder == -1):
+        player_matches = player_matches[player_matches['leaderboard_id'] == int(ladder)]
     player_matches = player_matches[player_matches['profile_id'] == int(profile_id)]
     number_of_matches = player_matches['match_id'].nunique()
+    logger.info(f'Cantidad de partidas {number_of_matches}')
     player_matches['number_of_wins'] = 0
     player_matches = dataframe_map.merge(player_matches, left_on='id', right_on='map_type', how='right')
     pd.set_option('display.max_columns', None)
@@ -309,7 +334,11 @@ def get_player_map_rates(player_matches, ladder='3', profile_id=220170):
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
     player_matches['winrate'] = player_matches['winrate'] * 100
     player_matches['pickrate'] = player_matches['pickrate'] * 100
-    player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
+
+    player_matches['winrate'] = player_matches['winrate'].apply(get_progress_bar)
+    # player_matches['pickrate'] = player_matches['pickrate'].apply(get_progress_bar)
+
+    # player_matches['winrate'] = player_matches['winrate'].map('{:,.2f} %'.format)
     player_matches['pickrate'] = player_matches['pickrate'].map('{:,.2f} %'.format)
 
     player_matches = player_matches.reset_index()

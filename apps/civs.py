@@ -30,174 +30,81 @@ CIVS = CIVS.rename(columns={'id': 'value', 'nombre': 'label'})
 list_of_civs = CIVS.to_dict('records')
 # logger.info(list_of_civs)
 
-
-tab1_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_rates',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '1000-1300', 'value': '3A'},
-            {'label': '1300-1600', 'value': '3B'},
-            {'label': '+1600', 'value': '3C'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='3A'
-    )
-)
-
-tab2_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_rates',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '1000-1600', 'value': '4A'},
-            {'label': '1600-2200', 'value': '4B'},
-            {'label': '+2200', 'value': '4C'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='4A'
-    )
-)
-
-tab3_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_rates',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '900-1200', 'value': '13A'},
-            {'label': '1200-2000', 'value': '13B'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='13A'
-    )
-)
-
-tab4_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_rates',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '900-1300', 'value': '14A'},
-            {'label': '1300-2000', 'value': '14B'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='14A'
-    )
-)
-
-tabs = html.Div(
+radioButtonsCivVsCiv = html.Div(
     [
-        dbc.Tabs(
-            [
-                dbc.Tab(
-                    label="Mapa Aleatorio solo",
-                    tab_id="tab_rm_solo"
-                ),
-                dbc.Tab(
-                    label="Mapa Aleatorio por equipos",
-                    tab_id="tab_rm_tg"
-                ),
-                dbc.Tab(
-                    label="Guerras Imperiales solo",
-                    tab_id="tab_ew_solo"
-                ),
-                dbc.Tab(
-                    label="Guerras Imperiales por equipos",
-                    tab_id="tab_ew_tg"
-                ),
+        dbc.RadioItems(
+            id="radio-civ_vs_civ_report_ladder",
+            className="btn-group",
+            inputClassName="btn-check",
+            labelClassName="btn btn-outline-primary",
+            labelCheckedClassName="active",
+            options=[
+                {'label': 'Mapa Aleatorio 1000-1300', 'value': '3A'},
+                {'label': 'Mapa Aleatorio 1300-1600', 'value': '3B'},
+                {'label': 'Mapa Aleatorio +1600', 'value': '3C'},
+                {'label': 'Guerras Imperiales 900-1200', 'value': '13A'},
+                {'label': 'Guerras Imperiales 1200-2000', 'value': '13B'},
             ],
-            id="tabs",
-            active_tab="tab_rm_solo",
+            value='3A',
         ),
-        html.Div(id="content"),
-    ]
+    ],
+    className="radio-group",
 )
-
-tab1_civ_vs_civ_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_vs_civ_ladder',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '1000-1300', 'value': '3A'},
-            {'label': '1300-1600', 'value': '3B'},
-            {'label': '+1600', 'value': '3C'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='3A'
-    )
-)
-
-tab2_civ_vs_civ_content = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown_civ_vs_civ_ladder',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=[
-            {'label': '900-1200', 'value': '13A'},
-            {'label': '1200-2000', 'value': '13B'}
-        ],
-        searchable=False,
-        clearable=False,
-        value='13A'
-    )
-)
-
-tabs_civ_vs_civ = html.Div(
+radioButtonsCivRates = html.Div(
     [
-        dbc.Tabs(
-            [
-                dbc.Tab(
-                    label="Mapa Aleatorio solo",
-                    tab_id="tab_civ_vs_civ_rm_solo"
-                ),
-                dbc.Tab(
-                    label="Guerras Imperiales solo",
-                    tab_id="tab_civ_vs_civ_ew_solo"
-                ),
+        dbc.RadioItems(
+            id="radio-civ_rates_report_ladder",
+            className="btn-group",
+            inputClassName="btn-check",
+            labelClassName="btn btn-outline-primary",
+            labelCheckedClassName="active",
+            options=[
+                {'label': 'Mapa Aleatorio solo 1000-1300', 'value': '3A'},
+                {'label': 'Mapa Aleatorio solo 1300-1600', 'value': '3B'},
+                {'label': 'Mapa Aleatorio solo +1600', 'value': '3C'},
+                {'label': 'Mapa Aleatorio por equipos 1000-1600', 'value': '4A'},
+                {'label': 'Mapa Aleatorio por equipos 1600-2200', 'value': '4B'},
+                {'label': 'Mapa Aleatorio por equipos +2200', 'value': '4C'},
+                {'label': 'Guerras Imperiales solo 900-1200', 'value': '13A'},
+                {'label': 'Guerras Imperiales solo 1200-2000', 'value': '13B'},
+                {'label': 'Guerras Imperiales por equipos 900-1300', 'value': '14A'},
+                {'label': 'Guerras Imperiales por equipos 1300-2000', 'value': '14B'}
             ],
-            id="tabs_civ_vs_civ",
-            active_tab="tab_civ_vs_civ_rm_solo",
+            value='3A',
         ),
-        html.Div(id="content_civ_vs_civ"),
-    ]
+    ],
+    className="radio-group",
 )
-
-card = dbc.Card(
-    dcc.Dropdown(
-        id='dropdown-civ_vs_civ',
-        style={
-            'color': '#212121',
-            'background-color': '#212121',
-        },
-        options=list_of_civs,
-        searchable=False,
-        clearable=False,
-        value=3
-    )
+'''
+radioButtons = dcc.RadioItems(
+    id='radio-civs_report_ladder',
+    options=[
+        {'label': 'Mapa Aleatorio solo 1000-1300', 'value': '3A'},
+        {'label': 'Mapa Aleatorio solo 1300-1600', 'value': '3B'},
+        {'label': 'Mapa Aleatorio solo +1600', 'value': '3C'},
+        {'label': 'Mapa Aleatorio por equipos 1000-1600', 'value': '4A'},
+        {'label': 'Mapa Aleatorio por equipos 1600-2200', 'value': '4B'},
+        {'label': 'Mapa Aleatorio por equipos +2200', 'value': '4C'},
+        {'label': 'Guerras Imperiales solo 900-1200', 'value': '13A'},
+        {'label': 'Guerras Imperiales solo 1200-2000', 'value': '13B'},
+        {'label': 'Guerras Imperiales por equipos 900-1300', 'value': '14A'},
+        {'label': 'Guerras Imperiales por equipos 1300-2000', 'value': '14B'}
+    ],
+    value='3A'
 )
+'''
 
+dropdownCivs = dcc.Dropdown(
+    id='dropdown-list_of_civs',
+    style={
+        'color': '#212121',
+        'background-color': '#212121',
+    },
+    options=list_of_civs,
+    searchable=False,
+    clearable=False,
+    value=3
+)
 
 table_civ_vs_civ = dbc.Table.from_dataframe(
     report_viewer.get_civ_vs_civ_dataframe(),
@@ -212,31 +119,20 @@ layout = html.Div([
         className='text-center text-primary mb-4',
         style={"textAlign": "center"}
     ),
-    tabs_civ_vs_civ,
-    card,
+    radioButtonsCivVsCiv,
+    dropdownCivs,
     html.Div(id="table_civ_vs_civ-container"),
-
-    tabs,
+    radioButtonsCivRates,
     dcc.Graph(id='graph_civ_rates', figure=report_viewer.civ_rates()),
     dcc.Graph(id='graph_civ_winrate', figure=report_viewer.civ_pick_rates()),
     dcc.Graph(id='graph_civ_pickrate', figure=report_viewer.civ_win_rates())
 ])
 
-@app.callback(Output("content_civ_vs_civ", "children"), [Input("tabs_civ_vs_civ", "active_tab")])
-def switch_tabs_civ_vs_civ(at):
-    if at == "tab_civ_vs_civ_rm_solo":
-        return tab1_civ_vs_civ_content
-    elif at == "tab_civ_vs_civ_ew_solo":
-        return tab2_civ_vs_civ_content
-    else:
-        return tab1_civ_vs_civ_content
-    return html.P("This shouldn't ever be displayed...")
-
 @app.callback(
     Output('table_civ_vs_civ-container', 'children'),
     [
-        Input('dropdown-civ_vs_civ', 'value'),
-        Input('dropdown_civ_vs_civ_ladder', 'value')
+        Input('dropdown-list_of_civs', 'value'),
+        Input('radio-civ_vs_civ_report_ladder', 'value')
     ]
 )
 def update_table_civ_vs_civ(x1, x2):
@@ -249,18 +145,6 @@ def update_table_civ_vs_civ(x1, x2):
         hover=True
     )
 
-@app.callback(Output("content", "children"), [Input("tabs", "active_tab")])
-def switch_tab(at):
-    if at == "tab_rm_solo":
-        return tab1_content
-    elif at == "tab_rm_tg":
-        return tab2_content
-    elif at == "tab_ew_solo":
-        return tab3_content
-    elif at == "tab_ew_tg":
-        return tab4_content
-    return html.P("This shouldn't ever be displayed...")
-
 def create_graph_civ_rates(value='3A'):
     return report_viewer.civ_rates(value)
 def create_graph_civ_winrate(value='3A'):
@@ -270,21 +154,21 @@ def create_graph_civ_pick_rate(value='3A'):
 
 @app.callback(
     Output('graph_civ_rates', 'figure'),
-    [Input('dropdown_civ_rates', 'value')])
+    [Input('radio-civ_rates_report_ladder', 'value')])
 def update_graph_civ_rates(selected_value):
     fig = create_graph_civ_rates(selected_value)
     # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_winrate', 'figure'),
-    [Input('dropdown_civ_rates', 'value')])
+    [Input('radio-civ_rates_report_ladder', 'value')])
 def update_graph_civ_winrate(selected_value):
     fig = create_graph_civ_winrate(selected_value)
     # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_pickrate', 'figure'),
-    [Input('dropdown_civ_rates', 'value')])
+    [Input('radio-civ_rates_report_ladder', 'value')])
 def update_graph_civ_pick_rate(selected_value):
     fig = create_graph_civ_pick_rate(selected_value)
     # logger.info(selected_value)
