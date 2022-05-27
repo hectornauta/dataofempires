@@ -236,6 +236,8 @@ def get_dataframe_countries(ladder=3):
     return dataframe_countries
 
 def countries_elo_stats(ladder=3):
+    return None
+    '''
     COUNTRIES = pd.read_csv('csv/countries.csv')
     COUNTRIES.set_index('alpha-2', inplace=True)
     FILE = f'{DIR}/sql/get_players_elo.sql'
@@ -270,6 +272,7 @@ def countries_elo_stats(ladder=3):
         )
     )
     return figure_countries_elo
+    '''
 
 def map_playrate():
     FILE = f'{DIR}/sql/get_maps_playrate.sql'
