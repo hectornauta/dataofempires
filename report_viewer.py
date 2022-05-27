@@ -175,6 +175,7 @@ def civ_vs_civ(chosen_civ=-1, ladder='3A'):
     return figure_civ_vs_civ
 
 def elo_distribution(ladder=3):
+    return None
     '''
     FILE = f'{DIR}/sql/get_players_elo.sql'
     dataframe_players_elo = sql_functions.get_sql_results(FILE, ladder)
