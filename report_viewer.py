@@ -175,6 +175,7 @@ def civ_vs_civ(chosen_civ=-1, ladder='3A'):
     return figure_civ_vs_civ
 
 def elo_distribution(ladder=3):
+    '''
     FILE = f'{DIR}/sql/get_players_elo.sql'
     dataframe_players_elo = sql_functions.get_sql_results(FILE, ladder)
     # create the bins
@@ -191,6 +192,7 @@ def elo_distribution(ladder=3):
     figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de jugadores'}, template='plotly_dark')
     # figure_elo_distribution.show()
     return figure_elo_distribution
+    '''
 
 def get_flag(x):
     return flag.flag(x)
