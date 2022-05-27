@@ -13,15 +13,9 @@ import report_generator
 import report_viewer
 
 import dash_bootstrap_components as dbc
+import logging_config
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+logger = logging_config.configure_logging('app')
 
 def temp_main():
     placeholder_option = 5

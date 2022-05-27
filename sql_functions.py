@@ -1,5 +1,4 @@
 import pandas as pd
-import logging
 import os
 
 from decouple import config
@@ -15,14 +14,9 @@ from sqlalchemy.sql import select
 from sqlalchemy import MetaData
 from sqlalchemy import Table
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('sql_functions')
 
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')

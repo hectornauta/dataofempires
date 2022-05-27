@@ -1,5 +1,4 @@
 import json
-import logging
 import requests
 import time
 
@@ -28,14 +27,9 @@ import query_functions
 
 LAST_DAY = datetime(2022, 5, 21, 0, 0)
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('etl')
 
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
@@ -72,11 +66,11 @@ def extract_matches(param_timestamp, session):
     try:
         json_matches = session.get(query)
     except requests.exceptions.ConnectionError:
-        logging.error('Error con la conexión a internet')
+        logger.error('Error con la conexión a internet')
         raise Exception('Error con la conexión a internet')
         json_matches = None
     except requests.exceptions.Timeout:
-        logging.error('Error al intentar acceder a las páginas')
+        logger.error('Error al intentar acceder a las páginas')
         raise Exception('Error al intentar acceder a las páginas')
         json_matches = None
     else:
@@ -202,7 +196,7 @@ def load_matches(dataframes, last_match):
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los matches')
@@ -232,7 +226,7 @@ def load_matches(dataframes, last_match):
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los matches_players')
@@ -251,7 +245,7 @@ def load_matches(dataframes, last_match):
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los players')

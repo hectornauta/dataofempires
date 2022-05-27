@@ -4,7 +4,6 @@
 # ?
 # Profit
 import json
-import logging
 import requests
 from datetime import datetime
 
@@ -22,14 +21,9 @@ import gamedata
 import redis_functions
 from report_viewer import get_progress_bar
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('player_report')
 
 def get_profile_id(steam_id=-1, name=''):
     '''
@@ -218,7 +212,7 @@ def get_player_civ_rates(player_matches_param, ladder='-1', profile_id=220170):
     player_matches = player_matches.sort_values(by='winrate', ascending=False)
     player_matches['winrate'] = player_matches['winrate'] * 100
     player_matches['pickrate'] = player_matches['pickrate'] * 100
-    
+
     player_matches['winrate'] = player_matches['winrate'].apply(get_progress_bar)
     # player_matches['pickrate'] = player_matches['pickrate'].apply(get_progress_bar)
 

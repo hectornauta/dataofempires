@@ -1,5 +1,3 @@
-import logging
-
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
@@ -12,14 +10,10 @@ from app import app
 import report_viewer
 import player_report
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('player')
+
 text_input = html.Div(
     [
         dbc.Input(id="input", placeholder="Ingrese su Steam Id", type="text"),

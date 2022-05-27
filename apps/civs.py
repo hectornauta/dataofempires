@@ -1,5 +1,3 @@
-import logging
-
 from dash import dcc
 from dash import html
 import dash_bootstrap_components as dbc
@@ -11,16 +9,9 @@ import pathlib
 from app import app
 import report_viewer
 import gamedata
+import logging_config
 
-
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+logger = logging_config.configure_logging('civs')
 
 # TODO: usar gamedata
 CIVS = pd.read_csv('csv/civs.csv')
@@ -145,31 +136,33 @@ def update_table_civ_vs_civ(x1, x2):
         hover=True
     )
 
-def create_graph_civ_rates(value='3A'):
-    return report_viewer.civ_rates(value)
-def create_graph_civ_winrate(value='3A'):
-    return report_viewer.civ_win_rates(value)
-def create_graph_civ_pick_rate(value='3A'):
-    return report_viewer.civ_pick_rates(value)
-
 @app.callback(
     Output('graph_civ_rates', 'figure'),
-    [Input('radio-civ_rates_report_ladder', 'value')])
+    [
+        Input('radio-civ_rates_report_ladder', 'value')
+    ]
+)
 def update_graph_civ_rates(selected_value):
-    fig = create_graph_civ_rates(selected_value)
+    fig = report_viewer.civ_rates(selected_value)
     # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_winrate', 'figure'),
-    [Input('radio-civ_rates_report_ladder', 'value')])
+    [
+        Input('radio-civ_rates_report_ladder', 'value')
+    ]
+)
 def update_graph_civ_winrate(selected_value):
-    fig = create_graph_civ_winrate(selected_value)
+    fig = report_viewer.civ_win_rates(selected_value)
     # logger.info(selected_value)
     return fig
 @app.callback(
     Output('graph_civ_pickrate', 'figure'),
-    [Input('radio-civ_rates_report_ladder', 'value')])
+    [
+        Input('radio-civ_rates_report_ladder', 'value')
+    ]
+)
 def update_graph_civ_pick_rate(selected_value):
-    fig = create_graph_civ_pick_rate(selected_value)
+    fig = report_viewer.civ_pick_rates(selected_value)
     # logger.info(selected_value)
     return fig

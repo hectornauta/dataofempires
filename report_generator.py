@@ -1,4 +1,3 @@
-import logging
 import os
 
 from decouple import config
@@ -21,14 +20,9 @@ import sql_functions
 import redis_functions
 import gamedata
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('report_generator')
 
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
@@ -189,7 +183,7 @@ def map_playrate():
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los reportes de mapas')
@@ -281,7 +275,7 @@ def civ_vs_civ():
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Cargados los reportes de civ vs civ')
@@ -355,7 +349,7 @@ def best_civs_duo():
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Actualizados el rendimiento de dúo de civilizaciones')
@@ -430,7 +424,7 @@ def civ_rates():
                 }
             )
         except exc.SQLAlchemyError:
-            logging.error('Error en la conexión a la base de datos')
+            logger.error('Error en la conexión a la base de datos')
             raise Exception('Error al conectar a la base de datos')
         else:
             logger.info(f'Cargados los reportes de civ rates para {labels[iteration]}')
@@ -475,7 +469,7 @@ def update_players_elo():
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Actualizados los players')
@@ -498,7 +492,7 @@ def restore_players():
             }
         )
     except exc.SQLAlchemyError:
-        logging.error('Error en la conexión a la base de datos')
+        logger.error('Error en la conexión a la base de datos')
         raise Exception('Error al conectar a la base de datos')
     else:
         logger.info('Actualizados los players')

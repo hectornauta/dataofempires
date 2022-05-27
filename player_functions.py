@@ -1,5 +1,4 @@
 import json
-import logging
 import requests
 
 import psycopg2
@@ -10,14 +9,9 @@ import query_functions
 import etl
 import sql_functions
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('player_functions')
 
 CIVS = pd.read_csv('csv/civs.csv')
 CIVS.drop(['numero'], axis=1, inplace=True)

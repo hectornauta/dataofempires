@@ -1,5 +1,3 @@
-import logging
-
 from decouple import config
 
 import redis
@@ -10,14 +8,10 @@ REDIS_PORT = config('REDIS_PORT')
 REDIS_PASS = config('REDIS_PASS')
 REDIS_URI = config('REDIS_URI')
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('redis_functions')
+
 def create_connection():
     conn = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, username=REDIS_USER, password=REDIS_PASS, ssl=True, ssl_cert_reqs=None)
     return conn

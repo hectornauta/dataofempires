@@ -10,14 +10,18 @@ import report_viewer
 
 card = dbc.Card(
     dcc.Dropdown(
-        id='dropdown',
+        id='dropdown-players_report_ladder',
         options=[
             {'label': 'Mapa aleatorio solo', 'value': 3},
             {'label': 'Mapa aleatorio por equipos', 'value': 4},
             {'label': 'Guerras imperiales solo', 'value': 13},
             {'label': 'Guerras imperiales por equipos', 'value': 14}
         ],
-        value=3
+        value=3,
+        style={
+            'color': '#34495e',
+            'background-color': '#BABABA',
+        },
     )
 )
 
@@ -37,18 +41,16 @@ layout = html.Div([
     ),
     card,
     html.Div(id="table_countries-container"),
-    dcc.Graph(id='graph1', figure=report_viewer.countries_elo_stats()),
-    dcc.Graph(id='graph2', figure=report_viewer.elo_distribution())
+    dcc.Graph(id='graph-countries_elo', figure=report_viewer.countries_elo_stats()),
+    # dcc.Graph(id='graph-elo_distribution', figure=report_viewer.elo_distribution())
 ])
-
-def create_map_countries(value=3):
-    return report_viewer.countries_elo_stats(value)
-def create_elo_distribution(value=3):
-    return report_viewer.elo_distribution(value)
 
 @app.callback(
     Output('table_countries-container', 'children'),
-    [Input('dropdown', 'value')])
+    [
+        Input('dropdown-players_report_ladder', 'value')
+    ]
+)
 def update_table_countries(selected_value):
     dataframe_countries = report_viewer.get_dataframe_countries(selected_value)
     return dbc.Table.from_dataframe(
@@ -59,14 +61,22 @@ def update_table_countries(selected_value):
         hover=True
     )
 @app.callback(
-    Output('graph1', 'figure'),
-    [Input('dropdown', 'value')])
+    Output('graph-countries_elo', 'figure'),
+    [
+        Input('dropdown-players_report_ladder', 'value')
+    ]
+)
 def update_map_countries(selected_value):
-    fig = create_map_countries(selected_value)
+    fig = report_viewer.countries_elo_stats(selected_value)
     return fig
+'''
 @app.callback(
-    Output('graph2', 'figure'),
-    [Input('dropdown', 'value')])
+    Output('graph-elo_distribution', 'figure'),
+    [
+        Input('dropdown-players_report_ladder', 'value')
+    ]
+)
 def update_elo_distribution(selected_value):
-    fig = create_elo_distribution(selected_value)
+    fig = report_viewer.elo_distribution(selected_value)
     return fig
+'''

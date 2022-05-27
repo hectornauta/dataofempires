@@ -13,7 +13,7 @@
 .env
 heroku.env
 database.ini
-/assets
+# /assets
 /dumps
 /backups
 *.log

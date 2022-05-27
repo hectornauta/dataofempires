@@ -1,4 +1,3 @@
-import logging
 import os
 
 from decouple import config
@@ -25,14 +24,9 @@ import flag
 
 DIR = os.path.dirname(__file__)
 
-logging.basicConfig(
-    level=logging.INFO,
-    handlers=[
-        logging.FileHandler("dataofempires.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger()
+import logging_config
+
+logger = logging_config.configure_logging('report_viewer')
 
 DB_USER = config('DB_USER')
 DB_PASSWORD = config('DB_PASSWORD')
@@ -49,7 +43,7 @@ def show_all_reports():
     REPORTS.append(civ_rates())
     REPORTS.append(civ_win_rates())
     REPORTS.append(civ_pick_rates())
-    REPORTS.append(elo_distribution())
+    # REPORTS.append(elo_distribution())
     return REPORTS
 
 def get_player_stats():
@@ -105,7 +99,6 @@ def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
         'wins',
         'winrate'
     ]]
-    
     dataframe_civ_vs_civ['winrate'] = dataframe_civ_vs_civ['winrate'].apply(get_progress_bar)
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
         columns={
@@ -173,15 +166,16 @@ def civ_vs_civ(chosen_civ=-1, ladder='3A'):
         ]
     )
     return figure_civ_vs_civ
-
+'''
 def elo_distribution(ladder=3):
-    return None
-    '''
+    logger.info('Reporte de distribución de elo')
     FILE = f'{DIR}/sql/get_players_elo.sql'
     dataframe_players_elo = sql_functions.get_sql_results(FILE, ladder)
     # create the bins
     if ladder == 3 or ladder == 13:
         counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 2500, 50))
+        logger.info(counts)
+        logger.info(bins)
     elif ladder == 4:
         counts, bins = np.histogram(dataframe_players_elo.elo, bins=range(0, 3500, 100))
     elif ladder == 13:
@@ -193,12 +187,12 @@ def elo_distribution(ladder=3):
     figure_elo_distribution = px.bar(x=bins, y=counts, labels={'x': 'elo', 'y': 'Cantidad de jugadores'}, template='plotly_dark')
     # figure_elo_distribution.show()
     return figure_elo_distribution
-    '''
-
+'''
 def get_flag(x):
     return flag.flag(x)
 
 def get_dataframe_countries(ladder=3):
+    logger.info('Creando dataframes de países')
     COUNTRIES = gamedata.countries()
     ladder = str(ladder)
     sql_results = sql_functions.get_countries_elo()
@@ -218,7 +212,8 @@ def get_dataframe_countries(ladder=3):
         'name',
         f'number_of_players_{ladder}',
         f'mean_elo_{ladder}',
-        f'max_elo_{ladder}'
+        f'max_elo_{ladder}',
+        'alpha-3'
     ]]
     dataframe_countries = dataframe_countries.rename(
         columns={
@@ -239,12 +234,9 @@ def get_dataframe_countries(ladder=3):
     return dataframe_countries
 
 def countries_elo_stats(ladder=3):
-    return None
+    logger.info('Generando mapa mundial por elo')
+    dataframe_countries = get_dataframe_countries(ladder)
     '''
-    COUNTRIES = pd.read_csv('csv/countries.csv')
-    COUNTRIES.set_index('alpha-2', inplace=True)
-    FILE = f'{DIR}/sql/get_players_elo.sql'
-    dataframe_countries = sql_functions.get_sql_results(FILE, ladder)
     dataframe_countries = dataframe_countries.reset_index()
     dataframe_countries = dataframe_countries.groupby(['country']).agg(
         mean_elo=pd.NamedAgg(column="elo", aggfunc="mean"),
@@ -254,20 +246,17 @@ def countries_elo_stats(ladder=3):
         var_elo=pd.NamedAgg(column="elo", aggfunc="var"),
     )
     dataframe_countries = dataframe_countries.reset_index()
-    # logger.info(dataframe_countries)
-    dataframe_countries_elo = dataframe_countries.merge(COUNTRIES, how='inner', left_on='country', right_on='alpha-2')
-    dataframe_countries_elo['mean_elo'] = round(dataframe_countries_elo['mean_elo'])
-    dataframe_countries_elo['flag'] = dataframe_countries_elo['country'].apply(get_flag)
+    '''
     figure_countries_elo = px.choropleth(
-        dataframe_countries_elo,
+        dataframe_countries,
         locations="alpha-3",
-        color="mean_elo",  # lifeExp is a column of gapminder
-        hover_name='name',  # column to add to hover information
+        color="Elo promedio",  # lifeExp is a column of gapminder
+        hover_name='Nombre',  # column to add to hover information
         color_continuous_scale=px.colors.sequential.amp
     )
     figure_countries_elo.update_layout(
         template='plotly_dark',
-        title_text='elo Promedio por país',
+        title_text='Elo promedio por país',
         geo=dict(
             showframe=False,
             showcoastlines=False,
@@ -275,7 +264,6 @@ def countries_elo_stats(ladder=3):
         )
     )
     return figure_countries_elo
-    '''
 
 def map_playrate():
     FILE = f'{DIR}/sql/get_maps_playrate.sql'
@@ -373,5 +361,5 @@ if __name__ == "__main__":
     # civ_vs_civ(1, '3A')
     # countries_elo_stats()
     # get_civ_vs_civ_dataframe()
-    # get_dataframe_countries()
-    map_playrate()
+    get_dataframe_countries()
+    # elo_distribution()
