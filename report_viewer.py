@@ -63,11 +63,7 @@ def get_progress_bar(x):
     return dbc.Progress(label=f'{x:.2f} %', value=int(x))
 
 def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
-    sql_results = sql_functions.get_civ_vs_civ()
-    dataframe_civ_vs_civ = pd.DataFrame.from_records(
-        sql_results,
-        columns=sql_results.keys()
-    )
+    dataframe_civ_vs_civ = sql_functions.get_civ_vs_civ()
     dataframe_civ_vs_civ = dataframe_civ_vs_civ[['civ_1', 'civ_2', f'wins_{ladder}', f'matches_{ladder}', f'winrate_{ladder}']]
 
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
@@ -115,11 +111,7 @@ def get_civ_vs_civ_dataframe(chosen_civ=-1, ladder='3A'):
     return dataframe_civ_vs_civ
 
 def civ_vs_civ(chosen_civ=-1, ladder='3A'):
-    sql_results = sql_functions.get_civ_vs_civ()
-    dataframe_civ_vs_civ = pd.DataFrame.from_records(
-        sql_results,
-        columns=sql_results.keys()
-    )
+    dataframe_civ_vs_civ = sql_functions.get_civ_vs_civ()
     dataframe_civ_vs_civ = dataframe_civ_vs_civ[['civ_1', 'civ_2', f'wins_{ladder}', f'matches_{ladder}', f'winrate_{ladder}']]
 
     dataframe_civ_vs_civ = dataframe_civ_vs_civ.rename(
@@ -195,11 +187,8 @@ def get_dataframe_countries(ladder=3):
     logger.info('Creando dataframes de países')
     COUNTRIES = gamedata.countries()
     ladder = str(ladder)
-    sql_results = sql_functions.get_countries_elo()
-    dataframe_countries = pd.DataFrame.from_records(
-        sql_results,
-        columns=sql_results.keys()
-    )
+    
+    dataframe_countries = sql_functions.get_countries_elo()
     # logger.info(dataframe_countries)
     dataframe_countries = dataframe_countries[['country', f'number_of_players_{ladder}', f'mean_elo_{ladder}', f'max_elo_{ladder}']]
 

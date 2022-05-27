@@ -36,6 +36,7 @@ def get_profile_ids(username):
 
 def get_sql_results(query_file, ladder=-1, min_elo=-1, max_elo=-1):
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
+    sql_connection = db.create_engine(sql_connection)
     try:
         with open(query_file, 'r') as sql_file:
             sql_query = sql_file.read()
@@ -50,6 +51,7 @@ def get_sql_results(query_file, ladder=-1, min_elo=-1, max_elo=-1):
             dataframe_results = pd.read_sql_query(sql_query, sql_connection)
         else:
             dataframe_results = pd.read_sql_query(sql_query, sql_connection, params={'ladder': ladder, 'min_elo': min_elo, 'max_elo': max_elo})
+        sql_connection.dispose()
         return dataframe_results
 def get_sql_matches_players(ladder=-1, min_elo=-1, max_elo=-1, num_players=-1):
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
@@ -73,6 +75,13 @@ def get_countries_elo():
     countries_elo_table = Table('countries_elo', countries_elo_metadata, autoload_with=engine)
     countries_elo_query = select(countries_elo_table)
     results = conn.execute(countries_elo_query)
+    results = pd.DataFrame.from_records(
+        results,
+        columns=results.keys()
+    )
+
+    conn.close()
+    engine.dispose()
     return results
 
 def get_civ_vs_civ():
@@ -83,6 +92,10 @@ def get_civ_vs_civ():
     civ_vs_civ_table = Table('civ_vs_civ', civ_vs_civ_metadata, autoload_with=engine)
     civ_vs_civ_query = select(civ_vs_civ_table)
     results = conn.execute(civ_vs_civ_query)
+    dataframe_civ_vs_civ = pd.DataFrame.from_records(
+        results,
+        columns=results.keys()
+    )
     # logger.info(f'\n {results}')
     '''
     sql_connection = (f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
@@ -95,7 +108,8 @@ def get_civ_vs_civ():
     logger.info(f'\n {results}')
     return results
     '''
-    return results
+    conn.close()
+    engine.dispose()
+    return dataframe_civ_vs_civ
 if __name__ == "__main__":
-    get_countries_elo()
     logger.info('...')
