@@ -62,7 +62,7 @@ navbar = dbc.Navbar(
                 dbc.Row(
                     [
                         dbc.Col(html.Img(src=SHEEP_LOGO, height='30px')),
-                        dbc.Col(dbc.NavbarBrand('Logo', className='ms-2')),
+                        dbc.Col(dbc.NavbarBrand('Data of Empires', className='ms-2')),
                     ],
                     align='center',
                     className='g-0',

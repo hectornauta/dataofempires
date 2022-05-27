@@ -41,6 +41,7 @@ def temp_main():
 # meta_tags are required for the app layout to be mobile responsive
 app = dash.Dash(
     __name__,
+    title='Data of Empires',
     assets_folder='assets',
     suppress_callback_exceptions=True,
     external_stylesheets=[dbc.themes.SUPERHERO],
