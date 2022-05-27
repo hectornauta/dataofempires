@@ -284,10 +284,9 @@ def civ_rates(ladder='3A'):
     # logger.info(dataframe_civ_rates)
     figure_civ_rates = px.scatter(dataframe_civ_rates, x="pickrate", y="winrate", text="nombre", size_max=60, color='rate')
     figure_civ_rates.update_traces(textposition='top center')
+    # TODO: sacar lo de height y weight
     figure_civ_rates.update_layout(
         template='plotly_dark',
-        height=900,
-        width=1280,
         title_text='Pick rate and Win rate de Civilizaciones',
         showlegend=False
     )
@@ -307,7 +306,6 @@ def civ_win_rates(ladder='3A'):
         dataframe_civ_rates.sort_values(by='winrate', ascending=False),
         x='nombre',
         y='winrate',
-        width=1280,
         hover_data={'nombre': True, 'winrate': ':.2%'}, color='winrate',
         color_continuous_scale=px.colors.sequential.Blues,
         labels={'nombre': 'Civilización', 'winrate': 'Porcentaje de victorias'}, height=400
@@ -330,7 +328,6 @@ def civ_pick_rates(ladder='3A'):
         dataframe_civ_rates.sort_values(by='pickrate', ascending=False),
         x='nombre',
         y='pickrate',
-        width=1280,
         hover_data={'nombre': True, 'pickrate': ':.2%'}, color='pickrate',
         color_continuous_scale=px.colors.sequential.Blues,
         labels={'nombre': 'Civilización', 'pickrate': 'Porcentaje de veces escogida'}, height=400
