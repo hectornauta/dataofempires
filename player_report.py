@@ -73,13 +73,15 @@ def get_player_matches(profile_id, number_of_matches=1000):
     else:
         if json_matches.status_code == 200:
             logger.info('Datos descargados')
-            now = datetime.now().strftime('%Y%m%d%H%M%S')
             # TODO: No usar jsons en Heroku
+            '''
+            now = datetime.now().strftime('%Y%m%d%H%M%S')
             with open(f'dumps/{now}.json', 'w', encoding='utf-8') as f:
                 try:
                     json.dump(json_matches.json(), f, ensure_ascii=False, indent=4)
                 except json.decoder.JSONDecodeError as error:
                     logger.error('Error de json')
+            '''
             json_matches = json_matches.json()
         else:
             json_matches = None
