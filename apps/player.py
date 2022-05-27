@@ -106,7 +106,7 @@ layout = html.Div([
     # dcc.Input(id='steam_id', value='76561198147771075', type='text'),
     dbc.Input(
         id='username',
-        placeholder='DS_Jokerwin',
+        placeholder='Hectornauta',
         type='text'
     ),
     dbc.Button(

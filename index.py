@@ -145,6 +145,6 @@ def display_page(pathname):
         return error_404
 if __name__ == '__main__':
     app.run_server(
-        debug=True,
+        debug=False,
         dev_tools_hot_reload=False
     )
