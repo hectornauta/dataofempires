@@ -438,7 +438,7 @@ if __name__ == "__main__":
         # get_all_stats(player_matches, 1194828)
         # get_player_time_rates(player_matches, ladder='4')
     else:
-        profile_id = get_profile_id(name='DS_Jokerwin')
+        profile_id = get_profile_id(name='Hectornauta')
         player_matches = get_player_matches(profile_id)
         # player_matches = get_dataframe_with_json()
         # get_player_civ_rates(player_matches, ladder='4')

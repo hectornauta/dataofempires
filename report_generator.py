@@ -35,7 +35,13 @@ DB_PASSWORD = config('DB_PASSWORD')
 DB_HOST = config('DB_HOST')
 DB_PORT = config('DB_PORT')
 DB_NAME = config('DB_NAME')
-
+'''
+DB_USER = config('HEROKU_USER')
+DB_PASSWORD = config('HEROKU_PASSWORD')
+DB_HOST = config('HEROKU_HOST')
+DB_PORT = config('HEROKU_PORT')
+DB_NAME = config('HEROKU_NAME')
+'''
 CIVS = pd.read_csv('csv/civs.csv')
 CIVS.drop(['numero'], axis=1, inplace=True)
 CIVS.set_index('id', inplace=True)
@@ -507,9 +513,11 @@ def update_all():
     update_players_elo()
 
 if __name__ == "__main__":
-    ALL = False
-    if ALL:
+    code = 'heroku'
+    if code == 'local':
         update_all()
-    else:
-        country_elo()
+    elif code == 'heroku':
         map_playrate()
+        country_elo()
+    elif code == 'players':
+        update_players_elo()
