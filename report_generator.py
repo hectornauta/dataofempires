@@ -45,7 +45,15 @@ MAPS.set_index('id', inplace=True)
 
 DIR = os.path.dirname(__file__)
 
+def generate_elo_distribution():
+    # TODO: use pickle
+    logger.info('...')
+    return None
+
 def add_combination(dict_civs, civ_1, civ_2, won_1):
+    '''
+    Recibe el diccionario de rendimiento de dúo de civilizaciones, las 2 civilizaciones y si han ganado o no
+    '''
     first_comb = (civ_1, civ_2)
     second_comb = (civ_2, civ_1)
     if first_comb in dict_civs:
@@ -60,6 +68,9 @@ def add_combination(dict_civs, civ_1, civ_2, won_1):
         dict_civs[second_comb] = [int(not won_1), 1, civ_2, civ_1]
 
 def country_elo():
+    '''
+    Genera el reporte para la base de datos del rendimiento de jugadores por país
+    '''
     COUNTRIES = gamedata.countries()
     FILE_QUERY = f'{DIR}/sql/get_ranked_matches_all_ladder.sql'
 
@@ -507,7 +518,7 @@ def update_all():
     update_players_elo()
 
 if __name__ == "__main__":
-    code = 'heroku'
+    code = 'test'
     if code == 'local':
         update_all()
     elif code == 'heroku':
@@ -515,3 +526,5 @@ if __name__ == "__main__":
         country_elo()
     elif code == 'players':
         update_players_elo()
+    elif code == 'test':
+        generate_elo_distribution()

@@ -187,7 +187,7 @@ def get_dataframe_countries(ladder=3):
     logger.info('Creando dataframes de países')
     COUNTRIES = gamedata.countries()
     ladder = str(ladder)
-    
+
     dataframe_countries = sql_functions.get_countries_elo()
     # logger.info(dataframe_countries)
     dataframe_countries = dataframe_countries[['country', f'number_of_players_{ladder}', f'mean_elo_{ladder}', f'max_elo_{ladder}']]

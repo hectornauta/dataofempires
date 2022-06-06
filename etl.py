@@ -25,7 +25,7 @@ from requests_futures.sessions import FuturesSession
 
 import query_functions
 
-LAST_DAY = datetime(2022, 5, 21, 0, 0)
+LAST_DAY = datetime(2022, 5, 28, 0, 0)
 
 import logging_config
 
@@ -53,7 +53,7 @@ def get_last_match():
         else:
             # logger.info(last_match)
             last_match = last_match.first()[0]
-            logger.info(last_match)
+            logger.info(f'LAST MATCH: {last_match}')
     # last_match = 140063221
     return last_match
 
@@ -257,21 +257,22 @@ def load_matches(dataframes, last_match):
 
 def update_db():
     specific_timestamp = LAST_DAY
-    number_of_days = 5
-    one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
+    number_of_days = 4
+    one_hour = timedelta(weeks=0, days=0, hours=0, minutes=30)
     # for i in range(0, 8):
     for i in range(0, 24 * number_of_days):
         # specific_timestamp = datetime(2022, 3, 4, i, 0)  # Year, month, day, hour, minutes
         iterable_timestamp = specific_timestamp + one_hour * i
+        logger.info(f'TIMESTAMP: {iterable_timestamp}')
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         etl_matches(timestamp)
 
 # Don't use
 def batch_update(number_of_days):
     start_timestamp = LAST_DAY
-    one_hour = timedelta(weeks=0, days=0, hours=1, minutes=0)
+    one_hour = timedelta(weeks=0, days=0, hours=0, minutes=30)
     queries = []
-    for i in range(0, 24 * number_of_days):
+    for i in range(0, 48 * number_of_days):
         iterable_timestamp = start_timestamp + one_hour * i
         timestamp = trunc(time.mktime(iterable_timestamp.timetuple()))
         query = query_functions.get_matches(1000, timestamp)
