@@ -1,6 +1,6 @@
 # Data of Empires
 
-[Enlace a app](https://dataofempires.herokuapp.com)
+[Enlace a la app](https://dataofempires.herokuapp.com/apps/player)
 
 ## Proyecto de Datos
 
