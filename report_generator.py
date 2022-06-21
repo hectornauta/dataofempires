@@ -441,29 +441,45 @@ def civ_rates():
             logger.info(f'Cargados los reportes de civ rates para {labels[iteration]}')
         iteration = iteration + 1
 
-def update_players_elo():
+def update_redis():
     FILE = f'{DIR}/sql/get_players_info.sql'
+    logger.info('Actualizando elo de los jugadores')
+    logger.info('Accediendo a la BD')
     dataframe_players_info = sql_functions.get_sql_results(FILE)
     dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name'], sort=False)['finished'].max()
     dataframe_players_info = dataframe_players_info.reset_index()
     dataframe_players_info['steam_id'] = dataframe_players_info['steam_id'].astype(np.int64)
 
+    logger.info('Generando diccionario')
     # steam_id_dict = dict(zip(dataframe_players_info['steam_id'], dataframe_players_info['profile_id']))
-    # name_dict = dict(zip(dataframe_players_info['name'], dataframe_players_info['profile_id']))
+    name_dict = dict(zip(dataframe_players_info['name'], dataframe_players_info['profile_id']))
 
     # logger.info(steam_id_dict)
     # logger.info(steam_id_dict['76561198147771075'])
     # logger.info(name_dict['Hectornauta'])
     # raise Exception('Ups')
 
+    logger.info('Cargando a Redis')
     # redis_functions.load_dict('steam_ids', steam_id_dict)
-    # redis_functions.load_dict('names', name_dict)
+    redis_functions.load_dict('names', name_dict)
 
+
+def update_players_elo():
+    FILE = f'{DIR}/sql/get_players_info.sql'
+    logger.info('Actualizando elo de los jugadores')
+    logger.info('Accediendo a la BD')
+    dataframe_players_info = sql_functions.get_sql_results(FILE)
+    dataframe_players_info = dataframe_players_info.groupby(['profile_id', 'steam_id', 'name'], sort=False)['finished'].max()
+    dataframe_players_info = dataframe_players_info.reset_index()
+    dataframe_players_info['steam_id'] = dataframe_players_info['steam_id'].astype(np.int64)
+
+    logger.info('Generando dataframe')
     dataframe_to_json = dataframe_players_info[['profile_id', 'steam_id', 'name']]
     dataframe_to_json.to_json(
         path_or_buf='json/players.json',
         orient="records"
     )
+    logger.info('Cargando a la BD')
     engine = db.create_engine(f'postgresql+psycopg2://{DB_USER}:{DB_PASSWORD}@{DB_HOST}/{DB_NAME}')
     try:
         dataframe_players_info.to_sql(
@@ -516,9 +532,10 @@ def update_all():
     map_playrate()
     country_elo()
     update_players_elo()
+    # update_redis()
 
 if __name__ == "__main__":
-    code = 'test'
+    code = 'players'
     if code == 'local':
         update_all()
     elif code == 'heroku':
